@@ -1,0 +1,11 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\delay.obj",
+".\Objects\gpio.obj",
+".\Objects\iic.obj",
+".\Objects\pwm.obj",
+".\Objects\uart.obj",
+".\Objects\exit.obj",
+".\Objects\timer.obj" 
+TO ".\Objects\smartcar" 
+PRINT(".\Listings\smartcar.m51") RAMSIZE(256) 
