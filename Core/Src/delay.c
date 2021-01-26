@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
   * @file    Delay.c
-  * @author  PineconePi(基于宏晶科技STC15库函数进行修改)
+  * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改)库函数进行修改)
   * @version V1.0.0
-  * @date    20-December-2018
+  * @date    20-January-2021
   * @brief  This file is used to complete software Delay
   * @License:GNU General Public License v3.0         
   ******************************************************************************
@@ -42,8 +42,7 @@ void Delay_Ms(unsigned int Ms){
 		{
 		  while (--j);
 		} while (--i);
-	}
-													   }
+	}}
 //========================================================================
 // Function:Delay_Us(unsigned int Us)|函数: Delay_Us(unsigned int Us)
 // Description:Delay Function|描述: 延时函数。
@@ -61,4 +60,4 @@ void Delay_Us(unsigned int Us){
 	i = 6;
 	while (--i);
 	}
-													    }
+}

@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
   * @file    iic.h
-  * @author  PineconePi
+  * @author  sky-vocality(基于PineconePi库函数进行修改)
   * @version V1.0.0
-  * @date    20-December-2018
+  * @date    20-January-2021
   * @brief  This file is used to Configure hardware IIC 
   * @License:GNU General Public License v3.0         
   ******************************************************************************
