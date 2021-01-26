@@ -8,7 +8,6 @@
   * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  
   *
   *  
   * 
@@ -22,10 +21,13 @@
 
 #include "exit.h"
 
+int encoder_num = 0;
+
 /********************* INT0 interrupt function|INT0中断函数 *************************/
 void Ext_INT0 (void) interrupt EXT_INT0		//The sign has been cleared when entering or interrupting|进中断时已经清除标志
 {
 	//Add user logic here|此处添加用户逻辑
+	encoder_num++;
 }
 
 /********************* INT1 interrupt function|INT1中断函数 *************************/

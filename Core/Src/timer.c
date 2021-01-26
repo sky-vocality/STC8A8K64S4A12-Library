@@ -21,11 +21,14 @@
 	**/
 
 #include	"timer.h"
+#include 	"pid.h"
+
+double wheel_speed = 0.0;
 
 /********************* Timer0 interrupt function|Timer0中断函数************************/
 void timer0_int (void) interrupt 1
 {
-	
+	wheel_speed = encoder_num/TIME;
 }
 
 /********************* Timer1 interrupt function|Timer1中断函数************************/

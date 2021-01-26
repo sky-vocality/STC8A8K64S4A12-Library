@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 1   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE UART
@@ -62,7 +62,7 @@ line level    source
   52   2              S2CON &= ~0x02;                         //Clear interruption sign
   53   2          }
   54   1          if (S2CON & 0x01)
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 2   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 2   
 
   55   1          {
   56   2              S2CON &= ~0x01;                         //Clear interruption sign
@@ -126,7 +126,7 @@ line level    source
  113   2          COM1.TX_read    = 0;
  114   2          COM1.TX_write   = 0;
  115   2          COM1.B_TX_busy  = 0;
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 3   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 3   
 
  116   2          COM1.RX_Cnt     = 0;
  117   2          COM1.RX_TimeOut = 0;
@@ -190,7 +190,7 @@ line level    source
  174   2          if(COMx->UART_P_SW == UART1_SW_P30_P31)
  175   2          {
  176   3            GPIO_InitTypeDef GPIO_InitTypeDef;
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 4   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 4   
 
  177   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
  178   3            GPIO_InitTypeDef.Pin = GPIO_Pin_1;//配置IO引脚 Px.1
@@ -254,7 +254,7 @@ line level    source
  235   3            GPIO_InitTypeDef GPIO_InitTypeDef;
  236   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
  237   3            GPIO_InitTypeDef.Pin = GPIO_Pin_1;//配置IO引脚 Px.1
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 5   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 5   
 
  238   3            GPIO_Inilize(GPIO_P1 ,&GPIO_InitTypeDef);//IO引脚 P1.1
  239   3          }
@@ -318,7 +318,7 @@ line level    source
  297          // Return:|返回: 
  298          // Version:VER1.0.0|版本: VER1.0.0
  299          // Date:2018-12-20|日期: 2018-12-20
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 6   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 6   
 
  300          // Author: Pinecone Pi|作者: PineconePi
  301          // Note:|备注: 
@@ -382,7 +382,7 @@ line level    source
  359          //========================================================================
  360          void PrintString2(unsigned char *puts)
  361          {
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 7   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 7   
 
  362   1          for (; *puts != 0;  puts++)  TX2_write2buff(*puts);   //End with stop 0|遇到停止符0结束
  363   1      }
@@ -446,7 +446,7 @@ line level    source
  421   1          if (N<0){
  422   2              flag=0;
  423   2              N=-N;
-C51 COMPILER V9.59.0.0   UART                                                              01/23/2021 23:30:12 PAGE 8   
+C51 COMPILER V9.59.0.0   UART                                                              01/26/2021 12:39:54 PAGE 8   
 
  424   2          }else{
  425   2              flag=1;

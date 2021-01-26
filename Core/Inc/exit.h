@@ -24,11 +24,13 @@
 
 #include	"system.h"
 
+#ifndef	EXT_INT0
 #define	EXT_INT0			0	//External interrupt 0|外部中断0
 #define	EXT_INT1			2	//External interrupt 1|外部中断1
 #define	EXT_INT2			10	//External interrupt 2|外部中断2
 #define	EXT_INT3			11	//External interrupt 3|外部中断3
 #define	EXT_INT4			16	//External interrupt 4|外部中断4
+#endif
 
 #define	EXT_MODE_RiseFall	0		//Rising edge interruption|上升沿中断
 #define	EXT_MODE_Fall		1			//Falling edge interruption|下降沿中断

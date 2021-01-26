@@ -18,7 +18,7 @@
   *
   * 
   ******************************************************************************
-	**/
+**/
 #ifndef	__TIMER_H
 #define	__TIMER_H
 
@@ -44,6 +44,10 @@
 
 #define PolityHigh  1	  //高优先级
 #define PolityLow  	0		//低优先级（默认）
+
+#define TIME 10  //M测速法测速周期
+
+extern int encoder_num;
 
 typedef struct
 {

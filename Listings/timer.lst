@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   TIMER                                                             01/23/2021 23:30:12 PAGE 1   
+C51 COMPILER V9.59.0.0   TIMER                                                             01/26/2021 12:39:54 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TIMER
@@ -31,132 +31,135 @@ line level    source
   21            **/
   22          
   23          #include  "timer.h"
-  24          
-  25          /********************* Timer0 interrupt function|Timer0中断函数************************/
-  26          void timer0_int (void) interrupt 1
-  27          {
-  28   1        
-  29   1      }
-  30          
-  31          /********************* Timer1 interrupt function|Timer1中断函数************************/
-  32          void timer1_int (void) interrupt 3
-  33          {
-  34   1      
-  35   1      }
-  36          
-  37          /********************* Timer2 interrupt function|Timer2中断函数************************/
-  38          void timer2_int (void) interrupt 12
-  39          {
-  40   1      
-  41   1      }
-  42          
-  43          
-  44          //========================================================================
-  45          // Function:unsigned char Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)|函数: unsigned char Time
+  24          #include  "pid.h"
+  25          
+  26          double wheel_speed = 0.0;
+  27          
+  28          /********************* Timer0 interrupt function|Timer0中断函数************************/
+  29          void timer0_int (void) interrupt 1
+  30          {
+  31   1        wheel_speed = encoder_num/TIME;
+  32   1      }
+  33          
+  34          /********************* Timer1 interrupt function|Timer1中断函数************************/
+  35          void timer1_int (void) interrupt 3
+  36          {
+  37   1      
+  38   1      }
+  39          
+  40          /********************* Timer2 interrupt function|Timer2中断函数************************/
+  41          void timer2_int (void) interrupt 12
+  42          {
+  43   1      
+  44   1      }
+  45          
+  46          
+  47          //========================================================================
+  48          // Function:unsigned char Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)|函数: unsigned char Time
              -r_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)
-  46          // Description: Timer initialization program.|描述: 定时器初始化程序.
-  47          // Parameter: Refer to the structure definition in timer. C|参数:  请参考timer.c里面的结构体定义
-  48          //       
-  49          //       
-  50          // Return:|返回: 
-  51          // Version:VER1.0.0|版本: VER1.0.0
-  52          // Date:2018-12-20|日期: 2018-12-20
-  53          // Author: Pinecone Pi|作者: PineconePi
-C51 COMPILER V9.59.0.0   TIMER                                                             01/23/2021 23:30:12 PAGE 2   
+  49          // Description: Timer initialization program.|描述: 定时器初始化程序.
+  50          // Parameter: Refer to the structure definition in timer. C|参数:  请参考timer.c里面的结构体定义
+  51          //       
+  52          //       
+  53          // Return:|返回: 
+C51 COMPILER V9.59.0.0   TIMER                                                             01/26/2021 12:39:54 PAGE 2   
 
-  54          // Note:|备注:
-  55          //  
-  56          //  
-  57          //  
+  54          // Version:VER1.0.0|版本: VER1.0.0
+  55          // Date:2018-12-20|日期: 2018-12-20
+  56          // Author: Pinecone Pi|作者: PineconePi
+  57          // Note:|备注:
   58          //  
   59          //  
-  60          //========================================================================
-  61          unsigned char Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)
-  62          {
-  63   1        if(TIM > Timer2)  return 1; //Empty operation|空操作
-  64   1      
-  65   1        EA = 1;
-  66   1        
-  67   1        if(TIM == Timer0)
-  68   1        {
-  69   2          TR0 = 0;    //Stop count|停止计数
-  70   2          if(TIMx->TIM_Interrupt == ENABLE)   ET0 = 1;  //Allowed interruption|允许中断
-  71   2          else                  ET0 = 0;  //No interruption|禁止中断
-  72   2          if(TIMx->TIM_Polity == PolityHigh)    PT0 = 1;  //High priority interrupt|高优先级中断
-  73   2          else                  PT0 = 0;  //Low priority interrupt|低优先级中断
-  74   2          if(TIMx->TIM_Mode >  TIM_16BitAutoReloadNoMask) return 2; //Error|错误
-  75   2          TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode; //Operating mode: 0:16 bit auto-reloading, 1:16 bit timing/count
+  60          //  
+  61          //  
+  62          //  
+  63          //========================================================================
+  64          unsigned char Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)
+  65          {
+  66   1        if(TIM > Timer2)  return 1; //Empty operation|空操作
+  67   1      
+  68   1        EA = 1;
+  69   1        
+  70   1        if(TIM == Timer0)
+  71   1        {
+  72   2          TR0 = 0;    //Stop count|停止计数
+  73   2          if(TIMx->TIM_Interrupt == ENABLE)   ET0 = 1;  //Allowed interruption|允许中断
+  74   2          else                  ET0 = 0;  //No interruption|禁止中断
+  75   2          if(TIMx->TIM_Polity == PolityHigh)    PT0 = 1;  //High priority interrupt|高优先级中断
+  76   2          else                  PT0 = 0;  //Low priority interrupt|低优先级中断
+  77   2          if(TIMx->TIM_Mode >  TIM_16BitAutoReloadNoMask) return 2; //Error|错误
+  78   2          TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode; //Operating mode: 0:16 bit auto-reloading, 1:16 bit timing/count
              -ing, 2:8 bit auto-reloading, 3:16 bit auto-reloading, unshieldable interruption|工作模式,0: 16位自动重装, 1: 16位定时/计
              -数, 2: 8位自动重装, 3: 16位自动重装, 不可屏蔽中断
-  76   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x80;  //12T
-  77   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x80;  //1T
-  78   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x04;  //External Counting or Frequency Division|对外计
+  79   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x80;  //12T
+  80   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x80;  //1T
+  81   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x04;  //External Counting or Frequency Division|对外计
              -数或分频
-  79   2          else                    TMOD &= ~0x04;  //timing|定时
-  80   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x01; //Output clock|输出时钟
-  81   2          else              INTCLKO &= ~0x01; //No Clock Output|不输出时钟
-  82   2          
-  83   2          TH0 = (unsigned char)(TIMx->TIM_Value >> 8);
-  84   2          TL0 = (unsigned char)TIMx->TIM_Value;
-  85   2          if(TIMx->TIM_Run == ENABLE) TR0 = 1;  //Start running|开始运行
-  86   2          return  0;    //成功
-  87   2        }
-  88   1      
-  89   1        if(TIM == Timer1)
-  90   1        {
-  91   2          TR1 = 0;    //Stop count停止计数
-  92   2          if(TIMx->TIM_Interrupt == ENABLE)   ET1 = 1;  //Allowed interruption|允许中断
-  93   2          else                  ET1 = 0;  //No interruption|禁止中断
-  94   2          if(TIMx->TIM_Polity == PolityHigh)    PT1 = 1;  //High priority interrupt|高优先级中断
-  95   2          else                  PT1 = 0;  //Low priority interrupt|低优先级中断
-  96   2          if(TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask) return 2; //error|错误
-  97   2          TMOD = (TMOD & ~0x30) | TIMx->TIM_Mode; //Work mode, 0:16 bit auto-reloading, 1:16 bit timing/counting, 
+  82   2          else                    TMOD &= ~0x04;  //timing|定时
+  83   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x01; //Output clock|输出时钟
+  84   2          else              INTCLKO &= ~0x01; //No Clock Output|不输出时钟
+  85   2          
+  86   2          TH0 = (unsigned char)(TIMx->TIM_Value >> 8);
+  87   2          TL0 = (unsigned char)TIMx->TIM_Value;
+  88   2          if(TIMx->TIM_Run == ENABLE) TR0 = 1;  //Start running|开始运行
+  89   2          return  0;    //成功
+  90   2        }
+  91   1      
+  92   1        if(TIM == Timer1)
+  93   1        {
+  94   2          TR1 = 0;    //Stop count停止计数
+  95   2          if(TIMx->TIM_Interrupt == ENABLE)   ET1 = 1;  //Allowed interruption|允许中断
+  96   2          else                  ET1 = 0;  //No interruption|禁止中断
+  97   2          if(TIMx->TIM_Polity == PolityHigh)    PT1 = 1;  //High priority interrupt|高优先级中断
+  98   2          else                  PT1 = 0;  //Low priority interrupt|低优先级中断
+  99   2          if(TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask) return 2; //error|错误
+ 100   2          TMOD = (TMOD & ~0x30) | TIMx->TIM_Mode; //Work mode, 0:16 bit auto-reloading, 1:16 bit timing/counting, 
              -2:8 bit auto-reloading|工作模式,0: 16位自动重装, 1: 16位定时/计数, 2: 8位自动重装
-  98   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x40;  //12T
-  99   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x40;  //1T
- 100   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x40;  //External Counting or Frequency Division|对外计
+ 101   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x40;  //12T
+ 102   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x40;  //1T
+ 103   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x40;  //External Counting or Frequency Division|对外计
              -数或分频
- 101   2          else                    TMOD &= ~0x40;  //timing|定时
- 102   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x02; //Output clock|输出时钟
- 103   2          else              INTCLKO &= ~0x02; //No Clock Output|不输出时钟
- 104   2          
- 105   2          TH1 = (unsigned char)(TIMx->TIM_Value >> 8);
- 106   2          TL1 = (unsigned char)TIMx->TIM_Value;
- 107   2          if(TIMx->TIM_Run == ENABLE) TR1 = 1;  //Start running|开始运行
- 108   2          return  0;    //success|成功
- 109   2        }
- 110   1      
-C51 COMPILER V9.59.0.0   TIMER                                                             01/23/2021 23:30:12 PAGE 3   
+ 104   2          else                    TMOD &= ~0x40;  //timing|定时
+ 105   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x02; //Output clock|输出时钟
+ 106   2          else              INTCLKO &= ~0x02; //No Clock Output|不输出时钟
+ 107   2          
+ 108   2          TH1 = (unsigned char)(TIMx->TIM_Value >> 8);
+ 109   2          TL1 = (unsigned char)TIMx->TIM_Value;
+ 110   2          if(TIMx->TIM_Run == ENABLE) TR1 = 1;  //Start running|开始运行
+C51 COMPILER V9.59.0.0   TIMER                                                             01/26/2021 12:39:54 PAGE 3   
 
- 111   1        if(TIM == Timer2)   //Timer2,固定为16位自动重装, 中断无优先级
- 112   1        {
- 113   2          AUXR &= ~(1<<4);  //Stop count停止计数
- 114   2          if(TIMx->TIM_Interrupt == ENABLE)     IE2  |=  (1<<2);  //Allowed interruption|允许中断
- 115   2          else                    IE2  &= ~(1<<2);  //No interruption|禁止中断
- 116   2          if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)  return 2;
- 117   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~(1<<2);  //12T
- 118   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  (1<<2);  //1T
- 119   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  AUXR |=  (1<<3);  //External Counting or Frequency Division|对外
+ 111   2          return  0;    //success|成功
+ 112   2        }
+ 113   1      
+ 114   1        if(TIM == Timer2)   //Timer2,固定为16位自动重装, 中断无优先级
+ 115   1        {
+ 116   2          AUXR &= ~(1<<4);  //Stop count停止计数
+ 117   2          if(TIMx->TIM_Interrupt == ENABLE)     IE2  |=  (1<<2);  //Allowed interruption|允许中断
+ 118   2          else                    IE2  &= ~(1<<2);  //No interruption|禁止中断
+ 119   2          if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)  return 2;
+ 120   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~(1<<2);  //12T
+ 121   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  (1<<2);  //1T
+ 122   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  AUXR |=  (1<<3);  //External Counting or Frequency Division|对外
              -计数或分频
- 120   2          else                    AUXR &= ~(1<<3);  //timing|定时
- 121   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x04; //Output clock|输出时钟
- 122   2          else              INTCLKO &= ~0x04; //No Clock Output|不输出时钟
- 123   2      
- 124   2          TH2 = (unsigned char)(TIMx->TIM_Value >> 8);
- 125   2          TL2 = (unsigned char)TIMx->TIM_Value;
- 126   2          if(TIMx->TIM_Run == ENABLE) AUXR |=  (1<<4);  //Start running|开始运行
- 127   2          return  0;    //success|成功
- 128   2        }
- 129   1        return 2; //Error|错误
- 130   1      }
+ 123   2          else                    AUXR &= ~(1<<3);  //timing|定时
+ 124   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x04; //Output clock|输出时钟
+ 125   2          else              INTCLKO &= ~0x04; //No Clock Output|不输出时钟
+ 126   2      
+ 127   2          TH2 = (unsigned char)(TIMx->TIM_Value >> 8);
+ 128   2          TL2 = (unsigned char)TIMx->TIM_Value;
+ 129   2          if(TIMx->TIM_Run == ENABLE) AUXR |=  (1<<4);  //Start running|开始运行
+ 130   2          return  0;    //success|成功
+ 131   2        }
+ 132   1        return 2; //Error|错误
+ 133   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    463    ----
+   CODE SIZE        =    545    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =      4    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
