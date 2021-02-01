@@ -3,7 +3,7 @@
   * @file    timer.c
   * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改)库函数进行修改)
   * @version V1.0.0
-  * @date    11-December-2021
+  * @date    11-January-2021
   * @brief  This document is used for timer configuration 
   * @License:GNU General Public License v3.0         
   ******************************************************************************
@@ -21,7 +21,6 @@
 	**/
 
 #include	"timer.h"
-#include 	"pid.h"
 
 double wheel_speed = 0.0;
 
@@ -34,7 +33,7 @@ void timer0_int (void) interrupt 1
 /********************* Timer1 interrupt function|Timer1中断函数************************/
 void timer1_int (void) interrupt 3
 {
-
+	jy901_update();
 }
 
 /********************* Timer2 interrupt function|Timer2中断函数************************/
@@ -52,8 +51,8 @@ void timer2_int (void) interrupt 12
 //       
 // Return:|返回: 
 // Version:VER1.0.0|版本: VER1.0.0
-// Date:2018-12-20|日期: 2018-12-20
-// Author: Pinecone Pi|作者: PineconePi
+// Date:2021-01-29|日期: 2018-01-29
+// Author: sky-vokality|作者: sky-vokality
 // Note:|备注:
 //	
 //	

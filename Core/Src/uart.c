@@ -2,10 +2,10 @@
   ******************************************************************************
   * @file    uart.c
   * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改)库函数进行修改)
-  * @version V1.0.0
-  * @date    11-December-2020
+  * @version V1.0.1
+  * @date    28-January-2020
   * @brief  This file is used to configure the serial port 
-  * @License:GNU General Public License v3.0         
+  * @License:GNU General Public License v3.0      
   ******************************************************************************
   * @attention
   *
@@ -58,6 +58,32 @@ void CLR_RTI2()
 }
 
 
+/********************* Interrupt function in UART1|UART1中断************************/
+void UART1_int (void) interrupt 4
+{
+	if(RI)
+	{
+		RI = 0;
+		if(COM1.B_RX_OK == 0)
+		{
+			if(COM1.RX_Cnt >= COM_RX1_Lenth)    COM1.RX_Cnt = 0;
+			RX1_Buffer[COM1.RX_Cnt++] = SBUF;
+			COM1.RX_TimeOut = TimeOutSet1;
+		}
+	}
+
+	if(TI)
+	{
+		TI = 0;
+		if(COM1.TX_read != COM1.TX_write)
+		{
+			SBUF = TX1_Buffer[COM1.TX_read];
+			if(++COM1.TX_read >= COM_TX1_Lenth)		COM1.TX_read = 0;
+		}
+		else	COM1.B_TX_busy = 0;
+	}
+}
+
 /********************* Interrupt function in UART2|UART2中断************************/
 void UART2_int (void) interrupt 8
 {
@@ -93,8 +119,8 @@ void UART2_int (void) interrupt 8
 //       
 // Return:|返回: 
 // Version:VER1.0.0|版本: VER1.0.0
-// Date:2018-12-20|日期: 2018-12-20
-// Author: Pinecone Pi|作者: PineconePi
+// Date:2021-01-29|日期: 2021-01-29
+// Author: sky-vocality|作者: sky-vocality
 // Note:|备注:
 //	
 //	
@@ -106,7 +132,9 @@ unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
 {
 	unsigned char	i;
 	unsigned long	j;
-	
+
+	EA = 1;
+
 	if(UARTx == USART1)
 	{
 		COM1.id = 1;
@@ -363,14 +391,14 @@ void PrintString2(unsigned char *puts)
 }
 
 //========================================================================
-// Function:unsigned char ReceiveByte(void)|函数: unsigned char ReceiveByte(void)
-// Description:Read receive byte|读取接收到的数据
+// Function:unsigned char ReceiveByte1(void)|函数: unsigned char ReceiveByte1(void)
+// Description:Read uart1 receive byte|读取串口一接收到的数据
 // Parameter:
 //       
 //       
 // Return:|返回: rbyte: receive byte|接收到的数据
-// Version:VER1.0.0|版本: VER1.0.0
-// Date:2021-01-23|日期: 2021-01-23
+// Version:VER1.0.1|版本: VER1.0.1
+// Date:2021-01-28|日期: 2021-01-28
 // Author:  sky_vocality|作者: sky_vocality
 // Note:|备注: 
 //	
@@ -379,7 +407,7 @@ void PrintString2(unsigned char *puts)
 //	
 //	
 //========================================================================
-unsigned char ReceiveByte(void)
+unsigned char ReceiveByte1(void)
 {
     unsigned char rbyte;
     while(!RI);
@@ -388,12 +416,30 @@ unsigned char ReceiveByte(void)
     return rbyte;
 }
 
-unsigned char *pchar;
-
-void SerialPortInte(void) interrupt 4 
-{ 
-    RI=0;
-    *pchar=SBUF;
+//========================================================================
+// Function:unsigned char ReceiveByte(void)|函数: unsigned char ReceiveByte(void)
+// Description:Read uart2 receive byte|读取串口二接收到的数据
+// Parameter:
+//       
+//       
+// Return:|返回: rbyte: receive byte|接收到的数据
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-01-31|日期: 2021-01-31
+// Author:  sky_vocality|作者: sky_vocality
+// Note:|备注: 
+//	
+//	
+//	
+//	
+//	
+//========================================================================
+unsigned char ReceiveByte2(void)
+{
+	unsigned char rbyte;
+    while(!S2RI);
+	CLR_RTI2();
+    rbyte=S2BUF;
+    return rbyte;
 }
 
 //========================================================================

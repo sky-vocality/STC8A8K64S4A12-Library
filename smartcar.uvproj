@@ -402,11 +402,6 @@
               <FilePath>.\Core\Src\iic.c</FilePath>
             </File>
             <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Core\Src\pwm.c</FilePath>
-            </File>
-            <File>
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Core\Src\uart.c</FilePath>
@@ -430,6 +425,16 @@
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Core\Src\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Core\Src\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>jy901.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Core\Src\jy901.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -38,7 +38,7 @@ void Wait();
 void Start();
 void SendData(char dat);
 void RecvACK();
-char RecvData();
+unsigned char RecvData();
 void SendACK();
 void SendNAK();
 void Stop();

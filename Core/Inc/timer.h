@@ -23,6 +23,8 @@
 #define	__TIMER_H
 
 #include	"system.h"
+#include 	"pid.h"
+#include 	"jy901.h"
 
 #define	Timer0						0
 #define	Timer1						1

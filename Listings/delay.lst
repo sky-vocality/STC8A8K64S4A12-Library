@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   DELAY                                                             01/26/2021 12:39:53 PAGE 1   
+C51 COMPILER V9.59.0.0   DELAY                                                             02/01/2021 21:09:40 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DELAY
@@ -11,9 +11,9 @@ line level    source
    1          /**
    2            ******************************************************************************
    3            * @file    Delay.c
-   4            * @author  PineconePi(基于宏晶科技STC15库函数进行修改)
+   4            * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改)库函数进行修改)
    5            * @version V1.0.0
-   6            * @date    20-December-2018
+   6            * @date    20-January-2021
    7            * @brief  This file is used to complete software Delay
    8            * @License:GNU General Public License v3.0         
    9            ******************************************************************************
@@ -53,29 +53,28 @@ line level    source
   42   2          {
   43   3            while (--j);
   44   3          } while (--i);
-  45   2        }
-  46   1                                   }
-  47          //========================================================================
-  48          // Function:Delay_Us(unsigned int Us)|函数: Delay_Us(unsigned int Us)
-  49          // Description:Delay Function|描述: 延时函数。
-  50          // Parameter:Us, the number of us delays, where only 1-10000 (10ms) us is supported|参数: Us,要延时的us数,
+  45   2        }}
+  46          //========================================================================
+  47          // Function:Delay_Us(unsigned int Us)|函数: Delay_Us(unsigned int Us)
+  48          // Description:Delay Function|描述: 延时函数。
+  49          // Parameter:Us, the number of us delays, where only 1-10000 (10ms) us is supported|参数: Us,要延时的us数,
              - 这里只支持1~10000 (10ms) us
-  51          // Return:none|返回: none.
-  52          // Version:VER1.0.0|版本: VER1.0.0
-C51 COMPILER V9.59.0.0   DELAY                                                             01/26/2021 12:39:53 PAGE 2   
+  50          // Return:none|返回: none.
+  51          // Version:VER1.0.0|版本: VER1.0.0
+  52          // Date:2018-12-20|日期: 2018-12-20
+C51 COMPILER V9.59.0.0   DELAY                                                             02/01/2021 21:09:40 PAGE 2   
 
-  53          // Date:2018-12-20|日期: 2018-12-20
-  54          // Note:delay_us(1000);//delay 1ms|备注: delay_us(1000);//延迟1ms
-  55          //========================================================================
-  56          void Delay_Us(unsigned int Us){
-  57   1        unsigned int k;
-  58   1        unsigned char i;
-  59   1        for(k=0;k<Us;k++)
-  60   1        {
-  61   2        i = 6;
-  62   2        while (--i);
-  63   2        }
-  64   1                                    }
+  53          // Note:delay_us(1000);//delay 1ms|备注: delay_us(1000);//延迟1ms
+  54          //========================================================================
+  55          void Delay_Us(unsigned int Us){
+  56   1        unsigned int k;
+  57   1        unsigned char i;
+  58   1        for(k=0;k<Us;k++)
+  59   1        {
+  60   2        i = 6;
+  61   2        while (--i);
+  62   2        }
+  63   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

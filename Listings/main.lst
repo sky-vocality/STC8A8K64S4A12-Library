@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              01/26/2021 12:39:53 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              02/01/2021 21:09:40 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -11,53 +11,108 @@ line level    source
    1          #include "uart.h"
    2          #include "pwm.h"
    3          #include "delay.h"
-   4          #include "uart.h"
+   4          #include "iic.h"
    5          
-   6          char acac[8] = 0;
-   7          
-   8          int main()
-   9          {
-  10   1        PWM_InitTypeDef PWM_Init;
-  11   1        COMx_InitDefine COMx_InitDefine; 
-  12   1        COMx_InitDefine.UART_Mode = UART_8bit_BRTx;     //Pattern|ƒ£ Ω,         UART_ShiftRight,UART_8bit_BRTx,UART
-             -_9bit,UART_9bit_BRTx
-  13   1        COMx_InitDefine.UART_BRT_Use = BRT_Timer1;    //Using baud rate| π”√≤®Ãÿ¬ ,   BRT_Timer1,BRT_Timer2
-  14   1        COMx_InitDefine.UART_BaudRate = 19200;    //baud rate|≤®Ãÿ¬ ,       ENABLE,DISABLE
-  15   1        COMx_InitDefine.Morecommunicate = ENABLE; //Multiprocessor Communication Allowance|∂‡ª˙Õ®—∂‘ –Ì, ENABLE,D
-             -ISABLE
-  16   1        COMx_InitDefine.UART_RxEnable = DISABLE;    //Allow reception|‘ –ÌΩ” ’,   ENABLE,DISABLE
-  17   1        COMx_InitDefine.BaudRateDouble = DISABLE;   //Baud rate doubled|≤®Ãÿ¬ º”±∂, ENABLE,DISABLE
-  18   1        COMx_InitDefine.UART_Interrupt = ENABLE;    //Interrupt control|÷–∂œøÿ÷∆,   ENABLE,DISABLE
-  19   1        COMx_InitDefine.UART_Polity = PolityHigh;   //priority|”≈œ»º∂,     PolityLow,PolityHigh
-  20   1        COMx_InitDefine.UART_P_SW = UART1_SW_P30_P31;     //Switch port|«–ªª∂Àø⁄,   UART1_SW_P30_P31,UART1_SW_P36_P
-             -37,UART1_SW_P16_P17(±ÿ–Î π”√ƒ⁄≤ø ±÷”)
-  21   1        PWM_Init.PWM_Channelx=PWM_Channel1;
-  22   1        PWM_Init.PWM_Value=25;
-  23   1        PWM_Init.PWM_Frequency=50;
-  24   1        PWM_Output(PWM_0,&PWM_Init);
-  25   1        USART_Configuration(USART1, &COMx_InitDefine);
-  26   1        while(1)
-  27   1        {
-  28   2          int a;
-  29   2          for(a = 0;a<1000;a++)
-  30   2          {
-  31   3            PWM_Init.PWM_Value=a;
-  32   3            PWM_Output(PWM_0,&PWM_Init);
-  33   3            intToString(a,acac);
-  34   3            PrintString1(acac);
-  35   3            PrintString1("\r\n");
-  36   3            Delay_Ms(50);
-  37   3          }
-  38   2        }
-  39   1      }
+   6          
+   7          //double Roll = 0;
+   8          int temp = 0;
+   9          char kkk[3] = 0;
+  10          
+  11          int main()
+  12          {
+  13   1        char p0 = 0;
+  14   1        char p1 = 0;
+  15   1        double Roll = 0;
+  16   1        int ahh = 0;
+  17   1        PWM_InitTypeDef PWM_Init;
+  18   1        COMx_InitDefine COMx_InitDefine1;
+  19   1        COMx_InitDefine COMx_InitDefine2;
+  20   1        COMx_InitDefine1.UART_Mode = UART_8bit_BRTx;      //Pattern|ƒ£ Ω,         UART_ShiftRight,UART_8bit_BRTx,UAR
+             -T_9bit,UART_9bit_BRTx
+  21   1        COMx_InitDefine1.UART_BRT_Use = BRT_Timer1;   //Using baud rate| π”√≤®Ãÿ¬ ,   BRT_Timer1,BRT_Timer2
+  22   1        COMx_InitDefine1.UART_BaudRate = 19200;   //baud rate|≤®Ãÿ¬ ,       ENABLE,DISABLE
+  23   1        COMx_InitDefine1.Morecommunicate = ENABLE;  //Multiprocessor Communication Allowance|∂‡ª˙Õ®—∂‘ –Ì, ENABLE,
+             -DISABLE
+  24   1        COMx_InitDefine1.UART_RxEnable = ENABLE;    //Allow reception|‘ –ÌΩ” ’,   ENABLE,DISABLE
+  25   1        COMx_InitDefine1.BaudRateDouble = DISABLE;    //Baud rate doubled|≤®Ãÿ¬ º”±∂, ENABLE,DISABLE
+  26   1        COMx_InitDefine1.UART_Interrupt = ENABLE;   //Interrupt control|÷–∂œøÿ÷∆,   ENABLE,DISABLE
+  27   1        COMx_InitDefine1.UART_Polity = PolityHigh;    //priority|”≈œ»º∂,     PolityLow,PolityHigh
+  28   1        COMx_InitDefine1.UART_P_SW = UART1_SW_P30_P31;      //Switch port|«–ªª∂Àø⁄,   UART1_SW_P30_P31,UART1_SW_P36_
+             -P37,UART1_SW_P16_P17(±ÿ–Î π”√ƒ⁄≤ø ±÷”)
+  29   1        PWM_Init.PWM_Channelx=PWM_Channel1;
+  30   1        PWM_Init.PWM_Value=145;
+  31   1        PWM_Init.PWM_Frequency=100;
+  32   1        PWM_Output(PWM_0,&PWM_Init);
+  33   1        COMx_InitDefine2.UART_Mode = UART_8bit_BRTx;      //Pattern|ƒ£ Ω,         UART_ShiftRight,UART_8bit_BRTx,UAR
+             -T_9bit,UART_9bit_BRTx
+  34   1        COMx_InitDefine2.UART_BRT_Use = BRT_Timer2;   //Using baud rate| π”√≤®Ãÿ¬ ,   BRT_Timer1,BRT_Timer2
+  35   1        COMx_InitDefine2.UART_BaudRate = 19200;   //baud rate|≤®Ãÿ¬ ,       ENABLE,DISABLE
+  36   1        COMx_InitDefine2.Morecommunicate = ENABLE;  //Multiprocessor Communication Allowance|∂‡ª˙Õ®—∂‘ –Ì, ENABLE,
+             -DISABLE
+  37   1        COMx_InitDefine2.UART_RxEnable = ENABLE;    //Allow reception|‘ –ÌΩ” ’,   ENABLE,DISABLE
+  38   1        COMx_InitDefine2.BaudRateDouble = DISABLE;    //Baud rate doubled|≤®Ãÿ¬ º”±∂, ENABLE,DISABLE
+  39   1        COMx_InitDefine2.UART_Interrupt = ENABLE;   //Interrupt control|÷–∂œøÿ÷∆,   ENABLE,DISABLE
+  40   1        COMx_InitDefine2.UART_Polity = PolityHigh;    //priority|”≈œ»º∂,     PolityLow,PolityHigh
+  41   1        COMx_InitDefine2.UART_P_SW = UART2_SW_P10_P11;      //Switch port|«–ªª∂Àø⁄,   UART1_SW_P30_P31,UART1_SW_P36_
+             -P37,UART1_SW_P16_P17(±ÿ–Î π”√ƒ⁄≤ø ±÷”)
+  42   1        USART_Configuration(USART2, &COMx_InitDefine2);
+  43   1        USART_Configuration(USART1, &COMx_InitDefine1);                     
+  44   1        IIC_host_Slave_machine(host_machine);       //Setting up host mode|…Ë÷√Œ™÷˜ª˙ƒ£ Ω
+  45   1        while(1)
+  46   1        {
+  47   2          Start();                                    //Send Start Command|∑¢ÀÕ∆ º√¸¡Ó
+  48   2          SendData(0x50<<1);                             //Send device address + read command|∑¢ÀÕ…Ë±∏µÿ÷∑+∂¡√¸¡
+C51 COMPILER V9.59.0.0   MAIN                                                              02/01/2021 21:09:40 PAGE 2   
+
+             -Ó
+  49   2          SendData(0x3e);
+  50   2          Start();
+  51   2          SendData((0x50<<1)|1);
+  52   2          p0 = RecvData();                            //Read data 1|∂¡»° ˝æ›1
+  53   2          SendACK();
+  54   2          p1 = RecvData();                            //∂¡»° ˝æ›2|∂¡»° ˝æ›2
+  55   2          SendNAK();
+  56   2          Stop();                                     //Send stop command|∑¢ÀÕÕ£÷π√¸¡Ó
+  57   2          //PrintString1(&p1);
+  58   2          //PrintString1(&p0);
+  59   2          temp = (p1<<8)|p0;
+  60   2          Roll=(double)temp/32768*180;
+  61   2          ahh = Roll;
+  62   2          if(ahh == 0)
+  63   2          {
+  64   3            intToString(temp,kkk);
+  65   3            PrintString1(kkk);
+  66   3            continue;
+  67   3          }
+  68   2          intToString(ahh,kkk);
+  69   2          PrintString1(kkk);
+  70   2          PrintString1("\r\n");
+  71   2          Delay_Ms(30);
+  72   2          //kkkkk = ReceiveByte1();
+  73   2          //PrintString1(RX2_Buffer);
+  74   2          //PrintString1(&kkkkk);
+  75   2          /*
+  76   2          int a;
+  77   2          for(a = 0;a<1000;a++)
+  78   2          {
+  79   2            PWM_Init.PWM_Value=a;
+  80   2            PWM_Output(PWM_0,&PWM_Init);
+  81   2            intToString(a,acac);
+  82   2            PrintString1(acac);
+  83   2            PrintString1("\r\n");
+  84   2            Delay_Ms(50);
+  85   2          }
+  86   2          */
+  87   2        }
+  88   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    164    ----
+   CODE SIZE        =    310    ----
    CONSTANT SIZE    =      3    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      8      23
+   DATA SIZE        =      5      41
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

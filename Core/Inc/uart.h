@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    uart.h
   * @author  sky-vocality(»ùÓÚPineconePi(»ùÓÚºê¾§¿Æ¼¼STC15¿âº¯Êý½øÐÐÐÞ¸Ä)¿âº¯Êý½øÐÐÐÞ¸Ä)
-  * @version V1.0.0
-  * @date    11-December-2020
+  * @version V1.0.1
+  * @date    28-January-2020
   * @brief  This file is used to configure the serial port 
   * @License:GNU General Public License v3.0         
   ******************************************************************************
@@ -24,10 +24,10 @@
 
 #include	"system.h"
 
-#define	COM_TX1_Lenth	128
-#define	COM_RX1_Lenth	128
-#define	COM_TX2_Lenth	128
-#define	COM_RX2_Lenth	128
+#define	COM_TX1_Lenth	11
+#define	COM_RX1_Lenth	11
+#define	COM_TX2_Lenth	11
+#define	COM_RX2_Lenth	11
 
 #define	USART1	1
 #define	USART2	2
@@ -94,7 +94,8 @@ void TX2_write2buff(unsigned char dat);	//Write send buffer, pointer + 1|Ð´Èë·¢Ë
 void PrintString1(unsigned char *puts); //TX1 send string|TX1·¢ËÍ×Ö·û´®
 void PrintString2(unsigned char *puts); //TX2 send string|TX2·¢ËÍ×Ö·û´®
 
-unsigned char ReceiveByte(void);
+unsigned char ReceiveByte1(void);
+unsigned char ReceiveByte2(void);
 
 void intToString(int N,char arr[]);
 

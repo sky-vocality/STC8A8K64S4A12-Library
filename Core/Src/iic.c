@@ -53,6 +53,7 @@ void IIC_host_Slave_machine(unsigned char host_Slave_machine)
 {
 	if(host_Slave_machine==host_machine)
 	{
+		P_SW2 = 0x80;
 		I2CCFG = 0xe0;                              //Enabling I2C host mode|使能I2C主机模式
     I2CMSST = 0x00;
 	}
@@ -164,6 +165,7 @@ void SendData(char dat)
     I2CTXD = dat;                               //Write data to data buffer|写数据到数据缓冲区
     I2CMSCR = 0x02;                             //Send SEND command|发送SEND命令
     Wait();
+    RecvACK();
 }
 
 void RecvACK()
@@ -172,7 +174,7 @@ void RecvACK()
     Wait();
 }
 
-char RecvData()
+unsigned char RecvData()
 {
     I2CMSCR = 0x04;                             //Send read ACK command|发送RECV命令
     Wait();

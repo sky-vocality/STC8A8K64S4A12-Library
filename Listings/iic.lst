@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   IIC                                                               01/26/2021 12:39:53 PAGE 1   
+C51 COMPILER V9.59.0.0   IIC                                                               02/01/2021 21:09:40 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE IIC
@@ -11,9 +11,9 @@ line level    source
    1          /**
    2            ******************************************************************************
    3            * @file    iic.c
-   4            * @author  PineconePi
+   4            * @author  sky-vocality(»ùÓÚPineconePi¿âº¯Êý½øÐÐÐÞ¸Ä)
    5            * @version V1.0.0
-   6            * @date    20-December-2018
+   6            * @date    20-January-2021
    7            * @brief  This file is used to Configure hardware IIC 
    8            * @License:GNU General Public License v3.0         
    9            ******************************************************************************
@@ -62,226 +62,228 @@ line level    source
   50          //  
   51          //========================================================================
   52          void IIC_host_Slave_machine(unsigned char host_Slave_machine)
-C51 COMPILER V9.59.0.0   IIC                                                               01/26/2021 12:39:53 PAGE 2   
+C51 COMPILER V9.59.0.0   IIC                                                               02/01/2021 21:09:40 PAGE 2   
 
   53          {
   54   1        if(host_Slave_machine==host_machine)
   55   1        {
-  56   2          I2CCFG = 0xe0;                              //Enabling I2C host mode|Ê¹ÄÜI2CÖ÷»úÄ£Ê½
-  57   2          I2CMSST = 0x00;
-  58   2        }
-  59   1        else if(host_Slave_machine==Slave_machine)
-  60   1        {
-  61   2           P_SW2 = 0x80;        //Operating hardware IIC register must set P_SW2 to 1|²Ù×÷Ó²¼þIIC¼Ä´æÆ÷±ØÐëÖÃP_SW2Îª1
-  62   2          I2CCFG = 0x81;                              //Enabling I2C slave mode|Ê¹ÄÜI2C´Ó»úÄ£Ê½
-  63   2          I2CSLADR = IIC_Slave_machine_address;       //Set the slave device address to 5A|ÉèÖÃ´Ó»úÉè±¸µØÖ·Îª5A
-  64   2          I2CSLST = 0x00;
-  65   2          I2CSLCR = 0x00;                             //Prohibit slave mode interruption|½ûÖ¹´Ó»úÄ£Ê½ÖÐ¶Ï
-  66   2        }
-  67   1      }
-  68          //========================================================================
-  69          // Function:void handle_Slave_machine()|º¯Êý: void handle_Slave_machine()
-  70          // Description:IIC slave mode processing function.|ÃèÊö: IIC´Ó»úÄ£Ê½´¦Àíº¯Êý¡£
-  71          // Parameter:|²ÎÊý:
-  72          //       
+  56   2          P_SW2 = 0x80;
+  57   2          I2CCFG = 0xe0;                              //Enabling I2C host mode|Ê¹ÄÜI2CÖ÷»úÄ£Ê½
+  58   2          I2CMSST = 0x00;
+  59   2        }
+  60   1        else if(host_Slave_machine==Slave_machine)
+  61   1        {
+  62   2           P_SW2 = 0x80;        //Operating hardware IIC register must set P_SW2 to 1|²Ù×÷Ó²¼þIIC¼Ä´æÆ÷±ØÐëÖÃP_SW2Îª1
+  63   2          I2CCFG = 0x81;                              //Enabling I2C slave mode|Ê¹ÄÜI2C´Ó»úÄ£Ê½
+  64   2          I2CSLADR = IIC_Slave_machine_address;       //Set the slave device address to 5A|ÉèÖÃ´Ó»úÉè±¸µØÖ·Îª5A
+  65   2          I2CSLST = 0x00;
+  66   2          I2CSLCR = 0x00;                             //Prohibit slave mode interruption|½ûÖ¹´Ó»úÄ£Ê½ÖÐ¶Ï
+  67   2        }
+  68   1      }
+  69          //========================================================================
+  70          // Function:void handle_Slave_machine()|º¯Êý: void handle_Slave_machine()
+  71          // Description:IIC slave mode processing function.|ÃèÊö: IIC´Ó»úÄ£Ê½´¦Àíº¯Êý¡£
+  72          // Parameter:|²ÎÊý:
   73          //       
-  74          // Return:|·µ»Ø: 
-  75          // Version:VER1.0.0|°æ±¾: VER1.0.0
-  76          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
-  77          // Author: Pinecone Pi|×÷Õß: PineconePi
-  78          // Note:|±¸×¢:
-  79          //  
+  74          //       
+  75          // Return:|·µ»Ø: 
+  76          // Version:VER1.0.0|°æ±¾: VER1.0.0
+  77          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
+  78          // Author: Pinecone Pi|×÷Õß: PineconePi
+  79          // Note:|±¸×¢:
   80          //  
   81          //  
   82          //  
   83          //  
-  84          //========================================================================
-  85          void handle_Slave_machine()
-  86          {
-  87   1          isda = 1;                                   //Initialization of user variables|ÓÃ»§±äÁ¿³õÊ¼»¯
-  88   1          isma = 1;
-  89   1          addr = 0;
-  90   1          I2CTXD = buffer[addr];
-  91   1             if (I2CSLST & 0x40)
-  92   1              {
-  93   2                  I2CSLST &= ~0x40;                   //Handling START events|´¦ÀíSTARTÊÂ¼þ
-  94   2              }
-  95   1              else if (I2CSLST & 0x20)
-  96   1              {
-  97   2                  I2CSLST &= ~0x20;                   //Handling RECV events|´¦ÀíRECVÊÂ¼þ
-  98   2                  if (isda)
-  99   2                  {
- 100   3                      isda = 0;                       //Handling RECV events (RECV DEVICE ADDR)|´¦ÀíRECVÊÂ¼þ£¨RE
+  84          //  
+  85          //========================================================================
+  86          void handle_Slave_machine()
+  87          {
+  88   1          isda = 1;                                   //Initialization of user variables|ÓÃ»§±äÁ¿³õÊ¼»¯
+  89   1          isma = 1;
+  90   1          addr = 0;
+  91   1          I2CTXD = buffer[addr];
+  92   1             if (I2CSLST & 0x40)
+  93   1              {
+  94   2                  I2CSLST &= ~0x40;                   //Handling START events|´¦ÀíSTARTÊÂ¼þ
+  95   2              }
+  96   1              else if (I2CSLST & 0x20)
+  97   1              {
+  98   2                  I2CSLST &= ~0x20;                   //Handling RECV events|´¦ÀíRECVÊÂ¼þ
+  99   2                  if (isda)
+ 100   2                  {
+ 101   3                      isda = 0;                       //Handling RECV events (RECV DEVICE ADDR)|´¦ÀíRECVÊÂ¼þ£¨RE
              -CV DEVICE ADDR£©
- 101   3                  }
- 102   2                  else if (isma)
- 103   2                  {
- 104   3                      isma = 0;                       //Handling RECV events (RECV MEMORY ADDR)|´¦ÀíRECVÊÂ¼þ£¨RE
+ 102   3                  }
+ 103   2                  else if (isma)
+ 104   2                  {
+ 105   3                      isma = 0;                       //Handling RECV events (RECV MEMORY ADDR)|´¦ÀíRECVÊÂ¼þ£¨RE
              -CV MEMORY ADDR£©
- 105   3                      addr = I2CRXD;
- 106   3                      I2CTXD = buffer[addr];
- 107   3                  }
- 108   2                  else
- 109   2                  {
- 110   3                      buffer[addr++] = I2CRXD;        //Handling RECV events (RECV DATA)|´¦ÀíRECVÊÂ¼þ£¨RECV DATA
+ 106   3                      addr = I2CRXD;
+ 107   3                      I2CTXD = buffer[addr];
+ 108   3                  }
+ 109   2                  else
+ 110   2                  {
+ 111   3                      buffer[addr++] = I2CRXD;        //Handling RECV events (RECV DATA)|´¦ÀíRECVÊÂ¼þ£¨RECV DATA
              -£©
- 111   3                  }
-C51 COMPILER V9.59.0.0   IIC                                                               01/26/2021 12:39:53 PAGE 3   
+C51 COMPILER V9.59.0.0   IIC                                                               02/01/2021 21:09:40 PAGE 3   
 
- 112   2              }
- 113   1              else if (I2CSLST & 0x10)
- 114   1              {
- 115   2                  I2CSLST &= ~0x10;                   //Handling SEND events|´¦ÀíSENDÊÂ¼þ
- 116   2                  if (I2CSLST & 0x02)
- 117   2                  {
- 118   3                      I2CTXD = 0xff;
- 119   3                  }
- 120   2                  else
- 121   2                  {
- 122   3                      I2CTXD = buffer[++addr];
- 123   3                  }
- 124   2              }
- 125   1              else if (I2CSLST & 0x08)
- 126   1              {
- 127   2                  I2CSLST &= ~0x08;                   //Handling STOP events|´¦ÀíSTOPÊÂ¼þ
- 128   2                  isda = 1;
- 129   2                  isma = 1;
- 130   2              }
- 131   1        
- 132   1      }
- 133          //========================================================================
- 134          // Function:IIC Host Mode Related Processing Function|º¯Êý:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯Êý
- 135          // Description:IIC host mode correlation processing function.|ÃèÊö:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯Êý¡£
- 136          // Parameter:|²ÎÊý:
- 137          //       
+ 112   3                  }
+ 113   2              }
+ 114   1              else if (I2CSLST & 0x10)
+ 115   1              {
+ 116   2                  I2CSLST &= ~0x10;                   //Handling SEND events|´¦ÀíSENDÊÂ¼þ
+ 117   2                  if (I2CSLST & 0x02)
+ 118   2                  {
+ 119   3                      I2CTXD = 0xff;
+ 120   3                  }
+ 121   2                  else
+ 122   2                  {
+ 123   3                      I2CTXD = buffer[++addr];
+ 124   3                  }
+ 125   2              }
+ 126   1              else if (I2CSLST & 0x08)
+ 127   1              {
+ 128   2                  I2CSLST &= ~0x08;                   //Handling STOP events|´¦ÀíSTOPÊÂ¼þ
+ 129   2                  isda = 1;
+ 130   2                  isma = 1;
+ 131   2              }
+ 132   1        
+ 133   1      }
+ 134          //========================================================================
+ 135          // Function:IIC Host Mode Related Processing Function|º¯Êý:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯Êý
+ 136          // Description:IIC host mode correlation processing function.|ÃèÊö:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯Êý¡£
+ 137          // Parameter:|²ÎÊý:
  138          //       
- 139          // Return:|·µ»Ø: 
- 140          // Version:VER1.0.0|°æ±¾: VER1.0.0
- 141          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
- 142          // Author: Pinecone Pi|×÷Õß: PineconePi
- 143          // Note:|±¸×¢:
- 144          //  
+ 139          //       
+ 140          // Return:|·µ»Ø: 
+ 141          // Version:VER1.0.0|°æ±¾: VER1.0.0
+ 142          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
+ 143          // Author: Pinecone Pi|×÷Õß: PineconePi
+ 144          // Note:|±¸×¢:
  145          //  
  146          //  
  147          //  
  148          //  
- 149          //========================================================================
- 150          void Wait()
- 151          {
- 152   1          while (!(I2CMSST & 0x40));
- 153   1          I2CMSST &= ~0x40;
- 154   1      }
- 155          
- 156          void Start()
- 157          {
- 158   1          I2CMSCR = 0x01;                             //Send START command|·¢ËÍSTARTÃüÁî
- 159   1          Wait();
- 160   1      }
- 161          
- 162          void SendData(char dat)
- 163          {
- 164   1          I2CTXD = dat;                               //Write data to data buffer|Ð´Êý¾Ýµ½Êý¾Ý»º³åÇø
- 165   1          I2CMSCR = 0x02;                             //Send SEND command|·¢ËÍSENDÃüÁî
- 166   1          Wait();
- 167   1      }
- 168          
- 169          void RecvACK()
- 170          {
- 171   1          I2CMSCR = 0x03;                             //·¢ËÍ¶ÁACKÃüÁî
- 172   1          Wait();
- 173   1      }
-C51 COMPILER V9.59.0.0   IIC                                                               01/26/2021 12:39:53 PAGE 4   
+ 149          //  
+ 150          //========================================================================
+ 151          void Wait()
+ 152          {
+ 153   1          while (!(I2CMSST & 0x40));
+ 154   1          I2CMSST &= ~0x40;
+ 155   1      }
+ 156          
+ 157          void Start()
+ 158          {
+ 159   1          I2CMSCR = 0x01;                             //Send START command|·¢ËÍSTARTÃüÁî
+ 160   1          Wait();
+ 161   1      }
+ 162          
+ 163          void SendData(char dat)
+ 164          {
+ 165   1          I2CTXD = dat;                               //Write data to data buffer|Ð´Êý¾Ýµ½Êý¾Ý»º³åÇø
+ 166   1          I2CMSCR = 0x02;                             //Send SEND command|·¢ËÍSENDÃüÁî
+ 167   1          Wait();
+ 168   1          RecvACK();
+ 169   1      }
+ 170          
+ 171          void RecvACK()
+ 172          {
+ 173   1          I2CMSCR = 0x03;                             //·¢ËÍ¶ÁACKÃüÁî
+C51 COMPILER V9.59.0.0   IIC                                                               02/01/2021 21:09:40 PAGE 4   
 
- 174          
- 175          char RecvData()
- 176          {
- 177   1          I2CMSCR = 0x04;                             //Send read ACK command|·¢ËÍRECVÃüÁî
- 178   1          Wait();
- 179   1          return I2CRXD;
- 180   1      }
- 181          
- 182          void SendACK()
- 183          {
- 184   1          I2CMSST = 0x00;                             //Setting ACK Signal|ÉèÖÃACKÐÅºÅ
- 185   1          I2CMSCR = 0x05;                             //Send ACK commands|·¢ËÍACKÃüÁî
- 186   1          Wait();
- 187   1      }
- 188          
- 189          void SendNAK()
- 190          {
- 191   1          I2CMSST = 0x01;                             //Setting NAK Signal|ÉèÖÃNAKÐÅºÅ
- 192   1          I2CMSCR = 0x05;                             //Send ACK commands|·¢ËÍACKÃüÁî
- 193   1          Wait();
- 194   1      }
- 195          
- 196          void Stop()
- 197          {
- 198   1          I2CMSCR = 0x06;                             //Send STOP command|·¢ËÍSTOPÃüÁî
- 199   1          Wait();
- 200   1      }
- 201          
- 202          void wait_device()
- 203          {
- 204   1          int i;
- 205   1      
- 206   1          for (i=0; i<3000; i++)
- 207   1          {
- 208   2              _nop_();
- 209   2              _nop_();
+ 174   1          Wait();
+ 175   1      }
+ 176          
+ 177          unsigned char RecvData()
+ 178          {
+ 179   1          I2CMSCR = 0x04;                             //Send read ACK command|·¢ËÍRECVÃüÁî
+ 180   1          Wait();
+ 181   1          return I2CRXD;
+ 182   1      }
+ 183          
+ 184          void SendACK()
+ 185          {
+ 186   1          I2CMSST = 0x00;                             //Setting ACK Signal|ÉèÖÃACKÐÅºÅ
+ 187   1          I2CMSCR = 0x05;                             //Send ACK commands|·¢ËÍACKÃüÁî
+ 188   1          Wait();
+ 189   1      }
+ 190          
+ 191          void SendNAK()
+ 192          {
+ 193   1          I2CMSST = 0x01;                             //Setting NAK Signal|ÉèÖÃNAKÐÅºÅ
+ 194   1          I2CMSCR = 0x05;                             //Send ACK commands|·¢ËÍACKÃüÁî
+ 195   1          Wait();
+ 196   1      }
+ 197          
+ 198          void Stop()
+ 199          {
+ 200   1          I2CMSCR = 0x06;                             //Send STOP command|·¢ËÍSTOPÃüÁî
+ 201   1          Wait();
+ 202   1      }
+ 203          
+ 204          void wait_device()
+ 205          {
+ 206   1          int i;
+ 207   1      
+ 208   1          for (i=0; i<3000; i++)
+ 209   1          {
  210   2              _nop_();
  211   2              _nop_();
- 212   2          }
- 213   1      }
- 214          //========================================================================
- 215          // Function:IIC Host Mode Related Processing Function Example|º¯Êý:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯ÊýÊ¾Àý
- 216          // Description: IIC host mode correlation processing function example.|ÃèÊö:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯ÊýÊ¾Àý¡
+ 212   2              _nop_();
+ 213   2              _nop_();
+ 214   2          }
+ 215   1      }
+ 216          //========================================================================
+ 217          // Function:IIC Host Mode Related Processing Function Example|º¯Êý:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯ÊýÊ¾Àý
+ 218          // Description: IIC host mode correlation processing function example.|ÃèÊö:  IICÖ÷»úÄ£Ê½Ïà¹Ø´¦Àíº¯ÊýÊ¾Àý¡
              -£
- 217          // Parameter:|²ÎÊý:     
- 218          // Return:|·µ»Ø: 
- 219          // Version:VER1.0.0|°æ±¾: VER1.0.0
- 220          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
- 221          // Author: Pinecone Pi|×÷Õß: PineconePi
- 222          // Example:|Ê¾Àý£º
- 223          //    P_SW2 = 0x80;                                 
- 224          //    IIC_host_Slave_machine£¨host_machine);       //Setting up host mode|ÉèÖÃÎªÖ÷»úÄ£Ê½
- 225          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
- 226          //    SendData(0xa0);                             //Send Device Address + Write Command|·¢ËÍÉè±¸µØÖ·+Ð´ÃüÁ
+ 219          // Parameter:|²ÎÊý:     
+ 220          // Return:|·µ»Ø: 
+ 221          // Version:VER1.0.0|°æ±¾: VER1.0.0
+ 222          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
+ 223          // Author: Pinecone Pi|×÷Õß: PineconePi
+ 224          // Example:|Ê¾Àý£º
+ 225          //    P_SW2 = 0x80;                                 
+ 226          //    IIC_host_Slave_machine£¨host_machine);       //Setting up host mode|ÉèÖÃÎªÖ÷»úÄ£Ê½
+ 227          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
+ 228          //    SendData(0xa0);                             //Send Device Address + Write Command|·¢ËÍÉè±¸µØÖ·+Ð´ÃüÁ
              -î
- 227          //    RecvACK();
- 228          //    SendData(0x00);                             //Send high bytes of storage address|·¢ËÍ´æ´¢µØÖ·¸ß×Ö½Ú
  229          //    RecvACK();
- 230          //    SendData(0x00);                             //Send Storage Address Low Byte|·¢ËÍ´æ´¢µØÖ·µÍ×Ö½Ú
+ 230          //    SendData(0x00);                             //Send high bytes of storage address|·¢ËÍ´æ´¢µØÖ·¸ß×Ö½Ú
  231          //    RecvACK();
- 232          //    SendData(0x12);                             //Write test data 1|Ð´²âÊÔÊý¾Ý1
+ 232          //    SendData(0x00);                             //Send Storage Address Low Byte|·¢ËÍ´æ´¢µØÖ·µÍ×Ö½Ú
  233          //    RecvACK();
-C51 COMPILER V9.59.0.0   IIC                                                               01/26/2021 12:39:53 PAGE 5   
+C51 COMPILER V9.59.0.0   IIC                                                               02/01/2021 21:09:40 PAGE 5   
 
- 234          //    SendData(0x78);                             //Write test data 2|Ð´²âÊÔÊý¾Ý2
+ 234          //    SendData(0x12);                             //Write test data 1|Ð´²âÊÔÊý¾Ý1
  235          //    RecvACK();
- 236          //    Stop();                                     //Send stop command|·¢ËÍÍ£Ö¹ÃüÁî
- 237          //    Delay();                                    //Waiting for the device to write data|µÈ´ýÉè±¸Ð´Êý¾Ý
- 238          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
- 239          //    SendData(0xa0);                             //Send Device Address + Write Command|·¢ËÍÉè±¸µØÖ·+Ð´ÃüÁ
+ 236          //    SendData(0x78);                             //Write test data 2|Ð´²âÊÔÊý¾Ý2
+ 237          //    RecvACK();
+ 238          //    Stop();                                     //Send stop command|·¢ËÍÍ£Ö¹ÃüÁî
+ 239          //    Delay();                                    //Waiting for the device to write data|µÈ´ýÉè±¸Ð´Êý¾Ý
+ 240          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
+ 241          //    SendData(0xa0);                             //Send Device Address + Write Command|·¢ËÍÉè±¸µØÖ·+Ð´ÃüÁ
              -î
- 240          //    RecvACK();
- 241          //    SendData(0x00);                             //Send high bytes of storage address|·¢ËÍ´æ´¢µØÖ·¸ß×Ö½Ú
  242          //    RecvACK();
- 243          //    SendData(0x00);                             //Send Storage Address Low Byte|·¢ËÍ´æ´¢µØÖ·µÍ×Ö½Ú
+ 243          //    SendData(0x00);                             //Send high bytes of storage address|·¢ËÍ´æ´¢µØÖ·¸ß×Ö½Ú
  244          //    RecvACK();
- 245          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
- 246          //    SendData(0xa1);                             //Send device address + read command|·¢ËÍÉè±¸µØÖ·+¶ÁÃüÁî
- 247          //    RecvACK();
- 248          //    P0 = RecvData();                            //Read data 1|¶ÁÈ¡Êý¾Ý1
- 249          //    SendACK();
- 250          //    P2 = RecvData();                            //¶ÁÈ¡Êý¾Ý2|¶ÁÈ¡Êý¾Ý2
- 251          //    SendNAK();
- 252          //    Stop();                                     //Send stop command|·¢ËÍÍ£Ö¹ÃüÁî
- 253          //    P_SW2 = 0x00;
- 254          //========================================================================
+ 245          //    SendData(0x00);                             //Send Storage Address Low Byte|·¢ËÍ´æ´¢µØÖ·µÍ×Ö½Ú
+ 246          //    RecvACK();
+ 247          //    Start();                                    //Send Start Command|·¢ËÍÆðÊ¼ÃüÁî
+ 248          //    SendData(0xa1);                             //Send device address + read command|·¢ËÍÉè±¸µØÖ·+¶ÁÃüÁî
+ 249          //    RecvACK();
+ 250          //    P0 = RecvData();                            //Read data 1|¶ÁÈ¡Êý¾Ý1
+ 251          //    SendACK();
+ 252          //    P2 = RecvData();                            //¶ÁÈ¡Êý¾Ý2|¶ÁÈ¡Êý¾Ý2
+ 253          //    SendNAK();
+ 254          //    Stop();                                     //Send stop command|·¢ËÍÍ£Ö¹ÃüÁî
+ 255          //    P_SW2 = 0x00;
+ 256          //========================================================================
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    293    ----
+   CODE SIZE        =    299    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =    256    ----

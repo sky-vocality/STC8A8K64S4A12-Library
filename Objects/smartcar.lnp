@@ -3,11 +3,12 @@
 ".\Objects\delay.obj",
 ".\Objects\gpio.obj",
 ".\Objects\iic.obj",
-".\Objects\pwm.obj",
 ".\Objects\uart.obj",
 ".\Objects\exit.obj",
 ".\Objects\timer.obj",
 ".\Objects\encoder.obj",
-".\Objects\pid.obj" 
+".\Objects\pid.obj",
+".\Objects\pwm.obj",
+".\Objects\jy901.obj" 
 TO ".\Objects\smartcar" 
 PRINT(".\Listings\smartcar.m51") RAMSIZE(256) 
