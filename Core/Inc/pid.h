@@ -2,8 +2,8 @@
  ******************************************************************************
  * @file    pid.h
  * @author  sky-vocality
- * @version V1.0.0
- * @date    26-January-2021
+ * @version V1.0.1
+ * @date    6-February-2021
  * @brief  This file is a PID regulator
  * @License:GNU General Public License v3.0         
  ******************************************************************************
@@ -24,6 +24,9 @@
 
 #include "system.h"
 
+#define position    0
+#define increment   1
+
 typedef struct PID_PARAMETER
 {
 	float Kp;
@@ -36,7 +39,7 @@ typedef struct PID_PARAMETER
 	float pid_out;
 }PID;
 
-void PID_Control(float current_position,float expected_position,PID* motor_type);
+void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type);
 
 
 #endif

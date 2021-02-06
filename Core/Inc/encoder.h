@@ -57,7 +57,7 @@
 //	ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;//上升沿中断
 //	ENC_InitTypeDef.ENC_Polity = PolityHigh;//高优先级
 //	ENC_InitTypeDef.ENC_Interrupt = ENABLE;//使能
-//	NC_Inilize(EXT_INT0,&ENC_InitTypeDef);//完成配置
+//	ENC_Inilize(EXT_INT0,&ENC_InitTypeDef);//完成配置
 //========================================================================
 typedef struct
 {

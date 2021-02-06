@@ -41,6 +41,8 @@
 #define PolityHigh  1	  //High priority|高优先级
 #define PolityLow  	0		//Low priority (default)|低优先级（默认）
 
+extern int encoder_num;
+
 //========================================================================
 // Structure:EXTI_InitTypeDef|结构体: EXTI_InitTypeDef
 // Description:EXTI configuration structure|描述: EXTI配置结构体。
