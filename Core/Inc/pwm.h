@@ -17,7 +17,7 @@
   *
   * 
   ******************************************************************************
-	**/
+**/
 
 #ifndef _PWM_H_
 #define _PWM_H_
@@ -71,6 +71,8 @@ typedef struct{
 	float PWM_Value;
 	float	PWM_Frequency;
 } PWM_InitTypeDef;
+
+extern PWM_InitTypeDef wheel_pwm;
 
 /*PWM output function|PWMÊä³öº¯Êý*/
 void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx);

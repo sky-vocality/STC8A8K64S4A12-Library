@@ -23,6 +23,7 @@
 
 #include "system.h"
 #include "iic.h"
+#include "timer.h"
 
 #define IICAddr   0x50
 #define ROLL      0x3d
@@ -39,5 +40,6 @@ typedef struct
 extern JY901_InitDefine jy901;
 
 void jy901_update();
+void jy901_timer_init();
 
 #endif

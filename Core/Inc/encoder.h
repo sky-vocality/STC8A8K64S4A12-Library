@@ -69,4 +69,6 @@ typedef struct
 //Modify the interrupt program in the corresponding interrupt function in exit.c|在相应的exit.c中的中断函数中修改中断程序
 unsigned char	ENC_Inilize(unsigned char EXT, ENC_InitTypeDef *INTx);
 
+void ENC_EXT_init();
+
 #endif

@@ -84,3 +84,16 @@ void jy901_update()
     temp = (p1<<8)|p0;
     jy901.Yaw = (double)temp/32768*180;
 }
+
+void jy901_timer_init()
+{
+	TIM_InitTypeDef TIM_InitTypeDef;
+	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
+	TIM_InitTypeDef.TIM_Polity = PolityHigh;
+	TIM_InitTypeDef.TIM_Interrupt = ENABLE;
+	TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
+	TIM_InitTypeDef.TIM_ClkOut = ENABLE;
+	TIM_InitTypeDef.TIM_Value = 41536;
+	TIM_InitTypeDef.TIM_Run = ENABLE;
+	Timer_Inilize(Timer1, &TIM_InitTypeDef);
+}

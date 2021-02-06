@@ -19,8 +19,8 @@
   *
   * 
   ******************************************************************************
-	**/
-	/********************* The sample program is at the end of the iic.c file|示例程序在iic.c文件末尾************************/
+**/
+/********************* The sample program is at the end of the iic.c file|示例程序在iic.c文件末尾************************/
 	
 #include "iic.h"
 #include "intrins.h"
@@ -85,50 +85,50 @@ void IIC_host_Slave_machine(unsigned char host_Slave_machine)
 //========================================================================
 void handle_Slave_machine()
 {
-	  isda = 1;                                   //Initialization of user variables|用户变量初始化
+	isda = 1;                                   //Initialization of user variables|用户变量初始化
     isma = 1;
     addr = 0;
     I2CTXD = buffer[addr];
-	     if (I2CSLST & 0x40)
+    if (I2CSLST & 0x40)
+    {
+        I2CSLST &= ~0x40;                   //Handling START events|处理START事件
+    }
+    else if (I2CSLST & 0x20)
+    {
+        I2CSLST &= ~0x20;                   //Handling RECV events|处理RECV事件
+        if (isda)
         {
-            I2CSLST &= ~0x40;                   //Handling START events|处理START事件
+            isda = 0;                       //Handling RECV events (RECV DEVICE ADDR)|处理RECV事件（RECV DEVICE ADDR）
         }
-        else if (I2CSLST & 0x20)
+        else if (isma)
         {
-            I2CSLST &= ~0x20;                   //Handling RECV events|处理RECV事件
-            if (isda)
-            {
-                isda = 0;                       //Handling RECV events (RECV DEVICE ADDR)|处理RECV事件（RECV DEVICE ADDR）
-            }
-            else if (isma)
-            {
-                isma = 0;                       //Handling RECV events (RECV MEMORY ADDR)|处理RECV事件（RECV MEMORY ADDR）
-                addr = I2CRXD;
-                I2CTXD = buffer[addr];
-            }
-            else
-            {
-                buffer[addr++] = I2CRXD;        //Handling RECV events (RECV DATA)|处理RECV事件（RECV DATA）
-            }
+            isma = 0;                       //Handling RECV events (RECV MEMORY ADDR)|处理RECV事件（RECV MEMORY ADDR）
+            addr = I2CRXD;
+            I2CTXD = buffer[addr];
         }
-        else if (I2CSLST & 0x10)
+        else
         {
-            I2CSLST &= ~0x10;                   //Handling SEND events|处理SEND事件
-            if (I2CSLST & 0x02)
-            {
-                I2CTXD = 0xff;
-            }
-            else
-            {
-                I2CTXD = buffer[++addr];
-            }
+            buffer[addr++] = I2CRXD;        //Handling RECV events (RECV DATA)|处理RECV事件（RECV DATA）
         }
-        else if (I2CSLST & 0x08)
+    }
+    else if (I2CSLST & 0x10)
+    {
+        I2CSLST &= ~0x10;                   //Handling SEND events|处理SEND事件
+        if (I2CSLST & 0x02)
         {
-            I2CSLST &= ~0x08;                   //Handling STOP events|处理STOP事件
-            isda = 1;
-            isma = 1;
+            I2CTXD = 0xff;
         }
+        else
+        {
+            I2CTXD = buffer[++addr];
+        }
+    }
+    else if (I2CSLST & 0x08)
+    {
+        I2CSLST &= ~0x08;                   //Handling STOP events|处理STOP事件
+        isda = 1;
+        isma = 1;
+    }
 	
 }
 //========================================================================

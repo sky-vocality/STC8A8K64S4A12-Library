@@ -23,9 +23,18 @@
 
 unsigned char	ENC_Inilize(unsigned char EXT, ENC_InitTypeDef *INTx)
 {
-  EXTI_InitTypeDef EXTI_InitTypeDef;
+	EXTI_InitTypeDef EXTI_InitTypeDef;
 	EXTI_InitTypeDef.EXTI_Mode = INTx->ENC_Mode;//上升沿中断
 	EXTI_InitTypeDef.EXTI_Polity = INTx->ENC_Polity;//高优先级
 	EXTI_InitTypeDef.EXTI_Interrupt = INTx->ENC_Interrupt;//使能
 	return Ext_Inilize(EXT,&EXTI_InitTypeDef);//完成配置
+}
+
+void ENC_EXT_init()
+{
+	ENC_InitTypeDef ENC_InitTypeDef;
+	ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;
+	ENC_InitTypeDef.ENC_Polity = PolityHigh;
+	ENC_InitTypeDef.ENC_Interrupt = ENABLE;
+	ENC_Inilize(EXT_INT0,&ENC_InitTypeDef);
 }

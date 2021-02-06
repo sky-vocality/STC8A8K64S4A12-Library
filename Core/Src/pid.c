@@ -23,6 +23,8 @@
 
 #define Inter_Max   2000
 
+PID wheel_pid = {2.5, 0.8, 0, 0, 0, 0, 980, 0, 0};
+
 void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type)
 {
 	if(pid_type == position)
@@ -38,19 +40,33 @@ void PID_Control(unsigned char pid_type, float current_position,float expected_p
 			motor_type->error_inter = -Inter_Max;
     	motor_type->pid_out = motor_type->Kp * motor_type->error_now + motor_type->Ki * motor_type->error_inter +	motor_type->Kd * (motor_type->error_now-motor_type->error_last);
     	// limit out of pid
-        if(motor_type->pid_out > motor_type->out_limit)
-            motor_type->pid_out = motor_type->out_limit;
-        else if (motor_type->pid_out < -motor_type->out_limit)
-            motor_type->pid_out = -motor_type->out_limit;
+        if(motor_type->pid_out > motor_type->out_limit_max)
+            motor_type->pid_out = motor_type->out_limit_max;
+        else if (motor_type->pid_out < motor_type->out_limit_low)
+            motor_type->pid_out = motor_type->out_limit_low;
 	}
     else if(pid_type == increment)
 	{
 		motor_type->error_last=motor_type->error_now;
 		motor_type->error_now = expected_position - current_position;
 		motor_type->pid_out += motor_type->Kp * (motor_type->error_now - motor_type->error_last) + motor_type->Ki * motor_type->error_now;
-		if(motor_type->pid_out > motor_type->out_limit)
-            motor_type->pid_out = motor_type->out_limit;
-        else if (motor_type->pid_out < -motor_type->out_limit)
-            motor_type->pid_out = -motor_type->out_limit;
+		// limit out of pid
+		if(motor_type->pid_out > motor_type->out_limit_max)
+            motor_type->pid_out = motor_type->out_limit_max;
+        else if (motor_type->pid_out < motor_type->out_limit_low)
+            motor_type->pid_out = motor_type->out_limit_low;
 	}
+}
+
+void wheel_pid_timer_init()
+{
+	TIM_InitTypeDef TIM_InitTypeDef;
+	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;		//Working mode|工作模式,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	TIM_InitTypeDef.TIM_Polity = PolityHigh;		//Priority Setting|优先级设置	PolityHigh,PolityLow
+	TIM_InitTypeDef.TIM_Interrupt = ENABLE;	//Interrupt enable|中断允许		ENABLE,DISABLE
+	TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;	//Clock source|时钟源		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	TIM_InitTypeDef.TIM_ClkOut = ENABLE;		//Programmable clock output|可编程时钟输出,	ENABLE,DISABLE
+	TIM_InitTypeDef.TIM_Value = 41536;		//Initial load|装载初值
+	TIM_InitTypeDef.TIM_Run = ENABLE;		//是否运行|是否运行		ENABLE,DISABLE
+	Timer_Inilize(Timer0, &TIM_InitTypeDef);
 }

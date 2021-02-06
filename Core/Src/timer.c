@@ -18,22 +18,36 @@
   *
   * 
   ******************************************************************************
-	**/
+**/
 
 #include	"timer.h"
 
-double wheel_speed = 0.0;
+int timer0_num = 0;
+int timer1_num = 0;
 
 /********************* Timer0 interrupt function|Timer0中断函数************************/
 void timer0_int (void) interrupt 1
 {
-	wheel_speed = encoder_num/TIME;
+	timer0_num++;
+	if(timer0_num == 10)
+	{
+		PID_Control(increment, encoder_num, 210, &wheel_pid);
+		wheel_pwm.PWM_Value = wheel_pid.pid_out;
+		PWM_Output(PWM_0,&wheel_pwm);
+		timer0_num = 0;
+		encoder_num = 0;
+	}
 }
 
 /********************* Timer1 interrupt function|Timer1中断函数************************/
 void timer1_int (void) interrupt 3
 {
-	jy901_update();
+	timer1_num++;
+	if(timer1_num == 50)
+	{
+		jy901_update();
+		timer1_num = 0;
+	}
 }
 
 /********************* Timer2 interrupt function|Timer2中断函数************************/
