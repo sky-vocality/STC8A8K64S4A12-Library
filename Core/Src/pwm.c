@@ -21,6 +21,7 @@
 #include "pwm.h"
 
 PWM_InitTypeDef wheel_pwm = {PWM_Channel1, 0, 12500};
+PWM_InitTypeDef server_pwm = {PWM_Channel1, 147.5, 100};
 
 //========================================================================
 // Function:void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|º¯Êý: void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)

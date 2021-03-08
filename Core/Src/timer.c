@@ -46,6 +46,9 @@ void timer1_int (void) interrupt 3
 	if(timer1_num == 50)
 	{
 		jy901_update();
+		PID_Control(position, jy901.Pitch, 0, &server_pid);
+		server_pwm.PWM_Value = server_pid.pid_out + 147.5;
+		PWM_Output(PWM_1,&server_pwm);
 		timer1_num = 0;
 	}
 }

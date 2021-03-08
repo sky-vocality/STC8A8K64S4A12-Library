@@ -21,9 +21,10 @@
 
 #include "pid.h"
 
-#define Inter_Max   2000
+#define Inter_Max   5
 
 PID wheel_pid = {2.5, 0.8, 0, 0, 0, 0, 980, 0, 0};
+PID server_pid = {1, 0.05, 0.01, 0, 0, 0, -112.5, 112.5, 0};
 
 void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type)
 {
@@ -61,12 +62,12 @@ void PID_Control(unsigned char pid_type, float current_position,float expected_p
 void wheel_pid_timer_init()
 {
 	TIM_InitTypeDef TIM_InitTypeDef;
-	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;		//Working mode|¹¤×÷Ä£Ê½,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	TIM_InitTypeDef.TIM_Polity = PolityHigh;		//Priority Setting|ÓÅÏÈ¼¶ÉèÖÃ	PolityHigh,PolityLow
-	TIM_InitTypeDef.TIM_Interrupt = ENABLE;	//Interrupt enable|ÖÐ¶ÏÔÊÐí		ENABLE,DISABLE
-	TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;	//Clock source|Ê±ÖÓÔ´		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	TIM_InitTypeDef.TIM_ClkOut = ENABLE;		//Programmable clock output|¿É±à³ÌÊ±ÖÓÊä³ö,	ENABLE,DISABLE
-	TIM_InitTypeDef.TIM_Value = 41536;		//Initial load|×°ÔØ³õÖµ
-	TIM_InitTypeDef.TIM_Run = ENABLE;		//ÊÇ·ñÔËÐÐ|ÊÇ·ñÔËÐÐ		ENABLE,DISABLE
+	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;		//Working mode|ï¿½ï¿½ï¿½ï¿½Ä£Ê½,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	TIM_InitTypeDef.TIM_Polity = PolityHigh;		//Priority Setting|ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½	PolityHigh,PolityLow
+	TIM_InitTypeDef.TIM_Interrupt = ENABLE;	//Interrupt enable|ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½		ENABLE,DISABLE
+	TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;	//Clock source|Ê±ï¿½ï¿½Ô´		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	TIM_InitTypeDef.TIM_ClkOut = ENABLE;		//Programmable clock output|ï¿½É±ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½,	ENABLE,DISABLE
+	TIM_InitTypeDef.TIM_Value = 41536;		//Initial load|×°ï¿½Ø³ï¿½Öµ
+	TIM_InitTypeDef.TIM_Run = ENABLE;		//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½		ENABLE,DISABLE
 	Timer_Inilize(Timer0, &TIM_InitTypeDef);
 }

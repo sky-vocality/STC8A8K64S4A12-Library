@@ -73,6 +73,7 @@ typedef struct{
 } PWM_InitTypeDef;
 
 extern PWM_InitTypeDef wheel_pwm;
+extern PWM_InitTypeDef server_pwm;
 
 /*PWM output function|PWMÊä³öº¯Êý*/
 void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx);

@@ -42,6 +42,7 @@ typedef struct PID_PARAMETER
 }PID;
 
 extern PID wheel_pid;
+extern PID server_pid;
 
 void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type);
 

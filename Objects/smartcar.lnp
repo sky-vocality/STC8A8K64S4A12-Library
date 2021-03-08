@@ -9,6 +9,7 @@
 ".\Objects\encoder.obj",
 ".\Objects\pid.obj",
 ".\Objects\pwm.obj",
-".\Objects\jy901.obj" 
+".\Objects\jy901.obj",
+".\Objects\adc.obj" 
 TO ".\Objects\smartcar" 
 PRINT(".\Listings\smartcar.m51") RAMSIZE(256) 

@@ -436,6 +436,11 @@
               <FileType>1</FileType>
               <FilePath>.\Core\Src\jy901.c</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Core\Src\adc.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
