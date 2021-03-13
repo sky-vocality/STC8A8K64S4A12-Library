@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
   * @file    adc.h
-  * @author  PineconePi(基于宏晶科技STC15库函数进行修改)
+  * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改))
   * @version V1.0.0
-  * @date    20-December-2018
+  * @date    13-March-2021
   * @brief  This file is used to configure ADC
   * @License:GNU General Public License v3.0         
   ******************************************************************************
@@ -18,8 +18,8 @@
   *
   * 
   ******************************************************************************
-	**/
-	
+**/
+
 #include "adc.h"
 #include "intrins.h"
 
@@ -28,6 +28,7 @@ void ADC_int (void) interrupt 5
 {
 	ADC_CONTR &= ~ADC_FLAG;
 }
+
 //========================================================================
 // Function:void	ADC_Inilize(ADC_InitTypeDef *ADCx)|函数: void	ADC_Inilize(ADC_InitTypeDef *ADCx)
 // Description:ADC initializer|描述: ADC初始化程序.
@@ -36,8 +37,8 @@ void ADC_int (void) interrupt 5
 //       
 // Return: |返回: 
 // Version: |版本: VER1.0.0
-// Date:2018-12-20|日期: 2018-12-20
-// Author:PineconePi |作者: PineconePi
+// Date:2021-03-13|日期: 2021-03-13
+// Author:sky-vocality |作者: sky-vocality
 // Note: |备注:
 //	
 //	
@@ -45,7 +46,7 @@ void ADC_int (void) interrupt 5
 //	
 //	
 //========================================================================
-void DC_Inilize(ADC_InitTypeDef *ADCx)
+void ADC_Inilize(ADC_InitTypeDef *ADCx)
 {
 	EA = 1;
 	
@@ -71,8 +72,8 @@ void DC_Inilize(ADC_InitTypeDef *ADCx)
 //       
 // Return:|返回: 
 // Version:VER1.0.0|版本: VER1.0.0
-// Date:2018-12-20|日期: 2018-12-20
-// Author: PineconePi|作者: PineconePi
+// Date:2021-03-13|日期: 2021-03-13
+// Author: sky-vocality|作者: sky-vocality
 // Note:|备注:
 //	
 //	
@@ -94,8 +95,8 @@ void ADC_PowerControl(unsigned char Pwr)
 //       
 // Return:ADC results.|返回: ADC结果.
 // Version:VER1.0.0|:版本: VER1.0.0
-// Date:2018-12-20|日期: 2018-12-20
-// Author:PineconePi|作者: PineconePi
+// Date:2021-03-13|日期: 2021-03-13
+// Author:sky-vocality|作者: sky-vocality
 // Note:|备注:
 //	
 //	
@@ -118,18 +119,19 @@ unsigned int Get_ADC10bitResult(unsigned char Channel)	//Channel = 0~7
 
 	for(i=0; i<250; i++)		//超时
 	{
-		if(ADC_CONTR & ADC_FLAG)
+		if(!(ADC_CONTR & ADC_FLAG))
 		{
 			ADC_CONTR &= ~ADC_FLAG;
-			if(ADCCFG &  (1<<5))		//10位AD结果的高2位放ADC_RES的低2位，低8位在ADC_RESL。
+			if(ADCCFG &  (1<<5))		//12位AD结果的高4位放ADC_RES的高4位，低8位在ADC_RESL。
 			{
-				adc = (unsigned int)(ADC_RES & 3);
+				adc = (unsigned int)(ADC_RES & 0x0f);
 				adc = (adc << 8) | ADC_RESL;
 			}
-			else		//10位AD结果的高8位放ADC_RES，低2位在ADC_RESL的低2位。
+			else		//12位AD结果的高8位放ADC_RES，低4位在ADC_RESL的低4位。
 			{
-				adc = (unsigned int)ADC_RES;
-				adc = (adc << 2) | (ADC_RESL & 3);
+				adc = (int)ADC_RES << 8;
+				adc |= (int)ADC_RESL;
+				adc = adc>>4;
 			}
 			return	adc;
 		}
