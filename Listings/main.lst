@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              03/13/2021 17:35:40 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/09/2021 17:07:55 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -9,104 +9,71 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) B
 line level    source
 
    1          #include "uart.h"
-   2          #include "delay.h"
-   3          #include "gpio.h"
-   4          #include "adc.h"
-   5          
-   6          int main()
-   7          {
-   8   1              ADC_InitTypeDef ADC_x;
-   9   1              COMx_InitDefine COM_x;
-  10   1              unsigned char a[8];
-  11   1              //unsigned char k[8];
-  12   1              unsigned int b;
-  13   1      
-  14   1              COM_x.UART_Mode=UART_8bit_BRTx;                 //Pattern|????,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9
-             -bit_BRTx
-  15   1              COM_x.UART_BRT_Use=BRT_Timer1;          //Using baud rate|?????¡§????,   BRT_Timer1,BRT_Timer2
-  16   1              COM_x.UART_BaudRate=19200;              //baud rate|?¡§????,       ENABLE,DISABLE
-  17   1              COM_x.Morecommunicate=ENABLE;   //Multiprocessor Communication Allowance|?¨¤?¨²?¡§?????¨ª, ENABLE,DISABLE
-  18   1              COM_x.UART_RxEnable=ENABLE;             //Allow reception|???¨ª????,   ENABLE,DISABLE
-  19   1              COM_x.BaudRateDouble=DISABLE;           //Baud rate doubled|?¡§??????¡À?, ENABLE,DISABLE
-  20   1              COM_x.UART_Interrupt=ENABLE;            //Interrupt control|????????,   ENABLE,DISABLE
-  21   1              COM_x.UART_Polity=PolityHigh;           //priority|??????,     PolityLow,PolityHigh
-  22   1              COM_x.UART_P_SW=UART1_SW_P30_P31;
-  23   1              USART_Configuration(USART1, &COM_x);
-  24   1              
-  25   1              ADC_x.ADC_Px=ADC_P10;
-  26   1              ADC_x.ADC_Speed=ADC_540T;
-  27   1              ADC_x.ADC_Power=ENABLE;
-  28   1              ADC_x.ADC_AdjResult=ADC_RES_H8L2;
-  29   1              ADC_x.ADC_Polity=PolityHigh;
-  30   1              ADC_x.ADC_Interrupt=ENABLE;
-  31   1              ADC_Inilize(&ADC_x);
-  32   1        /*Timer1_Init();*/
-  33   1      
-  34   1      while(1){
-  35   2              Delay_Ms(500);
-  36   2              //ADC_PowerControl(ENABLE);
-  37   2              //b=Get_ADC10bitResult(0);
-  38   2              //intToString(b,a);
-  39   2          //PrintString1(a);
-  40   2              b = Get_ADC10bitResult(0);
-  41   2              //b=ADC_RES;
-  42   2              intToString(b,a);
-  43   2              PrintString1(a);
-  44   2              PrintString1("\r\n");
-  45   2          //PrintString1("\r\n");
-  46   2              }
-  47   1              /*intToString(b,a);     
-  48   1              PrintString1(a);
-  49   1              PrintString1("\r\n");
-  50   1              Delay_Ms(50);*/
-  51   1                      
-  52   1              //pre();
-  53   1                      /*forward();
-C51 COMPILER V9.59.0.0   MAIN                                                              03/13/2021 17:35:40 PAGE 2   
+   2          #include "pwm.h"
+   3          #include "delay.h"
+   4          #include "pid.h"
+   5          #include "encoder.h"
+   6          #include "adc.h"
+   7          
+   8          //double Roll = 0;
+   9          //int temp = 0;
+  10          char kkk[5] = 0;
+  11          
+  12          int main()
+  13          {
+  14   1              //double Roll = 0;
+  15   1              //int ahh = 0;
+  16   1              COMx_InitDefine COMx_InitDefine1;
+  17   1              ENC_EXT_init();
+  18   1              COMx_InitDefine1.UART_Mode = UART_8bit_BRTx;                    //Pattern|??,         UART_ShiftRight,UART_8bit_BRTx,UART_
+             -9bit,UART_9bit_BRTx
+  19   1              COMx_InitDefine1.UART_BRT_Use = BRT_Timer1;             //Using baud rate|?????,   BRT_Timer1,BRT_Timer2
+  20   1              COMx_InitDefine1.UART_BaudRate = 19200;         //baud rate|???,       ENABLE,DISABLE
+  21   1              COMx_InitDefine1.Morecommunicate = ENABLE;      //Multiprocessor Communication Allowance|??????, ENABLE,DISABL
+             -E
+  22   1              COMx_InitDefine1.UART_RxEnable = ENABLE;                //Allow reception|????,   ENABLE,DISABLE
+  23   1              COMx_InitDefine1.BaudRateDouble = DISABLE;              //Baud rate doubled|?????, ENABLE,DISABLE
+  24   1              COMx_InitDefine1.UART_Interrupt = ENABLE;               //Interrupt control|????,   ENABLE,DISABLE
+  25   1              COMx_InitDefine1.UART_Polity = PolityHigh;              //priority|???,     PolityLow,PolityHigh
+  26   1              COMx_InitDefine1.UART_P_SW = UART1_SW_P30_P31;                  //Switch port|????,   UART1_SW_P30_P31,UART1_SW_P36_P37,
+             -UART1_SW_P16_P17(????????)
+  27   1              USART_Configuration(USART1, &COMx_InitDefine1);
+  28   1              while(1)
+  29   1              {
+  30   2                      Delay_Ms(10);
+  31   2                      //jy901_update();
+  32   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
+  33   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
+  34   2                      PWM_Output(PWM_0,&wheel_pwm);
+  35   2                      intToString(encoder_num,kkk);
+  36   2                      encoder_num = 0;
+  37   2                      PrintString1(kkk);
+  38   2                      PrintString1(",\r\n");
+  39   2                      //kkkkk = ReceiveByte1();
+  40   2                      //PrintString1(RX2_Buffer);
+  41   2                      //PrintString1(&kkkkk);
+  42   2                      /*
+  43   2                      int a;
+  44   2                      for(a = 0;a<1000;a++)
+  45   2                      {
+  46   2                              PWM_Init.PWM_Value=a;
+  47   2                              PWM_Output(PWM_0,&PWM_Init);
+  48   2                              intToString(a,acac);
+  49   2                              PrintString1(acac);
+  50   2                              PrintString1("\r\n");
+  51   2                              Delay_Ms(50);
+C51 COMPILER V9.59.0.0   MAIN                                                              04/09/2021 17:07:55 PAGE 2   
 
-  54   1                      Delay_Ms(5000);
-  55   1                      turn();
-  56   1                      Delay_Ms(5000);*/
-  57   1                      
-  58   1                      /*start_measure();
-  59   1                      c=distance_measure();
-  60   1                      b=(unsigned int)c;
-  61   1                      intToString(b,a);       
-  62   1                      PrintString1(a);
-  63   1                      PrintString1("\r\n");
-  64   1                      Delay_Ms(50);*/
-  65   1                      
-  66   1                      /*
-  67   1                      start_measure();
-  68   1                      c=distance_measure();
-  69   1                      b=(unsigned int)c;
-  70   1                      
-  71   1                      
-  72   1                      
-  73   1                      if(b>0&&b<500)
-  74   1                              flag=1;
-  75   1                      else
-  76   1                              flag=0;
-  77   1      
-  78   1                      if(!flag)
-  79   1                              forward();
-  80   1                      
-  81   1                      if(flag)
-  82   1                      {
-  83   1                              stop();
-  84   1                              turn();
-  85   1                              Delay_Ms(500);
-  86   1                              stop();
-  87   1                      }
-  88   1      */
-  89   1      
-  90   1      }
+  52   2                      }
+  53   2                      */
+  54   2              }
+  55   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    125    ----
-   CONSTANT SIZE    =      3    ----
-   XDATA SIZE       =   ----      28
+   CODE SIZE        =    181    ----
+   CONSTANT SIZE    =      4    ----
+   XDATA SIZE       =      5      12
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
