@@ -460,7 +460,8 @@ unsigned char ReceiveByte2(void)
 //	
 //	
 //========================================================================
-void intToString(int N,char arr[]){
+void intToString(int N,char arr[])
+{
     int i,j,flag;
     char stack[10]; 
     i=0;
@@ -488,4 +489,53 @@ void intToString(int N,char arr[]){
         }
         arr[i+1]='\0';
     }
+}
+
+//========================================================================
+// Function:void floatToString(float N,char arr[], int n)|函数: void floatToString(float N,char arr[], int n)
+// Description:float To String|float类型转string
+// Parameter: N: The float need change|参数: N: 需要转换的float类型
+//            arr: The string's save arr|arr: 字符串存储的地址
+//			  n: The length of the string|n:字符串的长度
+//       
+//       
+// Return:|返回:
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-01-23|日期: 2021-01-23
+// Author:  sky_vocality|作者: sky_vocality
+// Note:|备注: 
+//	
+//	
+//	
+//	
+//	
+//========================================================================
+void floatToString(float N,char arr[], int n)
+{
+    int temp,i,j;
+    if(N>=0)//??????0
+        arr[0] = '+';
+    else
+    {
+        arr[0] = '-';
+        N = -N;
+    }
+    temp = (int)N;//?????
+    for(i=0;temp!=0;i++)//?????????
+        temp /=10;
+    temp =(int)N;
+    for(j=i;j>0;j--)//????????????
+    {
+        arr[j] = temp%10+'0';
+        temp /=10;
+    }
+    arr[i+1] = '.';
+    N -=(int)N;
+    for(i=i+2;i<n-1;i++)//????????????
+    {
+        N*=10;
+        arr[i]=(int)N+'0';
+        N-=(int)N;
+    }
+    arr[n-1] = '\0';
 }

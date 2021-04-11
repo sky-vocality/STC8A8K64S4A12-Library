@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 1   
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE OLED
@@ -31,503 +31,552 @@ line level    source
   21          
   22          #include "oled.h"
   23          
-  24          #define LCD_SCL P32
-  25          #define LCD_SDA P33
-  26          #define LCD_RST P34
-  27          
-  28          #define HIGH 1
-  29          #define LOW  0
-  30          #define IICADRR 0x78
-  31          #define X_WIDTH 132
-  32          #define Y_WIDTH 64
-  33          
-  34          //ascii字符集
-  35          const unsigned char F6x8[][6] =
-  36          {
-  37              { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },   // sp
-  38              { 0x00, 0x00, 0x00, 0x2f, 0x00, 0x00 },   // !
-  39              { 0x00, 0x00, 0x07, 0x00, 0x07, 0x00 },   // "
-  40              { 0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14 },   // #
-  41              { 0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12 },   // $
-  42              { 0x00, 0x62, 0x64, 0x08, 0x13, 0x23 },   // %
-  43              { 0x00, 0x36, 0x49, 0x55, 0x22, 0x50 },   // &
-  44              { 0x00, 0x00, 0x05, 0x03, 0x00, 0x00 },   // '
-  45              { 0x00, 0x00, 0x1c, 0x22, 0x41, 0x00 },   // (
-  46              { 0x00, 0x00, 0x41, 0x22, 0x1c, 0x00 },   // )
-  47              { 0x00, 0x14, 0x08, 0x3E, 0x08, 0x14 },   // *
-  48              { 0x00, 0x08, 0x08, 0x3E, 0x08, 0x08 },   // +
-  49              { 0x00, 0x00, 0x00, 0xA0, 0x60, 0x00 },   // ,
-  50              { 0x00, 0x08, 0x08, 0x08, 0x08, 0x08 },   // -
-  51              { 0x00, 0x00, 0x60, 0x60, 0x00, 0x00 },   // .
-  52              { 0x00, 0x20, 0x10, 0x08, 0x04, 0x02 },   // /
-  53              { 0x00, 0x3E, 0x51, 0x49, 0x45, 0x3E },   // 0
-  54              { 0x00, 0x00, 0x42, 0x7F, 0x40, 0x00 },   // 1
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 2   
+  24          //ascii字符集
+  25          const unsigned char F6x8[][6] =
+  26          {
+  27              { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },   // sp
+  28              { 0x00, 0x00, 0x00, 0x2f, 0x00, 0x00 },   // !
+  29              { 0x00, 0x00, 0x07, 0x00, 0x07, 0x00 },   // "
+  30              { 0x00, 0x14, 0x7f, 0x14, 0x7f, 0x14 },   // #
+  31              { 0x00, 0x24, 0x2a, 0x7f, 0x2a, 0x12 },   // $
+  32              { 0x00, 0x62, 0x64, 0x08, 0x13, 0x23 },   // %
+  33              { 0x00, 0x36, 0x49, 0x55, 0x22, 0x50 },   // &
+  34              { 0x00, 0x00, 0x05, 0x03, 0x00, 0x00 },   // '
+  35              { 0x00, 0x00, 0x1c, 0x22, 0x41, 0x00 },   // (
+  36              { 0x00, 0x00, 0x41, 0x22, 0x1c, 0x00 },   // )
+  37              { 0x00, 0x14, 0x08, 0x3E, 0x08, 0x14 },   // *
+  38              { 0x00, 0x08, 0x08, 0x3E, 0x08, 0x08 },   // +
+  39              { 0x00, 0x00, 0x00, 0xA0, 0x60, 0x00 },   // ,
+  40              { 0x00, 0x08, 0x08, 0x08, 0x08, 0x08 },   // -
+  41              { 0x00, 0x00, 0x60, 0x60, 0x00, 0x00 },   // .
+  42              { 0x00, 0x20, 0x10, 0x08, 0x04, 0x02 },   // /
+  43              { 0x00, 0x3E, 0x51, 0x49, 0x45, 0x3E },   // 0
+  44              { 0x00, 0x00, 0x42, 0x7F, 0x40, 0x00 },   // 1
+  45              { 0x00, 0x42, 0x61, 0x51, 0x49, 0x46 },   // 2
+  46              { 0x00, 0x21, 0x41, 0x45, 0x4B, 0x31 },   // 3
+  47              { 0x00, 0x18, 0x14, 0x12, 0x7F, 0x10 },   // 4
+  48              { 0x00, 0x27, 0x45, 0x45, 0x45, 0x39 },   // 5
+  49              { 0x00, 0x3C, 0x4A, 0x49, 0x49, 0x30 },   // 6
+  50              { 0x00, 0x01, 0x71, 0x09, 0x05, 0x03 },   // 7
+  51              { 0x00, 0x36, 0x49, 0x49, 0x49, 0x36 },   // 8
+  52              { 0x00, 0x06, 0x49, 0x49, 0x29, 0x1E },   // 9
+  53              { 0x00, 0x00, 0x36, 0x36, 0x00, 0x00 },   // :
+  54              { 0x00, 0x00, 0x56, 0x36, 0x00, 0x00 },   // ;
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 2   
 
-  55              { 0x00, 0x42, 0x61, 0x51, 0x49, 0x46 },   // 2
-  56              { 0x00, 0x21, 0x41, 0x45, 0x4B, 0x31 },   // 3
-  57              { 0x00, 0x18, 0x14, 0x12, 0x7F, 0x10 },   // 4
-  58              { 0x00, 0x27, 0x45, 0x45, 0x45, 0x39 },   // 5
-  59              { 0x00, 0x3C, 0x4A, 0x49, 0x49, 0x30 },   // 6
-  60              { 0x00, 0x01, 0x71, 0x09, 0x05, 0x03 },   // 7
-  61              { 0x00, 0x36, 0x49, 0x49, 0x49, 0x36 },   // 8
-  62              { 0x00, 0x06, 0x49, 0x49, 0x29, 0x1E },   // 9
-  63              { 0x00, 0x00, 0x36, 0x36, 0x00, 0x00 },   // :
-  64              { 0x00, 0x00, 0x56, 0x36, 0x00, 0x00 },   // ;
-  65              { 0x00, 0x08, 0x14, 0x22, 0x41, 0x00 },   // <
-  66              { 0x00, 0x14, 0x14, 0x14, 0x14, 0x14 },   // =
-  67              { 0x00, 0x00, 0x41, 0x22, 0x14, 0x08 },   // >
-  68              { 0x00, 0x02, 0x01, 0x51, 0x09, 0x06 },   // ?
-  69              { 0x00, 0x32, 0x49, 0x59, 0x51, 0x3E },   // @
-  70              { 0x00, 0x7C, 0x12, 0x11, 0x12, 0x7C },   // A
-  71              { 0x00, 0x7F, 0x49, 0x49, 0x49, 0x36 },   // B
-  72              { 0x00, 0x3E, 0x41, 0x41, 0x41, 0x22 },   // C
-  73              { 0x00, 0x7F, 0x41, 0x41, 0x22, 0x1C },   // D
-  74              { 0x00, 0x7F, 0x49, 0x49, 0x49, 0x41 },   // E
-  75              { 0x00, 0x7F, 0x09, 0x09, 0x09, 0x01 },   // F
-  76              { 0x00, 0x3E, 0x41, 0x49, 0x49, 0x7A },   // G
-  77              { 0x00, 0x7F, 0x08, 0x08, 0x08, 0x7F },   // H
-  78              { 0x00, 0x00, 0x41, 0x7F, 0x41, 0x00 },   // I
-  79              { 0x00, 0x20, 0x40, 0x41, 0x3F, 0x01 },   // J
-  80              { 0x00, 0x7F, 0x08, 0x14, 0x22, 0x41 },   // K
-  81              { 0x00, 0x7F, 0x40, 0x40, 0x40, 0x40 },   // L
-  82              { 0x00, 0x7F, 0x02, 0x0C, 0x02, 0x7F },   // M
-  83              { 0x00, 0x7F, 0x04, 0x08, 0x10, 0x7F },   // N
-  84              { 0x00, 0x3E, 0x41, 0x41, 0x41, 0x3E },   // O
-  85              { 0x00, 0x7F, 0x09, 0x09, 0x09, 0x06 },   // P
-  86              { 0x00, 0x3E, 0x41, 0x51, 0x21, 0x5E },   // Q
-  87              { 0x00, 0x7F, 0x09, 0x19, 0x29, 0x46 },   // R
-  88              { 0x00, 0x46, 0x49, 0x49, 0x49, 0x31 },   // S
-  89              { 0x00, 0x01, 0x01, 0x7F, 0x01, 0x01 },   // T
-  90              { 0x00, 0x3F, 0x40, 0x40, 0x40, 0x3F },   // U
-  91              { 0x00, 0x1F, 0x20, 0x40, 0x20, 0x1F },   // V
-  92              { 0x00, 0x3F, 0x40, 0x38, 0x40, 0x3F },   // W
-  93              { 0x00, 0x63, 0x14, 0x08, 0x14, 0x63 },   // X
-  94              { 0x00, 0x07, 0x08, 0x70, 0x08, 0x07 },   // Y
-  95              { 0x00, 0x61, 0x51, 0x49, 0x45, 0x43 },   // Z
-  96              { 0x00, 0x00, 0x7F, 0x41, 0x41, 0x00 },   // [
-  97              { 0x00, 0x55, 0x2A, 0x55, 0x2A, 0x55 },   // 55
-  98              { 0x00, 0x00, 0x41, 0x41, 0x7F, 0x00 },   // ]
-  99              { 0x00, 0x04, 0x02, 0x01, 0x02, 0x04 },   // ^
- 100              { 0x00, 0x40, 0x40, 0x40, 0x40, 0x40 },   // _
- 101              { 0x00, 0x00, 0x01, 0x02, 0x04, 0x00 },   // '
- 102              { 0x00, 0x20, 0x54, 0x54, 0x54, 0x78 },   // a
- 103              { 0x00, 0x7F, 0x48, 0x44, 0x44, 0x38 },   // b
- 104              { 0x00, 0x38, 0x44, 0x44, 0x44, 0x20 },   // c
- 105              { 0x00, 0x38, 0x44, 0x44, 0x48, 0x7F },   // d
- 106              { 0x00, 0x38, 0x54, 0x54, 0x54, 0x18 },   // e
- 107              { 0x00, 0x08, 0x7E, 0x09, 0x01, 0x02 },   // f
- 108              { 0x00, 0x18, 0xA4, 0xA4, 0xA4, 0x7C },   // g
- 109              { 0x00, 0x7F, 0x08, 0x04, 0x04, 0x78 },   // h
- 110              { 0x00, 0x00, 0x44, 0x7D, 0x40, 0x00 },   // i
- 111              { 0x00, 0x40, 0x80, 0x84, 0x7D, 0x00 },   // j
- 112              { 0x00, 0x7F, 0x10, 0x28, 0x44, 0x00 },   // k
- 113              { 0x00, 0x00, 0x41, 0x7F, 0x40, 0x00 },   // l
- 114              { 0x00, 0x7C, 0x04, 0x18, 0x04, 0x78 },   // m
- 115              { 0x00, 0x7C, 0x08, 0x04, 0x04, 0x78 },   // n
- 116              { 0x00, 0x38, 0x44, 0x44, 0x44, 0x38 },   // o
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 3   
+  55              { 0x00, 0x08, 0x14, 0x22, 0x41, 0x00 },   // <
+  56              { 0x00, 0x14, 0x14, 0x14, 0x14, 0x14 },   // =
+  57              { 0x00, 0x00, 0x41, 0x22, 0x14, 0x08 },   // >
+  58              { 0x00, 0x02, 0x01, 0x51, 0x09, 0x06 },   // ?
+  59              { 0x00, 0x32, 0x49, 0x59, 0x51, 0x3E },   // @
+  60              { 0x00, 0x7C, 0x12, 0x11, 0x12, 0x7C },   // A
+  61              { 0x00, 0x7F, 0x49, 0x49, 0x49, 0x36 },   // B
+  62              { 0x00, 0x3E, 0x41, 0x41, 0x41, 0x22 },   // C
+  63              { 0x00, 0x7F, 0x41, 0x41, 0x22, 0x1C },   // D
+  64              { 0x00, 0x7F, 0x49, 0x49, 0x49, 0x41 },   // E
+  65              { 0x00, 0x7F, 0x09, 0x09, 0x09, 0x01 },   // F
+  66              { 0x00, 0x3E, 0x41, 0x49, 0x49, 0x7A },   // G
+  67              { 0x00, 0x7F, 0x08, 0x08, 0x08, 0x7F },   // H
+  68              { 0x00, 0x00, 0x41, 0x7F, 0x41, 0x00 },   // I
+  69              { 0x00, 0x20, 0x40, 0x41, 0x3F, 0x01 },   // J
+  70              { 0x00, 0x7F, 0x08, 0x14, 0x22, 0x41 },   // K
+  71              { 0x00, 0x7F, 0x40, 0x40, 0x40, 0x40 },   // L
+  72              { 0x00, 0x7F, 0x02, 0x0C, 0x02, 0x7F },   // M
+  73              { 0x00, 0x7F, 0x04, 0x08, 0x10, 0x7F },   // N
+  74              { 0x00, 0x3E, 0x41, 0x41, 0x41, 0x3E },   // O
+  75              { 0x00, 0x7F, 0x09, 0x09, 0x09, 0x06 },   // P
+  76              { 0x00, 0x3E, 0x41, 0x51, 0x21, 0x5E },   // Q
+  77              { 0x00, 0x7F, 0x09, 0x19, 0x29, 0x46 },   // R
+  78              { 0x00, 0x46, 0x49, 0x49, 0x49, 0x31 },   // S
+  79              { 0x00, 0x01, 0x01, 0x7F, 0x01, 0x01 },   // T
+  80              { 0x00, 0x3F, 0x40, 0x40, 0x40, 0x3F },   // U
+  81              { 0x00, 0x1F, 0x20, 0x40, 0x20, 0x1F },   // V
+  82              { 0x00, 0x3F, 0x40, 0x38, 0x40, 0x3F },   // W
+  83              { 0x00, 0x63, 0x14, 0x08, 0x14, 0x63 },   // X
+  84              { 0x00, 0x07, 0x08, 0x70, 0x08, 0x07 },   // Y
+  85              { 0x00, 0x61, 0x51, 0x49, 0x45, 0x43 },   // Z
+  86              { 0x00, 0x00, 0x7F, 0x41, 0x41, 0x00 },   // [
+  87              { 0x00, 0x55, 0x2A, 0x55, 0x2A, 0x55 },   // 55
+  88              { 0x00, 0x00, 0x41, 0x41, 0x7F, 0x00 },   // ]
+  89              { 0x00, 0x04, 0x02, 0x01, 0x02, 0x04 },   // ^
+  90              { 0x00, 0x40, 0x40, 0x40, 0x40, 0x40 },   // _
+  91              { 0x00, 0x00, 0x01, 0x02, 0x04, 0x00 },   // '
+  92              { 0x00, 0x20, 0x54, 0x54, 0x54, 0x78 },   // a
+  93              { 0x00, 0x7F, 0x48, 0x44, 0x44, 0x38 },   // b
+  94              { 0x00, 0x38, 0x44, 0x44, 0x44, 0x20 },   // c
+  95              { 0x00, 0x38, 0x44, 0x44, 0x48, 0x7F },   // d
+  96              { 0x00, 0x38, 0x54, 0x54, 0x54, 0x18 },   // e
+  97              { 0x00, 0x08, 0x7E, 0x09, 0x01, 0x02 },   // f
+  98              { 0x00, 0x18, 0xA4, 0xA4, 0xA4, 0x7C },   // g
+  99              { 0x00, 0x7F, 0x08, 0x04, 0x04, 0x78 },   // h
+ 100              { 0x00, 0x00, 0x44, 0x7D, 0x40, 0x00 },   // i
+ 101              { 0x00, 0x40, 0x80, 0x84, 0x7D, 0x00 },   // j
+ 102              { 0x00, 0x7F, 0x10, 0x28, 0x44, 0x00 },   // k
+ 103              { 0x00, 0x00, 0x41, 0x7F, 0x40, 0x00 },   // l
+ 104              { 0x00, 0x7C, 0x04, 0x18, 0x04, 0x78 },   // m
+ 105              { 0x00, 0x7C, 0x08, 0x04, 0x04, 0x78 },   // n
+ 106              { 0x00, 0x38, 0x44, 0x44, 0x44, 0x38 },   // o
+ 107              { 0x00, 0xFC, 0x24, 0x24, 0x24, 0x18 },   // p
+ 108              { 0x00, 0x18, 0x24, 0x24, 0x18, 0xFC },   // q
+ 109              { 0x00, 0x7C, 0x08, 0x04, 0x04, 0x08 },   // r
+ 110              { 0x00, 0x48, 0x54, 0x54, 0x54, 0x20 },   // s
+ 111              { 0x00, 0x04, 0x3F, 0x44, 0x40, 0x20 },   // t
+ 112              { 0x00, 0x3C, 0x40, 0x40, 0x20, 0x7C },   // u
+ 113              { 0x00, 0x1C, 0x20, 0x40, 0x20, 0x1C },   // v
+ 114              { 0x00, 0x3C, 0x40, 0x30, 0x40, 0x3C },   // w
+ 115              { 0x00, 0x44, 0x28, 0x10, 0x28, 0x44 },   // x
+ 116              { 0x00, 0x1C, 0xA0, 0xA0, 0xA0, 0x7C },   // y
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 3   
 
- 117              { 0x00, 0xFC, 0x24, 0x24, 0x24, 0x18 },   // p
- 118              { 0x00, 0x18, 0x24, 0x24, 0x18, 0xFC },   // q
- 119              { 0x00, 0x7C, 0x08, 0x04, 0x04, 0x08 },   // r
- 120              { 0x00, 0x48, 0x54, 0x54, 0x54, 0x20 },   // s
- 121              { 0x00, 0x04, 0x3F, 0x44, 0x40, 0x20 },   // t
- 122              { 0x00, 0x3C, 0x40, 0x40, 0x20, 0x7C },   // u
- 123              { 0x00, 0x1C, 0x20, 0x40, 0x20, 0x1C },   // v
- 124              { 0x00, 0x3C, 0x40, 0x30, 0x40, 0x3C },   // w
- 125              { 0x00, 0x44, 0x28, 0x10, 0x28, 0x44 },   // x
- 126              { 0x00, 0x1C, 0xA0, 0xA0, 0xA0, 0x7C },   // y
- 127              { 0x00, 0x44, 0x64, 0x54, 0x4C, 0x44 },   // z
- 128              { 0x14, 0x14, 0x14, 0x14, 0x14, 0x14 }    // horiz lines
- 129          };
- 130          
- 131          void Delay_1ms(unsigned int Del_1ms)
- 132          { 
- 133   1          Delay_Ms(Del_1ms);
- 134   1      }
- 135          
- 136          void IIC_Start()
- 137          {
- 138   1          LCD_SCL = HIGH;
- 139   1          Delay_1ms(2);
- 140   1          LCD_SDA = HIGH;
+ 117              { 0x00, 0x44, 0x64, 0x54, 0x4C, 0x44 },   // z
+ 118              { 0x14, 0x14, 0x14, 0x14, 0x14, 0x14 }    // horiz lines
+ 119          };
+ 120          
+ 121          void Delay_1ms(unsigned int Del_1ms)
+ 122          { 
+ 123   1          Delay_Us(Del_1ms);
+ 124   1      }
+ 125          
+ 126          void IIC_Start()
+ 127          {
+ 128   1          LCD_SCL = HIGH;
+ 129   1          Delay_1ms(2);
+ 130   1          LCD_SDA = HIGH;
+ 131   1          Delay_1ms(2);
+ 132   1          LCD_SDA = LOW;
+ 133   1          Delay_1ms(2);
+ 134   1          LCD_SCL = LOW;
+ 135   1          Delay_1ms(2);
+ 136   1      }
+ 137          
+ 138          void IIC_Stop()
+ 139          {
+ 140   1          LCD_SCL = LOW;
  141   1          Delay_1ms(2);
  142   1          LCD_SDA = LOW;
  143   1          Delay_1ms(2);
- 144   1          LCD_SCL = LOW;
+ 144   1          LCD_SCL = HIGH;
  145   1          Delay_1ms(2);
- 146   1      }
- 147          
- 148          void IIC_Stop()
- 149          {
- 150   1          LCD_SCL = LOW;
- 151   1          Delay_1ms(2);
- 152   1          LCD_SDA = LOW;
- 153   1          Delay_1ms(2);
- 154   1          LCD_SCL = HIGH;
- 155   1          Delay_1ms(2);
- 156   1          LCD_SDA = HIGH;
- 157   1          Delay_1ms(2);
- 158   1      }
- 159          
- 160          void Write_IIC_Byte(unsigned char IIC_Byte)
- 161          {
- 162   1          unsigned char i;
- 163   1          for(i=0;i<8;i++)            
- 164   1          {
- 165   2              if(IIC_Byte & 0x80)
- 166   2              {                 
- 167   3              LCD_SDA=HIGH;
- 168   3              }
- 169   2              else 
- 170   2              {      
- 171   3              LCD_SDA=LOW;
- 172   3              }
- 173   2              Delay_1ms(1);
- 174   2              LCD_SCL=HIGH;
- 175   2              Delay_1ms(1);
- 176   2              LCD_SCL=LOW;
- 177   2              Delay_1ms(1);
- 178   2              IIC_Byte<<=1;           //loop
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 4   
+ 146   1          LCD_SDA = HIGH;
+ 147   1          Delay_1ms(2);
+ 148   1      }
+ 149          
+ 150          void Write_IIC_Byte(unsigned char IIC_Byte)
+ 151          {
+ 152   1          unsigned char i;
+ 153   1          for(i=0;i<8;i++)            
+ 154   1          {
+ 155   2              if(IIC_Byte & 0x80)
+ 156   2              {                 
+ 157   3              LCD_SDA=HIGH;
+ 158   3              }
+ 159   2              else 
+ 160   2              {      
+ 161   3              LCD_SDA=LOW;
+ 162   3              }
+ 163   2              Delay_1ms(1);
+ 164   2              LCD_SCL=HIGH;
+ 165   2              Delay_1ms(1);
+ 166   2              LCD_SCL=LOW;
+ 167   2              Delay_1ms(1);
+ 168   2              IIC_Byte<<=1;           //loop
+ 169   2          }
+ 170   1          LCD_SDA=1;
+ 171   1          Delay_1ms(1);
+ 172   1          LCD_SCL=1;
+ 173   1          Delay_1ms(1);
+ 174   1          LCD_SCL=0;
+ 175   1          Delay_1ms(1);
+ 176   1      }
+ 177          
+ 178          void LCD_WrDat(unsigned char dat)
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 4   
 
- 179   2          }
- 180   1          LCD_SDA=1;
- 181   1          Delay_1ms(1);
- 182   1          LCD_SCL=1;
- 183   1          Delay_1ms(1);
- 184   1          LCD_SCL=0;
- 185   1          Delay_1ms(1);
- 186   1      }
- 187          
- 188          void LCD_WrDat(unsigned char dat)
- 189          {
- 190   1          IIC_Start();
- 191   1          Write_IIC_Byte(IICADRR);                    
- 192   1          Write_IIC_Byte(0x40);                       //write data
- 193   1          Write_IIC_Byte(dat);
- 194   1          IIC_Stop();
- 195   1      }
- 196          
- 197          void LCD_WrCmd(unsigned char cmd)
- 198          {
- 199   1          IIC_Start();
- 200   1          Write_IIC_Byte(IICADRR);              //Slave Address,SA0=0
- 201   1          Write_IIC_Byte(0x00);                       //write command
- 202   1          Write_IIC_Byte(cmd); 
- 203   1          IIC_Stop();
- 204   1      }
- 205          
- 206          //========================================================================
- 207          // Function:void LCD_Set_Pos(unsigned char x, unsigned char y)|函数:  void LCD_Set_Pos(unsigned char x, 
+ 179          {
+ 180   1          IIC_Start();
+ 181   1          Write_IIC_Byte(IICADRR);                    
+ 182   1          Write_IIC_Byte(0x40);                       //write data
+ 183   1          Write_IIC_Byte(dat);
+ 184   1          IIC_Stop();
+ 185   1      }
+ 186          
+ 187          void LCD_WrCmd(unsigned char cmd)
+ 188          {
+ 189   1          IIC_Start();
+ 190   1          Write_IIC_Byte(IICADRR);              //Slave Address,SA0=0
+ 191   1          Write_IIC_Byte(0x00);                       //write command
+ 192   1          Write_IIC_Byte(cmd); 
+ 193   1          IIC_Stop();
+ 194   1      }
+ 195          
+ 196          //========================================================================
+ 197          // Function:void LCD_Set_Pos(unsigned char x, unsigned char y)|函数:  void LCD_Set_Pos(unsigned char x, 
              -unsigned char y)
- 208          // Description:Set the coordinates of the pixels|描述:设置像素点的坐标
- 209          // Parameter: x,y:The coordinate value (x, y) of the point， the range of x is 0-127, and the range of y 
+ 198          // Description:Set the coordinates of the pixels|描述:设置像素点的坐标
+ 199          // Parameter: x,y:The coordinate value (x, y) of the point， the range of x is 0-127, and the range of y 
              -is 0-64|参数:点的坐标值(x,y),x的范围0～127，y的范围0～64
- 210          // 
- 211          //       
- 212          // Return:|返回: 
- 213          // Version:VER1.0.0|版本: VER1.0.0
- 214          // Date:2021-04-09|日期: 2021-04-09
- 215          // Author: sky-vocality|作者: sky-vocality
- 216          // Note:|备注:
- 217          //      
- 218          //      
- 219          //      
- 220          //      
- 221          //      
- 222          //========================================================================
- 223          void LCD_Set_Pos(unsigned char x, unsigned char y)
- 224          {
- 225   1          LCD_WrCmd(0xb0+y);
- 226   1          LCD_WrCmd(((x&0xf0)>>4)|0x10);
- 227   1          LCD_WrCmd((x&0x0f)); 
- 228   1      } 
- 229          
- 230          //========================================================================
- 231          // Function:void LCD_Fill(unsigned char bmp_data)|函数:void LCD_Fill(unsigned char bmp_data)
- 232          // Description:Initial screen clearing|描述:初始清屏
- 233          // Parameter: bmp_data:Populated data|参数:填充的数据
- 234          // 
- 235          //       
- 236          // Return:|返回: 
- 237          // Version:VER1.0.0|版本: VER1.0.0
- 238          // Date:2021-04-09|日期: 2021-04-09
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 5   
+ 200          // 
+ 201          //       
+ 202          // Return:|返回: 
+ 203          // Version:VER1.0.0|版本: VER1.0.0
+ 204          // Date:2021-04-09|日期: 2021-04-09
+ 205          // Author: sky-vocality|作者: sky-vocality
+ 206          // Note:|备注:
+ 207          //      
+ 208          //      
+ 209          //      
+ 210          //      
+ 211          //      
+ 212          //========================================================================
+ 213          void LCD_Set_Pos(unsigned char x, unsigned char y)
+ 214          {
+ 215   1          LCD_WrCmd(0xb0+y);
+ 216   1          LCD_WrCmd(((x&0xf0)>>4)|0x10);
+ 217   1          LCD_WrCmd((x&0x0f)); 
+ 218   1      } 
+ 219          
+ 220          //========================================================================
+ 221          // Function:void LCD_Fill(unsigned char bmp_data)|函数:void LCD_Fill(unsigned char bmp_data)
+ 222          // Description:Initial screen clearing|描述:初始清屏
+ 223          // Parameter: bmp_data:Populated data|参数:填充的数据
+ 224          // 
+ 225          //       
+ 226          // Return:|返回: 
+ 227          // Version:VER1.0.0|版本: VER1.0.0
+ 228          // Date:2021-04-09|日期: 2021-04-09
+ 229          // Author: sky-vocality|作者: sky-vocality
+ 230          // Note:|备注:
+ 231          //      
+ 232          //      
+ 233          //      
+ 234          //      
+ 235          //      
+ 236          //========================================================================
+ 237          void LCD_Fill(unsigned char bmp_data)
+ 238          {
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 5   
 
- 239          // Author: sky-vocality|作者: sky-vocality
- 240          // Note:|备注:
- 241          //      
- 242          //      
- 243          //      
- 244          //      
- 245          //      
- 246          //========================================================================
- 247          void LCD_Fill(unsigned char bmp_data)
- 248          {
- 249   1          unsigned char y,x;
- 250   1      
- 251   1          for(y=0;y<8;y++)
- 252   1          {
- 253   2              LCD_WrCmd(0xb0+y);
- 254   2              LCD_WrCmd(0x01);
- 255   2              LCD_WrCmd(0x10);
- 256   2              for(x=0;x<X_WIDTH;x++)
- 257   2                  LCD_WrDat(bmp_data);
- 258   2          }
- 259   1      }
- 260          
- 261          //========================================================================
- 262          // Function:void LCD_CLS(void)|函数:void LCD_CLS(void)
- 263          // Description:Screen clearing|描述:清屏
- 264          // Parameter:|参数:
- 265          // 
- 266          //       
- 267          // Return:|返回: 
- 268          // Version:VER1.0.0|版本: VER1.0.0
- 269          // Date:2021-04-09|日期: 2021-04-09
- 270          // Author: sky-vocality|作者: sky-vocality
- 271          // Note:|备注:
- 272          //      
- 273          //      
- 274          //      
- 275          //      
- 276          //      
- 277          //========================================================================
- 278          void LCD_CLS(void)
- 279          {
- 280   1          unsigned char y,x;  
- 281   1          for(y=0;y<8;y++)
- 282   1          {
- 283   2              LCD_WrCmd(0xb0+y);
- 284   2              LCD_WrCmd(0x01);
- 285   2              LCD_WrCmd(0x10); 
- 286   2              for(x=0;x<X_WIDTH;x++)
- 287   2              LCD_WrDat(0);
- 288   2          }
- 289   1      }
- 290          
- 291          void LCD_Init(void)        
- 292          { 
- 293   1          //-----端口初始化----//
- 294   1          GPIO_InitTypeDef GPIO_InitTypeDef;
- 295   1          GPIO_InitTypeDef.Mode = GPIO_PullUp;//上拉准双向口
- 296   1          GPIO_InitTypeDef.Pin = GPIO_Pin_3;
- 297   1          GPIO_Inilize(GPIO_P2 ,&GPIO_InitTypeDef);
- 298   1          GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);
- 299   1          GPIO_Inilize(GPIO_P4 ,&GPIO_InitTypeDef);
- 300   1      
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 6   
+ 239   1          unsigned char y,x;
+ 240   1      
+ 241   1          for(y=0;y<8;y++)
+ 242   1          {
+ 243   2              LCD_WrCmd(0xb0+y);
+ 244   2              LCD_WrCmd(0x01);
+ 245   2              LCD_WrCmd(0x10);
+ 246   2              for(x=0;x<X_WIDTH;x++)
+ 247   2                  LCD_WrDat(bmp_data);
+ 248   2          }
+ 249   1      }
+ 250          
+ 251          //========================================================================
+ 252          // Function:void LCD_CLS(void)|函数:void LCD_CLS(void)
+ 253          // Description:Screen clearing|描述:清屏
+ 254          // Parameter:|参数:
+ 255          // 
+ 256          //       
+ 257          // Return:|返回: 
+ 258          // Version:VER1.0.0|版本: VER1.0.0
+ 259          // Date:2021-04-09|日期: 2021-04-09
+ 260          // Author: sky-vocality|作者: sky-vocality
+ 261          // Note:|备注:
+ 262          //      
+ 263          //      
+ 264          //      
+ 265          //      
+ 266          //      
+ 267          //========================================================================
+ 268          void LCD_CLS(void)
+ 269          {
+ 270   1          unsigned char y,x;  
+ 271   1          for(y=0;y<8;y++)
+ 272   1          {
+ 273   2              LCD_WrCmd(0xb0+y);
+ 274   2              LCD_WrCmd(0x01);
+ 275   2              LCD_WrCmd(0x10); 
+ 276   2              for(x=0;x<X_WIDTH;x++)
+ 277   2              LCD_WrDat(0);
+ 278   2          }
+ 279   1      }
+ 280          
+ 281          void LCD_Init(void)        
+ 282          { 
+ 283   1          //-----端口初始化----//
+ 284   1          GPIO_InitTypeDef GPIO_InitTypeDef;
+ 285   1          GPIO_InitTypeDef.Mode = GPIO_PullUp;//上拉准双向口
+ 286   1          GPIO_InitTypeDef.Pin = GPIO_Pin_3;
+ 287   1          GPIO_Inilize(GPIO_P2 ,&GPIO_InitTypeDef);
+ 288   1          GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);
+ 289   1          GPIO_Inilize(GPIO_P4 ,&GPIO_InitTypeDef);
+ 290   1      
+ 291   1          LCD_SCL=1;              
+ 292   1          LCD_RST=0;
+ 293   1          Delay_Ms(500);
+ 294   1          LCD_RST=1;
+ 295   1      
+ 296   1          LCD_WrCmd(0xae);//--turn off oled panel
+ 297   1          LCD_WrCmd(0x00);//---set low column address
+ 298   1          LCD_WrCmd(0x10);//---set high column address
+ 299   1          LCD_WrCmd(0x40);//--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
+ 300   1          LCD_WrCmd(0x81);//--set contrast control register
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 6   
 
- 301   1          LCD_SCL=1;              
- 302   1          LCD_RST=0;
- 303   1          Delay_Ms(500);
- 304   1          LCD_RST=1;
- 305   1      
- 306   1          LCD_WrCmd(0xae);//--turn off oled panel
- 307   1          LCD_WrCmd(0x00);//---set low column address
- 308   1          LCD_WrCmd(0x10);//---set high column address
- 309   1          LCD_WrCmd(0x40);//--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
- 310   1          LCD_WrCmd(0x81);//--set contrast control register
- 311   1          LCD_WrCmd(0xcf); // Set SEG Output Current Brightness
- 312   1          LCD_WrCmd(0xa1);//--Set SEG/Column Mapping     0xa0左右反置 0xa1正常
- 313   1          LCD_WrCmd(0xc8);//Set COM/Row Scan Direction   0xc0上下反置 0xc8正常
- 314   1          LCD_WrCmd(0xa6);//--set normal display
- 315   1          LCD_WrCmd(0xa8);//--set multiplex ratio(1 to 64)
- 316   1          LCD_WrCmd(0x3f);//--1/64 duty
- 317   1          LCD_WrCmd(0xd3);//-set display offset       Shift Mapping RAM Counter (0x00~0x3F)
- 318   1          LCD_WrCmd(0x00);//-not offset
- 319   1          LCD_WrCmd(0xd5);//--set display clock divide ratio/oscillator frequency
- 320   1          LCD_WrCmd(0x80);//--set divide ratio, Set Clock as 100 Frames/Sec
- 321   1          LCD_WrCmd(0xd9);//--set pre-charge period
- 322   1          LCD_WrCmd(0xf1);//Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
- 323   1          LCD_WrCmd(0xda);//--set com pins hardware configuration
- 324   1          LCD_WrCmd(0x12);
- 325   1          LCD_WrCmd(0xdb);//--set vcomh
- 326   1          LCD_WrCmd(0x40);//Set VCOM Deselect Level
- 327   1          LCD_WrCmd(0x20);//-Set Page Addressing Mode (0x00/0x01/0x02)
- 328   1          LCD_WrCmd(0x02);//
- 329   1          LCD_WrCmd(0x8d);//--set Charge Pump enable/disable
- 330   1          LCD_WrCmd(0x14);//--set(0x10) disable
- 331   1          LCD_WrCmd(0xa4);// Disable Entire Display On (0xa4/0xa5)
- 332   1          LCD_WrCmd(0xa6);// Disable Inverse Display On (0xa6/a7) 
- 333   1          LCD_WrCmd(0xaf);//--turn on oled panel
- 334   1          LCD_Fill(0x00);  //初始清屏
- 335   1          LCD_Set_Pos(0,0);    
- 336   1      }
- 337          
- 338          //========================================================================
- 339          // Function:void LCD_PutPixel(unsigned char x,unsigned char y)|函数:void LCD_PutPixel(unsigned char x,un
+ 301   1          LCD_WrCmd(0xcf); // Set SEG Output Current Brightness
+ 302   1          LCD_WrCmd(0xa1);//--Set SEG/Column Mapping     0xa0左右反置 0xa1正常
+ 303   1          LCD_WrCmd(0xc8);//Set COM/Row Scan Direction   0xc0上下反置 0xc8正常
+ 304   1          LCD_WrCmd(0xa6);//--set normal display
+ 305   1          LCD_WrCmd(0xa8);//--set multiplex ratio(1 to 64)
+ 306   1          LCD_WrCmd(0x3f);//--1/64 duty
+ 307   1          LCD_WrCmd(0xd3);//-set display offset       Shift Mapping RAM Counter (0x00~0x3F)
+ 308   1          LCD_WrCmd(0x00);//-not offset
+ 309   1          LCD_WrCmd(0xd5);//--set display clock divide ratio/oscillator frequency
+ 310   1          LCD_WrCmd(0x80);//--set divide ratio, Set Clock as 100 Frames/Sec
+ 311   1          LCD_WrCmd(0xd9);//--set pre-charge period
+ 312   1          LCD_WrCmd(0xf1);//Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
+ 313   1          LCD_WrCmd(0xda);//--set com pins hardware configuration
+ 314   1          LCD_WrCmd(0x12);
+ 315   1          LCD_WrCmd(0xdb);//--set vcomh
+ 316   1          LCD_WrCmd(0x40);//Set VCOM Deselect Level
+ 317   1          LCD_WrCmd(0x20);//-Set Page Addressing Mode (0x00/0x01/0x02)
+ 318   1          LCD_WrCmd(0x02);//
+ 319   1          LCD_WrCmd(0x8d);//--set Charge Pump enable/disable
+ 320   1          LCD_WrCmd(0x14);//--set(0x10) disable
+ 321   1          LCD_WrCmd(0xa4);// Disable Entire Display On (0xa4/0xa5)
+ 322   1          LCD_WrCmd(0xa6);// Disable Inverse Display On (0xa6/a7) 
+ 323   1          LCD_WrCmd(0xaf);//--turn on oled panel
+ 324   1          LCD_Fill(0x00);  //初始清屏
+ 325   1          LCD_Set_Pos(0,0);    
+ 326   1      }
+ 327          
+ 328          //========================================================================
+ 329          // Function:void LCD_PutPixel(unsigned char x,unsigned char y)|函数:void LCD_PutPixel(unsigned char x,un
              -signed char y)
- 340          // Description:Draw a point|画一个点
- 341          // Parameter: x,y:The coordinate value of the point (x, y), the range of X is 0-127, and the range of Y is
+ 330          // Description:Draw a point|画一个点
+ 331          // Parameter: x,y:The coordinate value of the point (x, y), the range of X is 0-127, and the range of Y is
              - 0-64|参数:点的坐标值(x,y),x的范围0～127，y的范围0～64
- 342          // 
- 343          //       
- 344          // Return:|返回: 
- 345          // Version:VER1.0.0|版本: VER1.0.0
- 346          // Date:2021-04-09|日期: 2021-04-09
- 347          // Author: sky-vocality|作者: sky-vocality
- 348          // Note:|备注:
- 349          //      
- 350          //      
- 351          //      
- 352          //      
- 353          //      
- 354          //========================================================================
- 355          void LCD_PutPixel(unsigned char x,unsigned char y)
- 356          {
- 357   1          unsigned char data1;
- 358   1      
- 359   1          LCD_Set_Pos(x,(unsigned char)(y>>3)); 
- 360   1          data1 =(unsigned char)(0x01<<(y%8));
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 7   
-
- 361   1          LCD_WrCmd((unsigned char)(0xb0+(y>>3)));
- 362   1          LCD_WrCmd((unsigned char)(((x&0xf0)>>4)|0x10));
- 363   1          LCD_WrCmd((unsigned char)((x&0x0f)|0x00));
- 364   1          LCD_WrDat(data1);
- 365   1      }
- 366          
- 367          //========================================================================
- 368          // Function:void LCD_P6x8Str(unsigned char x,unsigned char y,unsigned char ch[])|函数:void LCD_P6x8Str(u
+ 332          // 
+ 333          //       
+ 334          // Return:|返回: 
+ 335          // Version:VER1.0.0|版本: VER1.0.0
+ 336          // Date:2021-04-09|日期: 2021-04-09
+ 337          // Author: sky-vocality|作者: sky-vocality
+ 338          // Note:|备注:
+ 339          //      
+ 340          //      
+ 341          //      
+ 342          //      
+ 343          //      
+ 344          //========================================================================
+ 345          void LCD_PutPixel(unsigned char x,unsigned char y)
+ 346          {
+ 347   1          unsigned char data1;
+ 348   1      
+ 349   1          LCD_Set_Pos(x,(unsigned char)(y>>3)); 
+ 350   1          data1 =(unsigned char)(0x01<<(y%8));
+ 351   1          LCD_WrCmd((unsigned char)(0xb0+(y>>3)));
+ 352   1          LCD_WrCmd((unsigned char)(((x&0xf0)>>4)|0x10));
+ 353   1          LCD_WrCmd((unsigned char)((x&0x0f)|0x00));
+ 354   1          LCD_WrDat(data1);
+ 355   1      }
+ 356          
+ 357          //========================================================================
+ 358          // Function:void LCD_P6x8Str(unsigned char x,unsigned char y,unsigned char ch[])|函数:void LCD_P6x8Str(u
              -nsigned char x,unsigned char y,unsigned char ch[])
- 369          // Description:Writes a set of ascii strings|写入一组标准ASCII字符串
- 370          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
+ 359          // Description:Writes a set of ascii strings|写入一组标准ASCII字符串
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 7   
+
+ 360          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
              -�0～7
- 371          //            *p:String to display|要显示的字符串
- 372          //
- 373          //       
- 374          // Return:|返回: 
- 375          // Version:VER1.0.0|版本: VER1.0.0
- 376          // Date:2021-04-09|日期: 2021-04-09
- 377          // Author: sky-vocality|作者: sky-vocality
- 378          // Note:|备注:
- 379          //      
- 380          //      
- 381          //      
- 382          //      
- 383          //      
- 384          //======================================================================== 
- 385          void LCD_P6x8Str(unsigned char x,unsigned char y,unsigned char ch[])
- 386          {
- 387   1          unsigned char c=0,i=0,j=0;      
- 388   1          while (ch[j]!='\0')
- 389   1          {    
- 390   2              c =ch[j]-32;
- 391   2              if(x>126){x=0;y++;}
- 392   2              LCD_Set_Pos(x,y);    
- 393   2              for(i=0;i<6;i++)     
- 394   2                  LCD_WrDat(F6x8[c][i]);  
- 395   2              x+=6;
- 396   2              j++;
- 397   2          }
- 398   1      }
- 399          
- 400          //========================================================================
- 401          // Function:void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)|函数:void LCD_PrintU16(u
+ 361          //            *p:String to display|要显示的字符串
+ 362          //
+ 363          //       
+ 364          // Return:|返回: 
+ 365          // Version:VER1.0.0|版本: VER1.0.0
+ 366          // Date:2021-04-09|日期: 2021-04-09
+ 367          // Author: sky-vocality|作者: sky-vocality
+ 368          // Note:|备注:
+ 369          //      
+ 370          //      
+ 371          //      
+ 372          //      
+ 373          //      
+ 374          //======================================================================== 
+ 375          void LCD_P6x8Str(unsigned char x,unsigned char y,unsigned char ch[])
+ 376          {
+ 377   1          unsigned char c=0,i=0,j=0;      
+ 378   1          while (ch[j]!='\0')
+ 379   1          {    
+ 380   2              c =ch[j]-32;
+ 381   2              if(x>126){x=0;y++;}
+ 382   2              LCD_Set_Pos(x,y);    
+ 383   2              for(i=0;i<6;i++)     
+ 384   2                  LCD_WrDat(F6x8[c][i]);  
+ 385   2              x+=6;
+ 386   2              j++;
+ 387   2          }
+ 388   1      }
+ 389          
+ 390          //========================================================================
+ 391          // Function:void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)|函数:void LCD_PrintU16(u
              -nsigned char x,unsigned char y,unsigned int num)
- 402          // Description:display uint|显示无符号整型
- 403          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
+ 392          // Description:display uint|显示无符号整型
+ 393          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
              -�0～7
- 404          //            num:uint to display|要显示的无符号整型
- 405          //
- 406          //       
- 407          // Return:|返回: 
- 408          // Version:VER1.0.0|版本: VER1.0.0
- 409          // Date:2021-04-09|日期: 2021-04-09
- 410          // Author: sky-vocality|作者: sky-vocality
- 411          // Note:|备注:
- 412          //      
- 413          //      
- 414          //      
- 415          //      
- 416          //      
- 417          //========================================================================
- 418          void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 8   
+ 394          //            num:uint to display|要显示的无符号整型
+ 395          //
+ 396          //       
+ 397          // Return:|返回: 
+ 398          // Version:VER1.0.0|版本: VER1.0.0
+ 399          // Date:2021-04-09|日期: 2021-04-09
+ 400          // Author: sky-vocality|作者: sky-vocality
+ 401          // Note:|备注:
+ 402          //      
+ 403          //      
+ 404          //      
+ 405          //      
+ 406          //      
+ 407          //========================================================================
+ 408          void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)
+ 409          {
+ 410   1          unsigned char tmp[6],i;
+ 411   1          tmp[5]=0;
+ 412   1          tmp[4]=(unsigned char)(num%10+0x30);
+ 413   1          tmp[3]=(unsigned char)(num/10%10+0x30);
+ 414   1          tmp[2]=(unsigned char)(num/100%10+0x30);
+ 415   1          tmp[1]=(unsigned char)(num/1000%10+0x30);
+ 416   1          tmp[0]=(unsigned char)(num/10000%10+0x30);
+ 417   1      
+ 418   1          for(i=0;i<4;i++)
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 8   
 
- 419          {
- 420   1          unsigned char tmp[6],i;
- 421   1          tmp[5]=0;
- 422   1          tmp[4]=(unsigned char)(num%10+0x30);
- 423   1          tmp[3]=(unsigned char)(num/10%10+0x30);
- 424   1          tmp[2]=(unsigned char)(num/100%10+0x30);
- 425   1          tmp[1]=(unsigned char)(num/1000%10+0x30);
- 426   1          tmp[0]=(unsigned char)(num/10000%10+0x30);
+ 419   1          {
+ 420   2              if(tmp[i]=='0')
+ 421   2                  tmp[i]=' ';
+ 422   2              else
+ 423   2                  break;
+ 424   2          }
+ 425   1      
+ 426   1          LCD_P6x8Str(x,y,tmp);
  427   1      
- 428   1          for(i=0;i<4;i++)
- 429   1          {
- 430   2              if(tmp[i]=='0')
- 431   2                  tmp[i]=' ';
- 432   2              else
- 433   2                  break;
- 434   2          }
- 435   1      
- 436   1          LCD_P6x8Str(x,y,tmp);
- 437   1      
- 438   1      }
- 439          
- 440          //========================================================================
- 441          // Function:void LCD_PrintFloat(unsigned char x,unsigned char y,float num)|函数:void LCD_PrintFloat(unsi
-             -gned char x,unsigned char y,float num)
- 442          // Description:display uint|显示浮点数
- 443          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
+ 428   1      }
+ 429          
+ 430          //========================================================================
+ 431          // Function:void LCD_Print16(unsigned char x,unsigned char y,int num)|函数:void LCD_Print16(unsigned cha
+             -r x,unsigned char y,int num)
+ 432          // Description:display uint|显示整型
+ 433          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
              -�0～7
- 444          //            num:uint to display|要显示的浮点数
- 445          //
- 446          //       
- 447          // Return:|返回: 
- 448          // Version:VER1.0.0|版本: VER1.0.0
- 449          // Date:2021-04-09|日期: 2021-04-09
- 450          // Author: sky-vocality|作者: sky-vocality
- 451          // Note:|备注:
- 452          //      
- 453          //      
- 454          //      
- 455          //      
- 456          //      
- 457          //========================================================================
- 458          void LCD_PrintFloat(unsigned char x,unsigned char y,float num)
- 459          {
- 460   1          unsigned char tmp[6],i;
- 461   1          tmp[5]=0;
- 462   1          num *= 10;
- 463   1          if(num>0)
- 464   1          {
- 465   2              tmp[0]='+';
- 466   2              tmp[4]=(unsigned char)((int)num%10+0x30);
- 467   2              tmp[3]=(unsigned char)((int)num/10%10+0x30);
- 468   2              tmp[2]=(unsigned char)((int)num/100%10+0x30);
- 469   2              tmp[1]=(unsigned char)((int)num/1000%10+0x30);
- 470   2          }
- 471   1          else
- 472   1          {
- 473   2              tmp[0]='-';
- 474   2              num=-num;
- 475   2              tmp[4]=(unsigned char)((int)num%10+0x30);
- 476   2              tmp[3]=(unsigned char)((int)num/10%10+0x30);
- 477   2              tmp[2]=(unsigned char)((int)num/100%10+0x30);
- 478   2              tmp[1]=(unsigned char)((int)num/1000%10+0x30);
-C51 COMPILER V9.59.0.0   OLED                                                              04/09/2021 17:07:57 PAGE 9   
+ 434          //            num:uint to display|要显示的整型
+ 435          //
+ 436          //       
+ 437          // Return:|返回: 
+ 438          // Version:VER1.0.0|版本: VER1.0.0
+ 439          // Date:2021-04-11|日期: 2021-04-11
+ 440          // Author: sky-vocality|作者: sky-vocality
+ 441          // Note:|备注:
+ 442          //      
+ 443          //      
+ 444          //      
+ 445          //      
+ 446          //      
+ 447          //========================================================================
+ 448          void LCD_Print16(unsigned char x,unsigned char y,int num)
+ 449          {
+ 450   1              int i,j,flag;
+ 451   1          unsigned char stack[10];
+ 452   1              unsigned char tmp[10];
+ 453   1          i=0;
+ 454   1          if (num<0){
+ 455   2              flag=0;
+ 456   2              num=-num;
+ 457   2          }else{
+ 458   2              flag=1;
+ 459   2          }
+ 460   1          while (num/10!=0){
+ 461   2              stack[i]=(char)(48+num%10);
+ 462   2              num=num/10;
+ 463   2              i++;
+ 464   2          }
+ 465   1          stack[i]=(char)(48+num);
+ 466   1          if (flag==0){
+ 467   2              tmp[0]='-';
+ 468   2              for (j=i;j>-1;j--){
+ 469   3                  tmp[i-j+1]=stack[j];
+ 470   3              }
+ 471   2              tmp[i+2]='\0';
+ 472   2          }else{
+ 473   2              for (j=i;j>-1;j--){
+ 474   3                  tmp[i-j]=stack[j];
+ 475   3              }
+ 476   2              tmp[i+1]='\0';
+ 477   2          }
+ 478   1      
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 9   
 
- 479   2          }
- 480   1          for(i=0;i<4;i++)
- 481   1          {
- 482   2              if(tmp[i]=='0')
- 483   2                  tmp[i]=' ';
- 484   2              else
- 485   2                  break;
- 486   2          }
- 487   1          LCD_P6x8Str(x,y,tmp);
- 488   1      }
+ 479   1          LCD_P6x8Str(x,y,tmp);
+ 480   1      
+ 481   1      }
+ 482          
+ 483          //========================================================================
+ 484          // Function:void LCD_PrintFloat(unsigned char x,unsigned char y,float num)|函数:void LCD_PrintFloat(unsi
+             -gned char x,unsigned char y,float num)
+ 485          // Description:display uint|显示浮点数
+ 486          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
+             -�0～7
+ 487          //            num:uint to display|要显示的浮点数
+ 488          //
+ 489          //       
+ 490          // Return:|返回: 
+ 491          // Version:VER1.0.1|版本: VER1.0.1
+ 492          // Date:2021-04-11|日期: 2021-04-11
+ 493          // Author: sky-vocality|作者: sky-vocality
+ 494          // Note:|备注:
+ 495          //      
+ 496          //      
+ 497          //      
+ 498          //      
+ 499          //      
+ 500          //========================================================================
+ 501          void LCD_PrintFloat(unsigned char x,unsigned char y,float num)
+ 502          {
+ 503   1              int temp,i,j;
+ 504   1              int n = 10;
+ 505   1              char tmp[10];
+ 506   1          if(num>=0)//判断是否大于0
+ 507   1              tmp[0] = '+';
+ 508   1          else
+ 509   1          {
+ 510   2              tmp[0] = '-';
+ 511   2              num = -num;
+ 512   2          }
+ 513   1          temp = (int)num;//取整数部分
+ 514   1          for(i=0;temp!=0;i++)//计算整数部分的位数
+ 515   1              temp /=10;
+ 516   1          temp =(int)num;
+ 517   1          for(j=i;j>0;j--)//将整数部分转换成字符串型
+ 518   1          {
+ 519   2              tmp[j] = temp%10+'0';
+ 520   2              temp /=10;
+ 521   2          }
+ 522   1          tmp[i+1] = '.';
+ 523   1          num -=(int)num;
+ 524   1          for(i=i+2;i<n-1;i++)//将小数部分转换成字符串型
+ 525   1          {
+ 526   2              num*=10;
+ 527   2              tmp[i]=(int)num+'0';
+ 528   2              num-=(int)num;
+ 529   2          }
+ 530   1          tmp[n-1] = '\0';
+ 531   1              
+ 532   1          LCD_P6x8Str(x,y,tmp);
+ 533   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1336    ----
+   CODE SIZE        =   1999    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =    552      43
+C51 COMPILER V9.59.0.0   OLED                                                              04/11/2021 12:19:07 PAGE 10  
+
+   XDATA SIZE       =    552      81
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

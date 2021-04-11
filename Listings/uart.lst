@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 1   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE UART
@@ -62,7 +62,7 @@ line level    source
   52   2              S2CON &= ~0x02;                         //Clear interruption sign
   53   2          }
   54   1          if (S2CON & 0x01)
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 2   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 2   
 
   55   1          {
   56   2              S2CON &= ~0x01;                         //Clear interruption sign
@@ -126,7 +126,7 @@ line level    source
  114          //========================================================================
  115          // Function:unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)|º¯Êý: unsigned c
              -har USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 3   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 3   
 
  116          // Description:Serial port initialization program.|ÃèÊö: ´®¿Ú³õÊ¼»¯³ÌÐò.
  117          // Parameter:Refer to the structure definition in uart. C.|²ÎÊý:  Çë²Î¿¼uart.cÀïÃæµÄ½á¹¹Ìå¶¨Òå
@@ -190,7 +190,7 @@ line level    source
  174   3                              {
  175   4                                      AUXR &= ~(1<<4);        //Timer stop
  176   4                                      AUXR |= 0x01;           //S1 BRT Use Timer2;
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 4   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 4   
 
  177   4                                      AUXR &= ~(1<<3);        //Timer2 set As Timer
  178   4                                      AUXR |=  (1<<2);        //Timer2 set as 1T mode
@@ -254,7 +254,7 @@ line level    source
  236   2                      for(i=0; i<COM_TX2_Lenth; i++)  TX2_Buffer[i] = 0;
  237   2                      for(i=0; i<COM_RX2_Lenth; i++)  RX2_Buffer[i] = 0;
  238   2      
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 5   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 5   
 
  239   2                      if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx))   //Variable baud rate|¿É±ä²
              -¨ÌØÂÊ
@@ -318,7 +318,7 @@ line level    source
  297          //========================================================================
  298          
  299          void TX1_write2buff(unsigned char dat)  //Ð´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 6   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 6   
 
  300          {
  301   1              while(1)
@@ -382,7 +382,7 @@ line level    source
  359          // Note:|±¸×¢: 
  360          //      
  361          //      
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 7   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 7   
 
  362          //      
  363          //      
@@ -446,7 +446,7 @@ line level    source
  421          // Description:Read uart2 receive byte|¶ÁÈ¡´®¿Ú¶þ½ÓÊÕµ½µÄÊý¾Ý
  422          // Parameter:
  423          //       
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 8   
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 8   
 
  424          //       
  425          // Return:|·µ»Ø: rbyte: receive byte|½ÓÊÕµ½µÄÊý¾Ý
@@ -487,43 +487,96 @@ line level    source
  460          //      
  461          //      
  462          //========================================================================
- 463          void intToString(int N,char arr[]){
- 464   1          int i,j,flag;
- 465   1          char stack[10]; 
- 466   1          i=0;
- 467   1          if (N<0){
- 468   2              flag=0;
- 469   2              N=-N;
- 470   2          }else{
- 471   2              flag=1;
- 472   2          }
- 473   1          while (N/10!=0){
- 474   2              stack[i]=(char)(48+N%10);
- 475   2              N=N/10;
- 476   2              i++;
- 477   2          }
- 478   1          stack[i]=(char)(48+N);
- 479   1          if (flag==0){
- 480   2              arr[0]='-';
- 481   2              for (j=i;j>-1;j--){
- 482   3                  arr[i-j+1]=stack[j];
- 483   3              }
- 484   2              arr[i+2]='\0';
- 485   2          }else{
-C51 COMPILER V9.59.0.0   UART                                                              04/09/2021 17:07:55 PAGE 9   
+ 463          void intToString(int N,char arr[])
+ 464          {
+ 465   1          int i,j,flag;
+ 466   1          char stack[10]; 
+ 467   1          i=0;
+ 468   1          if (N<0){
+ 469   2              flag=0;
+ 470   2              N=-N;
+ 471   2          }else{
+ 472   2              flag=1;
+ 473   2          }
+ 474   1          while (N/10!=0){
+ 475   2              stack[i]=(char)(48+N%10);
+ 476   2              N=N/10;
+ 477   2              i++;
+ 478   2          }
+ 479   1          stack[i]=(char)(48+N);
+ 480   1          if (flag==0){
+ 481   2              arr[0]='-';
+ 482   2              for (j=i;j>-1;j--){
+ 483   3                  arr[i-j+1]=stack[j];
+ 484   3              }
+ 485   2              arr[i+2]='\0';
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 9   
 
- 486   2              for (j=i;j>-1;j--){
- 487   3                  arr[i-j]=stack[j];
- 488   3              }
- 489   2              arr[i+1]='\0';
- 490   2          }
- 491   1      }
+ 486   2          }else{
+ 487   2              for (j=i;j>-1;j--){
+ 488   3                  arr[i-j]=stack[j];
+ 489   3              }
+ 490   2              arr[i+1]='\0';
+ 491   2          }
+ 492   1      }
+ 493          
+ 494          //========================================================================
+ 495          // Function:void floatToString(float N,char arr[], int n)|º¯Êý: void floatToString(float N,char arr[], int
+             - n)
+ 496          // Description:float To String|floatÀàÐÍ×ªstring
+ 497          // Parameter: N: The float need change|²ÎÊý: N: ÐèÒª×ª»»µÄfloatÀàÐÍ
+ 498          //            arr: The string's save arr|arr: ×Ö·û´®´æ´¢µÄµØÖ·
+ 499          //                        n: The length of the string|n:×Ö·û´®µÄ³¤¶È
+ 500          //       
+ 501          //       
+ 502          // Return:|·µ»Ø:
+ 503          // Version:VER1.0.0|°æ±¾: VER1.0.0
+ 504          // Date:2021-01-23|ÈÕÆÚ: 2021-01-23
+ 505          // Author:  sky_vocality|×÷Õß: sky_vocality
+ 506          // Note:|±¸×¢: 
+ 507          //      
+ 508          //      
+ 509          //      
+ 510          //      
+ 511          //      
+ 512          //========================================================================
+ 513          void floatToString(float N,char arr[], int n)
+ 514          {
+ 515   1          int temp,i,j;
+ 516   1          if(N>=0)//??????0
+ 517   1              arr[0] = '+';
+ 518   1          else
+ 519   1          {
+ 520   2              arr[0] = '-';
+ 521   2              N = -N;
+ 522   2          }
+ 523   1          temp = (int)N;//?????
+ 524   1          for(i=0;temp!=0;i++)//?????????
+ 525   1              temp /=10;
+ 526   1          temp =(int)N;
+ 527   1          for(j=i;j>0;j--)//????????????
+ 528   1          {
+ 529   2              arr[j] = temp%10+'0';
+ 530   2              temp /=10;
+ 531   2          }
+ 532   1          arr[i+1] = '.';
+ 533   1          N -=(int)N;
+ 534   1          for(i=i+2;i<n-1;i++)//????????????
+ 535   1          {
+ 536   2              N*=10;
+ 537   2              arr[i]=(int)N+'0';
+ 538   2              N-=(int)N;
+ 539   2          }
+ 540   1          arr[n-1] = '\0';
+ 541   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1976    ----
+   CODE SIZE        =   2611    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     58      36
+C51 COMPILER V9.59.0.0   UART                                                              04/11/2021 12:19:05 PAGE 10  
+
+   XDATA SIZE       =     58      51
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

@@ -21,16 +21,6 @@
 
 #include "oled.h"
 
-#define LCD_SCL	P32
-#define LCD_SDA	P33
-#define LCD_RST	P34
-
-#define HIGH 1
-#define LOW  0
-#define IICADRR 0x78
-#define X_WIDTH 132
-#define Y_WIDTH 64
-
 //ascii字符集
 const unsigned char F6x8[][6] =
 {
@@ -130,7 +120,7 @@ const unsigned char F6x8[][6] =
 
 void Delay_1ms(unsigned int Del_1ms)
 { 
-    Delay_Ms(Del_1ms);
+    Delay_Us(Del_1ms);
 }
 
 void IIC_Start()
@@ -438,6 +428,59 @@ void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)
 }
 
 //========================================================================
+// Function:void LCD_Print16(unsigned char x,unsigned char y,int num)|函数:void LCD_Print16(unsigned char x,unsigned char y,int num)
+// Description:display uint|显示整型
+// Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范围0～7
+//            num:uint to display|要显示的整型
+//
+//       
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-04-11|日期: 2021-04-11
+// Author: sky-vocality|作者: sky-vocality
+// Note:|备注:
+//	
+//	
+//	
+//	
+//	
+//========================================================================
+void LCD_Print16(unsigned char x,unsigned char y,int num)
+{
+	int i,j,flag;
+    unsigned char stack[10];
+	unsigned char tmp[10];
+    i=0;
+    if (num<0){
+        flag=0;
+        num=-num;
+    }else{
+        flag=1;
+    }
+    while (num/10!=0){
+        stack[i]=(char)(48+num%10);
+        num=num/10;
+        i++;
+    }
+    stack[i]=(char)(48+num);
+    if (flag==0){
+        tmp[0]='-';
+        for (j=i;j>-1;j--){
+            tmp[i-j+1]=stack[j];
+        }
+        tmp[i+2]='\0';
+    }else{
+        for (j=i;j>-1;j--){
+            tmp[i-j]=stack[j];
+        }
+        tmp[i+1]='\0';
+    }
+
+    LCD_P6x8Str(x,y,tmp);
+
+}
+
+//========================================================================
 // Function:void LCD_PrintFloat(unsigned char x,unsigned char y,float num)|函数:void LCD_PrintFloat(unsigned char x,unsigned char y,float num)
 // Description:display uint|显示浮点数
 // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范围0～7
@@ -445,8 +488,8 @@ void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)
 //
 //       
 // Return:|返回: 
-// Version:VER1.0.0|版本: VER1.0.0
-// Date:2021-04-09|日期: 2021-04-09
+// Version:VER1.0.1|版本: VER1.0.1
+// Date:2021-04-11|日期: 2021-04-11
 // Author: sky-vocality|作者: sky-vocality
 // Note:|备注:
 //	
@@ -457,32 +500,34 @@ void LCD_PrintU16(unsigned char x,unsigned char y,unsigned int num)
 //========================================================================
 void LCD_PrintFloat(unsigned char x,unsigned char y,float num)
 {
-    unsigned char tmp[6],i;
-    tmp[5]=0;
-    num *= 10;
-    if(num>0)
-    {
-        tmp[0]='+';
-        tmp[4]=(unsigned char)((int)num%10+0x30);
-        tmp[3]=(unsigned char)((int)num/10%10+0x30);
-        tmp[2]=(unsigned char)((int)num/100%10+0x30);
-        tmp[1]=(unsigned char)((int)num/1000%10+0x30);
-    }
+	int temp,i,j;
+	int n = 10;
+	char tmp[10];
+    if(num>=0)//判断是否大于0
+        tmp[0] = '+';
     else
     {
-        tmp[0]='-';
-        num=-num;
-        tmp[4]=(unsigned char)((int)num%10+0x30);
-        tmp[3]=(unsigned char)((int)num/10%10+0x30);
-        tmp[2]=(unsigned char)((int)num/100%10+0x30);
-        tmp[1]=(unsigned char)((int)num/1000%10+0x30);
+        tmp[0] = '-';
+        num = -num;
     }
-    for(i=0;i<4;i++)
+    temp = (int)num;//取整数部分
+    for(i=0;temp!=0;i++)//计算整数部分的位数
+        temp /=10;
+    temp =(int)num;
+    for(j=i;j>0;j--)//将整数部分转换成字符串型
     {
-        if(tmp[i]=='0')
-            tmp[i]=' ';
-        else
-            break;
+        tmp[j] = temp%10+'0';
+        temp /=10;
     }
+    tmp[i+1] = '.';
+    num -=(int)num;
+    for(i=i+2;i<n-1;i++)//将小数部分转换成字符串型
+    {
+        num*=10;
+        tmp[i]=(int)num+'0';
+        num-=(int)num;
+    }
+    tmp[n-1] = '\0';
+	
     LCD_P6x8Str(x,y,tmp);
 }

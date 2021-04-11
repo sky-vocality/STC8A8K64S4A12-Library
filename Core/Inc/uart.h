@@ -98,6 +98,7 @@ unsigned char ReceiveByte1(void);
 unsigned char ReceiveByte2(void);
 
 void intToString(int N,char arr[]);
+void floatToString(float N,char arr[], int n);
 
 #endif
 

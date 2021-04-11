@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              04/09/2021 17:07:55 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/11/2021 12:19:05 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -14,66 +14,80 @@ line level    source
    4          #include "pid.h"
    5          #include "encoder.h"
    6          #include "adc.h"
-   7          
-   8          //double Roll = 0;
-   9          //int temp = 0;
-  10          char kkk[5] = 0;
-  11          
-  12          int main()
-  13          {
-  14   1              //double Roll = 0;
-  15   1              //int ahh = 0;
-  16   1              COMx_InitDefine COMx_InitDefine1;
-  17   1              ENC_EXT_init();
-  18   1              COMx_InitDefine1.UART_Mode = UART_8bit_BRTx;                    //Pattern|??,         UART_ShiftRight,UART_8bit_BRTx,UART_
+   7          #include "oled.h"
+   8          
+   9          //double Roll = 0;
+  10          //int temp = 0;
+  11          char kkk[5] = 0;
+  12          
+  13          int main()
+  14          {
+  15   1              //double Roll = 0;
+  16   1              //int ahh = 0;
+  17   1              /*
+  18   1              COMx_InitDefine COMx_InitDefine1;
+  19   1              ENC_EXT_init();
+  20   1              COMx_InitDefine1.UART_Mode = UART_8bit_BRTx;                    //Pattern|??,         UART_ShiftRight,UART_8bit_BRTx,UART_
              -9bit,UART_9bit_BRTx
-  19   1              COMx_InitDefine1.UART_BRT_Use = BRT_Timer1;             //Using baud rate|?????,   BRT_Timer1,BRT_Timer2
-  20   1              COMx_InitDefine1.UART_BaudRate = 19200;         //baud rate|???,       ENABLE,DISABLE
-  21   1              COMx_InitDefine1.Morecommunicate = ENABLE;      //Multiprocessor Communication Allowance|??????, ENABLE,DISABL
+  21   1              COMx_InitDefine1.UART_BRT_Use = BRT_Timer1;             //Using baud rate|?????,   BRT_Timer1,BRT_Timer2
+  22   1              COMx_InitDefine1.UART_BaudRate = 19200;         //baud rate|???,       ENABLE,DISABLE
+  23   1              COMx_InitDefine1.Morecommunicate = ENABLE;      //Multiprocessor Communication Allowance|??????, ENABLE,DISABL
              -E
-  22   1              COMx_InitDefine1.UART_RxEnable = ENABLE;                //Allow reception|????,   ENABLE,DISABLE
-  23   1              COMx_InitDefine1.BaudRateDouble = DISABLE;              //Baud rate doubled|?????, ENABLE,DISABLE
-  24   1              COMx_InitDefine1.UART_Interrupt = ENABLE;               //Interrupt control|????,   ENABLE,DISABLE
-  25   1              COMx_InitDefine1.UART_Polity = PolityHigh;              //priority|???,     PolityLow,PolityHigh
-  26   1              COMx_InitDefine1.UART_P_SW = UART1_SW_P30_P31;                  //Switch port|????,   UART1_SW_P30_P31,UART1_SW_P36_P37,
+  24   1              COMx_InitDefine1.UART_RxEnable = ENABLE;                //Allow reception|????,   ENABLE,DISABLE
+  25   1              COMx_InitDefine1.BaudRateDouble = DISABLE;              //Baud rate doubled|?????, ENABLE,DISABLE
+  26   1              COMx_InitDefine1.UART_Interrupt = ENABLE;               //Interrupt control|????,   ENABLE,DISABLE
+  27   1              COMx_InitDefine1.UART_Polity = PolityHigh;              //priority|???,     PolityLow,PolityHigh
+  28   1              COMx_InitDefine1.UART_P_SW = UART1_SW_P30_P31;                  //Switch port|????,   UART1_SW_P30_P31,UART1_SW_P36_P37,
              -UART1_SW_P16_P17(????????)
-  27   1              USART_Configuration(USART1, &COMx_InitDefine1);
-  28   1              while(1)
-  29   1              {
-  30   2                      Delay_Ms(10);
-  31   2                      //jy901_update();
-  32   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
-  33   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
-  34   2                      PWM_Output(PWM_0,&wheel_pwm);
-  35   2                      intToString(encoder_num,kkk);
-  36   2                      encoder_num = 0;
-  37   2                      PrintString1(kkk);
-  38   2                      PrintString1(",\r\n");
-  39   2                      //kkkkk = ReceiveByte1();
-  40   2                      //PrintString1(RX2_Buffer);
-  41   2                      //PrintString1(&kkkkk);
-  42   2                      /*
-  43   2                      int a;
-  44   2                      for(a = 0;a<1000;a++)
-  45   2                      {
-  46   2                              PWM_Init.PWM_Value=a;
-  47   2                              PWM_Output(PWM_0,&PWM_Init);
-  48   2                              intToString(a,acac);
-  49   2                              PrintString1(acac);
-  50   2                              PrintString1("\r\n");
-  51   2                              Delay_Ms(50);
-C51 COMPILER V9.59.0.0   MAIN                                                              04/09/2021 17:07:55 PAGE 2   
+  29   1              USART_Configuration(USART1, &COMx_InitDefine1);
+  30   1              */
+  31   1              LCD_Init();               //LCD init|LCD???
+  32   1              LCD_Print16(13,3,-13100);
+  33   1              Delay_Ms(2000);
+  34   1              LCD_CLS();
+  35   1              //LCD_PrintU16(13,3,13100);
+  36   1              LCD_PrintFloat(13,3,5.21);
+  37   1              while(1)
+  38   1              {
+  39   2                      //Delay_Ms(500);
+  40   2                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
+  41   2                      //LCD_Fill(0x00);
+  42   2                      //Delay_Ms(500);
+  43   2                      //LCD_CLS();
+  44   2                      /*
+  45   2                      //jy901_update();
+  46   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
+  47   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
+  48   2                      PWM_Output(PWM_0,&wheel_pwm);
+  49   2                      intToString(encoder_num,kkk);
+  50   2                      encoder_num = 0;
+  51   2                      PrintString1(kkk);
+C51 COMPILER V9.59.0.0   MAIN                                                              04/11/2021 12:19:05 PAGE 2   
 
-  52   2                      }
-  53   2                      */
-  54   2              }
-  55   1      }
+  52   2                      PrintString1(",\r\n");
+  53   2                      //kkkkk = ReceiveByte1();
+  54   2                      //PrintString1(RX2_Buffer);
+  55   2                      //PrintString1(&kkkkk);
+  56   2                      /*
+  57   2                      int a;
+  58   2                      for(a = 0;a<1000;a++)
+  59   2                      {
+  60   2                              PWM_Init.PWM_Value=a;
+  61   2                              PWM_Output(PWM_0,&PWM_Init);
+  62   2                              intToString(a,acac);
+  63   2                              PrintString1(acac);
+  64   2                              PrintString1("\r\n");
+  65   2                              Delay_Ms(50);
+  66   2                      }
+  67   2                      */
+  68   2              }
+  69   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    181    ----
-   CONSTANT SIZE    =      4    ----
-   XDATA SIZE       =      5      12
+   CODE SIZE        =     43    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      5    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
