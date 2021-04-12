@@ -3,31 +3,32 @@
 <pre>
 <h1>礦ision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: μVision V5.25.3.0
-Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: a 793747383@qq.com, a, LIC=UJ5FJ-UPVKJ-TR3XY-IZZ23-8LH22-H5CL5
+IDE-Version: μVision V5.27.1.0
+Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1160172021@qq.com,  , LIC=9N93N-YGWLL-4KNB3-AX05Y-SB4K6-ENEQG
  
 Tool Versions:
-Toolchain:       PK51 Prof. Developers Kit  Version: 9.59.0.0
-Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.59.0.0
+Toolchain:       MDK51 Professional  Version: 9.60.0.0
+Toolchain Path:  E:\KEIL5\C51\BIN
+C Compiler:      C51.exe V9.60.0.0
 Assembler:       A51.exe V8.2.7.0
 Linker/Locator:  BL51.exe V6.22.2.0
 Library Manager: LIB51.exe V4.30.1.0
 Hex Converter:   OH51.exe V2.7.0.0
 CPU DLL:         S8051.DLL V3.122.0.0
-Dialog DLL:      DP51.DLL V2.66.0.0
+Dialog DLL:      DP51.DLL V2.67.0.0
 Target DLL:      STCMON51.DLL V1, 0, 11, 0
 Dialog DLL:      TP51.DLL V2.60.0.0
  
 <h2>Project:</h2>
-C:\原D盘\穹之韵工作\智能车\2021年单车\stc8程序\smartcar.uvproj
-Project File Date:  04/09/2021
+C:\Users\11601\Desktop\智能车\smartcar.uvproj
+Project File Date:  04/12/2021
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
 assembling STARTUP.A51...
 compiling main.c...
+main.c(4): warning C290: missing return value
 compiling delay.c...
 compiling gpio.c...
 compiling iic.c...
@@ -40,6 +41,7 @@ compiling pwm.c...
 compiling jy901.c...
 compiling adc.c...
 compiling oled.c...
+compiling LMV358.c...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_IIC_HOST_SLAVE_MACHINE?IIC
@@ -68,15 +70,23 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?JY901_TIMER_INIT?JY901
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_ADC_INILIZE?ADC
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_ADC_POWERCONTROL?ADC
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_GET_ADC10BITRESULT?ADC
+    SEGMENT: ?PR?LCD_CLS?OLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LCD_INIT?OLED
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_LCD_PUTPIXEL?OLED
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_LCD_PRINTU16?OLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PRINT16?OLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_LCD_PRINTFLOAT?OLED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LMV358_START?LMV358
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GET_ADC_AVERGE?LMV358
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?_PID_CONTROL?PID
     CALLER1: ?PR?TIMER0_INT?TIMER
@@ -85,10 +95,10 @@ linking...
     SEGMENT: ?PR?_PWM_OUTPUT?PWM
     CALLER1: ?PR?TIMER0_INT?TIMER
     CALLER2: ?PR?TIMER1_INT?TIMER
-Program Size: data=9.2 xdata=1130 code=11723
+Program Size: data=9.2 xdata=1196 code=12303
 creating hex file from ".\Objects\smartcar"...
-".\Objects\smartcar" - 0 Error(s), 20 Warning(s).
-Build Time Elapsed:  00:00:03
+".\Objects\smartcar" - 0 Error(s), 25 Warning(s).
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
