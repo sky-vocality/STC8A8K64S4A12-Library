@@ -15,6 +15,11 @@
   ******************************************************************************
 **/
 #include "LMV358.h"
+ad_data_max[6] = {500,500,500,500,500,500};
+ad_data_min[6] = { 0,0,0,0,0,0};   	
+left = 0, right = 0;
+left1 = 0, right1 = 0;
+left2 = 0, right2 = 0;
 //========================================================================
 // Function:void LMV358_start
 // Description:start the LMV358|描述: ??LMV358??
@@ -94,6 +99,49 @@ unsigned int get_adc_averge(unsigned char k)
 
  return (sum/(times-2));
 }
-
-
+//========================================================================
+// Function:void InductorNormal()
+// Description:InductorNormal()|描述: ???
+// Parameter:NONE
+//       
+//       
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-04-12|日期: 2021-4-12
+// Author: NULL|作者: NULL
+// Note:|备注:
+//	
+//========================================================================
+void InductorNormal()
+{
+	unsigned char num[6]={0};
+	
+	num[0]=get_adc_averge(0);
+	num[1]=get_adc_averge(1);
+	num[2]=get_adc_averge(2);
+	num[3]=get_adc_averge(3);
+	num[4]=get_adc_averge(4);
+	num[5]=get_adc_averge(5);
+	
+	if (num[0] < ad_data_min[0])            ad_data_min[0] = num[0];     // ?????
+	else if (num[0] > ad_data_max[0])       ad_data_max[0] = num[0];     // ?????
+	if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
+	else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1]; 
+	if (num[2] < ad_data_min[2])            ad_data_min[2] = num[2];
+	else if (num[2] > ad_data_max[2])       ad_data_max[2] = num[2];
+	if (num[3] < ad_data_min[3])            ad_data_min[3] = num[3];
+	else if (num[3] > ad_data_max[3])       ad_data_max[3] = num[3];	
+	if (num[4] < ad_data_min[4])            ad_data_min[4] = num[4];
+	else if (num[4] > ad_data_max[4])       ad_data_max[4] = num[4];
+	if (num[5] < ad_data_min[5])            ad_data_min[5] = num[5];
+	else if (num[5] > ad_data_max[5])       ad_data_max[5] = num[5];
+	
+	left = (num[0] - ad_data_min[0]) * 100 / (ad_data_max[0] - ad_data_min[0]);     // ????????0--1000??
+	right = (num[5] - ad_data_min[5]) * 100 / (ad_data_max[5] - ad_data_min[5]);
+	left1 = (num[1] - ad_data_min[1]) * 100 / (ad_data_max[1] - ad_data_min[1]);     // ????????0--1000??
+	right1 = (num[4] - ad_data_min[4]) * 100 / (ad_data_max[4] - ad_data_min[4]);
+	left2 = (num[2] - ad_data_min[2]) * 100 / (ad_data_max[2] - ad_data_min[2]);     // ????????0--1000??
+	right2 = (num[3] - ad_data_min[3]) * 100 / (ad_data_max[3] - ad_data_min[3]);
+	
+}
 

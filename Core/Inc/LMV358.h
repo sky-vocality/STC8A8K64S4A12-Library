@@ -30,9 +30,13 @@
 
 unsigned int get_adc_averge(unsigned char);
 void LMV358_start();
-void get_adc();
+void InductorNormal();
 
-
+extern unsigned int ad_data_max[6];  
+extern unsigned int ad_data_min[6];   	
+extern int left,right;
+extern int left1,right1;
+extern int left2,right2;
 
 
 #endif

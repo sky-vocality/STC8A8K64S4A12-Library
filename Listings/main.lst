@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              04/12/2021 22:40:54 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              04/13/2021 19:30:17 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -9,16 +9,51 @@ COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BRO
 line level    source
 
    1          #include "system.h"
-   2          int main()
-   3          {
-   4   1      }
-*** WARNING C290 IN LINE 4 OF main.c: missing return value
+   2          #include "uart.h"
+   3          #include "LMV358.h"
+   4          #include "delay.h"
+   5          int main()
+   6          {
+   7   1        COMx_InitDefine COM_x;
+   8   1        unsigned char xdata a[20];
+   9   1        unsigned int b;
+  10   1      
+  11   1        COM_x.UART_Mode=UART_8bit_BRTx;     //Pattern|??,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART_9bi
+             -t_BRTx
+  12   1        COM_x.UART_BRT_Use=BRT_Timer1;    //Using baud rate|?????,   BRT_Timer1,BRT_Timer2
+  13   1        COM_x.UART_BaudRate=19200;    //baud rate|???,       ENABLE,DISABLE
+  14   1        COM_x.Morecommunicate=ENABLE; //Multiprocessor Communication Allowance|??????, ENABLE,DISABLE
+  15   1        COM_x.UART_RxEnable=ENABLE;   //Allow reception|????,   ENABLE,DISABLE
+  16   1        COM_x.BaudRateDouble=DISABLE;   //Baud rate doubled|?????, ENABLE,DISABLE
+  17   1        COM_x.UART_Interrupt=ENABLE;    //Interrupt control|????,   ENABLE,DISABLE
+  18   1        COM_x.UART_Polity=PolityHigh;   //priority|???,     PolityLow,PolityHigh
+  19   1        COM_x.UART_P_SW=UART1_SW_P30_P31;
+  20   1        USART_Configuration( USART1, &COM_x);
+  21   1        LMV358_start();
+  22   1        while(1)
+  23   1        {
+  24   2          Delay_Ms(500);
+  25   2          InductorNormal();
+  26   2          b=left;
+  27   2          intToString(b,a);PrintString1(a); PrintString1("\t"); 
+  28   2          b=left1;
+  29   2          intToString(b,a);PrintString1(a); PrintString1("\t"); 
+  30   2          b=left2;
+  31   2          intToString(b,a);PrintString1(a); PrintString1("\r\n"); 
+  32   2          b=right;
+  33   2          intToString(b,a);PrintString1(a); PrintString1("\t"); 
+  34   2          b=right1;
+  35   2          intToString(b,a);PrintString1(a); PrintString1("\t");
+  36   2          b=right2;
+  37   2          intToString(b,a);PrintString1(a); PrintString1("\r\n");   
+  38   2        }
+  39   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =      1    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----    ----
+   CODE SIZE        =    322    ----
+   CONSTANT SIZE    =      5    ----
+   XDATA SIZE       =   ----      34
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -26,4 +61,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
