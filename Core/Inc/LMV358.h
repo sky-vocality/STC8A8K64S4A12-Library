@@ -11,26 +11,22 @@
   *
   *
   *  
-  * 
-  * 
-  * 
-  * 
   *
   * 
-  ******************************************************************************
-	**/
+  ********************************************************************************/
 	
 #ifndef	__LMV358_H
 #define	__LMV358_H
 
 #define times 12
+
 #include "adc.h"
 #include "delay.h"
 #include "uart.h"
 
-unsigned int get_adc_averge(unsigned char);
-void LMV358_start();
-void InductorNormal();
+unsigned int LMV358_GetAvergeData(unsigned char);
+void LMV358_Init();
+void LMV358_InductorNormal();
 
 extern unsigned int ad_data_max[6];  
 extern unsigned int ad_data_min[6];   	

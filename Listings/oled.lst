@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 1   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE OLED
@@ -62,7 +62,7 @@ line level    source
   52              { 0x00, 0x06, 0x49, 0x49, 0x29, 0x1E },   // 9
   53              { 0x00, 0x00, 0x36, 0x36, 0x00, 0x00 },   // :
   54              { 0x00, 0x00, 0x56, 0x36, 0x00, 0x00 },   // ;
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 2   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 2   
 
   55              { 0x00, 0x08, 0x14, 0x22, 0x41, 0x00 },   // <
   56              { 0x00, 0x14, 0x14, 0x14, 0x14, 0x14 },   // =
@@ -126,7 +126,7 @@ line level    source
  114              { 0x00, 0x3C, 0x40, 0x30, 0x40, 0x3C },   // w
  115              { 0x00, 0x44, 0x28, 0x10, 0x28, 0x44 },   // x
  116              { 0x00, 0x1C, 0xA0, 0xA0, 0xA0, 0x7C },   // y
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 3   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 3   
 
  117              { 0x00, 0x44, 0x64, 0x54, 0x4C, 0x44 },   // z
  118              { 0x14, 0x14, 0x14, 0x14, 0x14, 0x14 }    // horiz lines
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          
  178          void LCD_WrDat(unsigned char dat)
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 4   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 4   
 
  179          {
  180   1          IIC_Start();
@@ -254,7 +254,7 @@ line level    source
  236          //========================================================================
  237          void LCD_Fill(unsigned char bmp_data)
  238          {
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 5   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 5   
 
  239   1          unsigned char y,x;
  240   1      
@@ -318,7 +318,7 @@ line level    source
  298   1          LCD_WrCmd(0x10);//---set high column address
  299   1          LCD_WrCmd(0x40);//--set start line address  Set Mapping RAM Display Start Line (0x00~0x3F)
  300   1          LCD_WrCmd(0x81);//--set contrast control register
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 6   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 6   
 
  301   1          LCD_WrCmd(0xcf); // Set SEG Output Current Brightness
  302   1          LCD_WrCmd(0xa1);//--Set SEG/Column Mapping     0xa0左右反置 0xa1正常
@@ -382,7 +382,7 @@ line level    source
  358          // Function:void LCD_P6x8Str(unsigned char x,unsigned char y,unsigned char ch[])|函数:void LCD_P6x8Str(u
              -nsigned char x,unsigned char y,unsigned char ch[])
  359          // Description:Writes a set of ascii strings|写入一组标准ASCII字符串
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 7   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 7   
 
  360          // Parameter: x,y:Display location, y is the page range 0-7|参数:显示的位置（x,y），y为页范�
              -�0～7
@@ -446,7 +446,7 @@ line level    source
  416   1          tmp[0]=(unsigned char)(num/10000%10+0x30);
  417   1      
  418   1          for(i=0;i<4;i++)
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 8   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 8   
 
  419   1          {
  420   2              if(tmp[i]=='0')
@@ -510,7 +510,7 @@ line level    source
  476   2              tmp[i+1]='\0';
  477   2          }
  478   1      
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 9   
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 9   
 
  479   1          LCD_P6x8Str(x,y,tmp);
  480   1      
@@ -574,7 +574,7 @@ line level    source
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   1999    ----
    CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 19:30:18 PAGE 10  
+C51 COMPILER V9.60.0.0   OLED                                                              04/13/2021 20:52:25 PAGE 10  
 
    XDATA SIZE       =    552      81
    PDATA SIZE       =   ----    ----
