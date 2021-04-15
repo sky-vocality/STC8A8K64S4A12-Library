@@ -24,19 +24,26 @@ PWM_InitTypeDef wheel_pwm = {PWM_Channel1, 0, 12500};
 PWM_InitTypeDef server_pwm = {PWM_Channel1, 147.5, 100};
 
 //========================================================================
-// Function:void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
-// Description:PWM module output function.|描述: PWM模块输出函数。
+// Function:void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+// Description:PWM module output function|描述: PWM模块输出函数
 // Parameters: PWM_Number (PWM module number parameter range: 0-7)
 //             * PWMx: See PWM.h for details
 // 参数: PWM_Number		(PWM模块编号 参数范围：0~7)
 //  	 *PWMx：详情见PWM.h
-// Return: None.|返回: None.
+//       
+//       
+// Return:|返回: 
 // Version:VER1.0.0|版本: VER1.0.0
-// Date:2018-12-20|日期: 2019-2-10
-// Note:|备注: 
-// 
+// Date:2021-04-16|日期: 2021-04-16
+// Author: sky-vocality|作者: sky-vocality
+// Note:|备注:
+//	
+//	
+//	
+//	
+//	
 //========================================================================
-void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 { 
 	float PWM_Buf = 0,PWM_Pre = 0,PWM_Value;
 	PWM_Buf = ( 1500000 / PWMx->PWM_Frequency );
@@ -59,5 +66,55 @@ void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 	}
 	P_SW2 = 0x00;																//Disallow Access to Extended RAM (STC Added)|禁止访问扩展RAM（STC新增）
 	PWMCR = 0x80;                               //Start PWM module|启动PWM模块
+}
+
+//========================================================================
+// Function:void PWM_PCA_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_PCA_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+// Description:PWM_PCA module output function|描述: PWM_PCA模块输出函数
+// Parameters: PWM_Number (PWM module number parameter range: 0-3)
+//             * PWMx: See PWM.h for details
+// 参数: PWM_Number		(PWM模块编号 参数范围：0~3)
+//  	 *PWMx：详情见PWM.h
+//       
+//       
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-04-16|日期: 2021-04-16
+// Author: sky-vocality|作者: sky-vocality
+// Note:|备注:
+//	
+//	
+//	
+//	
+//	
+//========================================================================
+void PWM_PCA_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+{ 
+	unsigned int PWM_Buf = 0, PWM_out = 0;
+	float PWM_Pre = 0,PWM_Value;
+	PWM_Buf = 255 - (unsigned int)(24000000 / (PWMx->PWM_Frequency *256));
+	PWM_Value = 1000 - PWMx->PWM_Value;
+	PWM_Pre = (PWM_Value/1000);
+	PWM_out = (int)(255 * PWM_Pre);
+	CCON = 0x00;
+	CMOD = 0x0d;
+	CL = 0;
+	CH = 0;
+	switch(PWMx->PWM_Channelx)
+	{
+		case 0x00 : P_SW1 = 0x00;break;
+		case 0x08 : P_SW1 = 0x10;break;
+		case 0x10 : P_SW1 = 0x20;break;
+		default:break;
+	}
+	switch(PWM_Number)
+	{
+		case 0 : CCAPM0 = 0x42;PCA_PWM0 = 0x00;CCAP0L = (unsigned char)PWM_out;CCAP0H = (unsigned char)PWM_out;break;
+		case 1 : CCAPM1 = 0x42;PCA_PWM1 = 0x00;CCAP1L = (unsigned char)PWM_out;CCAP1H = (unsigned char)PWM_out;break;
+		case 2 : CCAPM2 = 0x42;PCA_PWM2 = 0x00;CCAP2L = (unsigned char)PWM_out;CCAP2H = (unsigned char)PWM_out;break;
+		case 3 : CCAPM3 = 0x42;PCA_PWM3 = 0x00;CCAP3L = (unsigned char)PWM_out;CCAP3H = (unsigned char)PWM_out;break;
+		default:break;
+	}
+	CR = 1;
 }
 

@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              04/15/2021 11:12:07 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              04/16/2021 01:57:50 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -51,61 +51,64 @@ line level    source
   38   1              //LCD_PrintFloat(13,3,5.21);
   39   1              //ENC_EXT_init();
   40   1              jy901_timer_init();
-  41   1              wheel_pid_timer_init();
+  41   1              //wheel_pid_timer_init();
   42   1              //jy901_update();
   43   1              while(1)
   44   1              {
   45   2                      //jy901_update();
   46   2                      //LCD_PrintFloat(13,3,server_pid.pid_out);
-  47   2                      LCD_PrintFloat(13,3,wheel_pid.pid_out);
-  48   2                      //wheel_pwm.PWM_Value = 0;//wheel_pid.pid_out;
-  49   2                      //PWM_Output(PWM_0,&wheel_pwm);
-  50   2                      Delay_Ms(100);
-  51   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-C51 COMPILER V9.59.0.0   MAIN                                                              04/15/2021 11:12:07 PAGE 2   
+  47   2                      LCD_Print16(13,3,encoder_num);
+  48   2                      //LCD_PrintFloat(13,3,1.1);
+  49   2                      //wheel_pwm.PWM_Value = 250;//wheel_pid.pid_out;
+  50   2                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
+  51   2                      wheel_pwm.PWM_Value = 210;//wheel_pid.pid_out;
+C51 COMPILER V9.59.0.0   MAIN                                                              04/16/2021 01:57:50 PAGE 2   
 
-  52   2                      //PWM_Output(PWM_1,&server_pwm);
-  53   2                      //LCD_PrintFloat(3,0,jy901.Pitch);
-  54   2                      //LCD_PrintFloat(4,0,jy901.Yaw);
-  55   2                      //Delay_Ms(100);
-  56   2                      LCD_CLS();
-  57   2                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
-  58   2                      //LCD_Fill(0x00);
-  59   2                      //Delay_Ms(500);
-  60   2                      //LCD_CLS();
-  61   2                      /*
-  62   2                      //jy901_update();
-  63   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
-  64   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
-  65   2                      PWM_Output(PWM_0,&wheel_pwm);
-  66   2                      intToString(encoder_num,kkk);
-  67   2                      encoder_num = 0;
-  68   2                      PrintString1(kkk);
-  69   2                      PrintString1(",\r\n");
-  70   2                      //kkkkk = ReceiveByte1();
-  71   2                      //PrintString1(RX2_Buffer);
-  72   2                      //PrintString1(&kkkkk);
-  73   2                      int a;
-  74   2                      for(a = 0;a<1000;a++)
-  75   2                      {
-  76   2                              server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  77   2                              PWM_Output(PWM_1,&server_pwm);
-  78   2                              LCD_PrintU16(13,3,a);
-  79   2                              LCD_CLS();
-  80   2                              Delay_Ms(50);
-  81   2                      }*/
-  82   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  83   2                      //PWM_Output(PWM_1,&server_pwm);
-  84   2                      //jy901_update();
-  85   2                      //Delay_Ms(500);
-  86   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  87   2                      //PWM_Output(PWM_1,&server_pwm);
-  88   2              }
-  89   1      }
+  52   2                      PWM_PCA_Output(PWM_0,&wheel_pwm);
+  53   2                      Delay_Ms(50);
+  54   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+  55   2                      //PWM_Output(PWM_1,&server_pwm);
+  56   2                      //LCD_PrintFloat(3,0,jy901.Pitch);
+  57   2                      //LCD_PrintFloat(4,0,jy901.Yaw);
+  58   2                      //Delay_Ms(100);
+  59   2                      LCD_CLS();
+  60   2                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
+  61   2                      //LCD_Fill(0x00);
+  62   2                      //Delay_Ms(500);
+  63   2                      //LCD_CLS();
+  64   2                      /*
+  65   2                      //jy901_update();
+  66   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
+  67   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
+  68   2                      PWM_Output(PWM_0,&wheel_pwm);
+  69   2                      intToString(encoder_num,kkk);
+  70   2                      encoder_num = 0;
+  71   2                      PrintString1(kkk);
+  72   2                      PrintString1(",\r\n");
+  73   2                      //kkkkk = ReceiveByte1();
+  74   2                      //PrintString1(RX2_Buffer);
+  75   2                      //PrintString1(&kkkkk);
+  76   2                      int a;
+  77   2                      for(a = 0;a<1000;a++)
+  78   2                      {
+  79   2                              server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+  80   2                              PWM_Output(PWM_1,&server_pwm);
+  81   2                              LCD_PrintU16(13,3,a);
+  82   2                              LCD_CLS();
+  83   2                              Delay_Ms(50);
+  84   2                      }*/
+  85   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+  86   2                      //PWM_Output(PWM_1,&server_pwm);
+  87   2                      //jy901_update();
+  88   2                      //Delay_Ms(500);
+  89   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+  90   2                      //PWM_Output(PWM_1,&server_pwm);
+  91   2              }
+  92   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     71    ----
+   CODE SIZE        =     77    ----
    CONSTANT SIZE    =      6    ----
    XDATA SIZE       =      5    ----
    PDATA SIZE       =   ----    ----

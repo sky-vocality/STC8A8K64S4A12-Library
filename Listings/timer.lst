@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   TIMER                                                             04/15/2021 11:12:08 PAGE 1   
+C51 COMPILER V9.59.0.0   TIMER                                                             04/16/2021 01:57:51 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TIMER
@@ -42,8 +42,8 @@ line level    source
   32   1              if(timer0_num == 10)
   33   1              {
   34   2                      PID_Control(increment, encoder_num, 0, &wheel_pid);
-  35   2                      wheel_pwm.PWM_Value = 0;//wheel_pid.pid_out;
-  36   2                      PWM_Output(PWM_0,&wheel_pwm);
+  35   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
+  36   2                      PWM_PCA_Output(PWM_0,&wheel_pwm);
   37   2                      timer0_num = 0;
   38   2                      encoder_num = 0;
   39   2              }
@@ -58,11 +58,11 @@ line level    source
   48   2                      jy901_update();
   49   2                      PID_Control(angle, -jy901.Roll, 0, &server_pid);
   50   2                      server_pwm.PWM_Value = server_pid.pid_out + 147.5;
-  51   2                      PWM_Output(PWM_1,&server_pwm);
+  51   2                      PWM_CLK_Output(PWM_1,&server_pwm);
   52   2                      timer1_num = 0;
   53   2              }
   54   1      }
-C51 COMPILER V9.59.0.0   TIMER                                                             04/15/2021 11:12:08 PAGE 2   
+C51 COMPILER V9.59.0.0   TIMER                                                             04/16/2021 01:57:51 PAGE 2   
 
   55          
   56          /********************* Timer2 interrupt function|Timer2中断函数************************/
@@ -126,7 +126,7 @@ line level    source
  110   2                      TR1 = 0;                //Stop count停止计数
  111   2                      if(TIMx->TIM_Interrupt == ENABLE)               ET1 = 1;        //Allowed interruption|允许中断
  112   2                      else                                                                    ET1 = 0;        //No interruption|禁止中断
-C51 COMPILER V9.59.0.0   TIMER                                                             04/15/2021 11:12:08 PAGE 3   
+C51 COMPILER V9.59.0.0   TIMER                                                             04/16/2021 01:57:51 PAGE 3   
 
  113   2                      if(TIMx->TIM_Polity == PolityHigh)              PT1 = 1;        //High priority interrupt|高优先级中断
  114   2                      else                                                                    PT1 = 0;        //Low priority interrupt|低优先级中断
@@ -171,7 +171,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    810    ----
+   CODE SIZE        =    820    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =      4    ----
    PDATA SIZE       =   ----    ----

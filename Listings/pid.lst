@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   PID                                                               04/15/2021 11:12:08 PAGE 1   
+C51 COMPILER V9.59.0.0   PID                                                               04/16/2021 01:57:51 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PID
@@ -62,7 +62,7 @@ line level    source
   51   2                      motor_type->error_last=motor_type->error_now;
   52   2                      motor_type->error_now = expected_position - current_position;
   53   2                      motor_type->pid_out += motor_type->Kp * (motor_type->error_now - motor_type->error_last) + motor_type->K
-C51 COMPILER V9.59.0.0   PID                                                               04/15/2021 11:12:08 PAGE 2   
+C51 COMPILER V9.59.0.0   PID                                                               04/16/2021 01:57:51 PAGE 2   
 
              -i * motor_type->error_now;
   54   2                      // limit out of pid
