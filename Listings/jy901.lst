@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   JY901                                                             04/13/2021 20:52:24 PAGE 1   
+C51 COMPILER V9.59.0.0   JY901                                                             04/15/2021 11:12:08 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE JY901
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE JY901
 OBJECT MODULE PLACED IN .\Objects\jy901.obj
-COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE Core\Src\jy901.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG O
-                    -BJECTEXTEND PRINT(.\Listings\jy901.lst) TABS(2) OBJECT(.\Objects\jy901.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Core\Src\jy901.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG
+                    - OBJECTEXTEND PRINT(.\Listings\jy901.lst) OBJECT(.\Objects\jy901.obj)
 
 line level    source
 
@@ -31,7 +31,7 @@ line level    source
   21          
   22          #include "jy901.h"
   23          
-  24          JY901_InitDefine jy901;
+  24          JY901_InitDefine jy901 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   25          
   26          //========================================================================
   27          // Function:void jy901_update()|函数:  void jy901_update()
@@ -44,80 +44,127 @@ line level    source
   34          // Date:2021-02-01|日期: 2021-02-01
   35          // Author: sky-vocality|作者: sky-vocality
   36          // Note:|备注:
-  37          //  
-  38          //  
-  39          //  
-  40          //  
-  41          //  
+  37          //      
+  38          //      
+  39          //      
+  40          //      
+  41          //      
   42          //========================================================================
   43          void jy901_update()
   44          {
   45   1          unsigned char p0 = 0;
   46   1          int temp = 0;
   47   1          unsigned char p1 = 0;
-  48   1          Start();                                    //Send Start Command|发送起始命令
-  49   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+  48   1              P_SW2 = 0x90;
+  49   1          Start();                                    //Send Start Command|发送起始命令
+  50   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
-  50   1          SendData(ROLL);
-  51   1          Start();
-  52   1          SendData((IICAddr<<1)|1);
-  53   1          p0 = RecvData();                            //Read data 1|读取数据1
-C51 COMPILER V9.60.0.0   JY901                                                             04/13/2021 20:52:24 PAGE 2   
+  51   1          SendData(ROLL);
+  52   1          Start();
+  53   1          SendData((IICAddr<<1)|1);
+C51 COMPILER V9.59.0.0   JY901                                                             04/15/2021 11:12:08 PAGE 2   
 
-  54   1          SendACK();
-  55   1          p1 = RecvData();                            //读取数据2|读取数据2
-  56   1          SendNAK();
-  57   1          Stop();                                     //Send stop command|发送停止命令
-  58   1          temp = (p1<<8)|p0;
-  59   1          jy901.Roll = (double)temp/32768*180;
-  60   1      
-  61   1          Start();                                    //Send Start Command|发送起始命令
-  62   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+  54   1          p0 = RecvData();                            //Read data 1|读取数据1
+  55   1          SendACK();
+  56   1          p1 = RecvData();                            //读取数据2|读取数据2
+  57   1          SendNAK();
+  58   1          Stop();                                     //Send stop command|发送停止命令
+  59   1          temp = (p1<<8)|p0;
+  60   1          jy901.Roll = (double)temp/32768*180;
+  61   1      
+  62   1          Start();                                    //Send Start Command|发送起始命令
+  63   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
-  63   1          SendData(PITCH);
-  64   1          Start();
-  65   1          SendData((IICAddr<<1)|1);
-  66   1          p0 = RecvData();                            //Read data 1|读取数据1
-  67   1          SendACK();
-  68   1          p1 = RecvData();                            //读取数据2|读取数据2
-  69   1          SendNAK();
-  70   1          Stop();                                     //Send stop command|发送停止命令
-  71   1          temp = (p1<<8)|p0;
-  72   1          jy901.Pitch = (double)temp/32768*180;
-  73   1      
-  74   1          Start();                                    //Send Start Command|发送起始命令
-  75   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+  64   1          SendData(PITCH);
+  65   1          Start();
+  66   1          SendData((IICAddr<<1)|1);
+  67   1          p0 = RecvData();                            //Read data 1|读取数据1
+  68   1          SendACK();
+  69   1          p1 = RecvData();                            //读取数据2|读取数据2
+  70   1          SendNAK();
+  71   1          Stop();                                     //Send stop command|发送停止命令
+  72   1          temp = (p1<<8)|p0;
+  73   1          jy901.Pitch = (double)temp/32768*180;
+  74   1      
+  75   1          Start();                                    //Send Start Command|发送起始命令
+  76   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
-  76   1          SendData(YAW);
-  77   1          Start();
-  78   1          SendData((IICAddr<<1)|1);
-  79   1          p0 = RecvData();                            //Read data 1|读取数据1
-  80   1          SendACK();
-  81   1          p1 = RecvData();                            //读取数据2|读取数据2
-  82   1          SendNAK();
-  83   1          Stop();                                     //Send stop command|发送停止命令
-  84   1          temp = (p1<<8)|p0;
-  85   1          jy901.Yaw = (double)temp/32768*180;
-  86   1      }
-  87          
-  88          void jy901_timer_init()
-  89          {
-  90   1        TIM_InitTypeDef TIM_InitTypeDef;
-  91   1        TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
-  92   1        TIM_InitTypeDef.TIM_Polity = PolityHigh;
-  93   1        TIM_InitTypeDef.TIM_Interrupt = ENABLE;
-  94   1        TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
-  95   1        TIM_InitTypeDef.TIM_ClkOut = ENABLE;
-  96   1        TIM_InitTypeDef.TIM_Value = 41536;
-  97   1        TIM_InitTypeDef.TIM_Run = ENABLE;
-  98   1        Timer_Inilize(Timer1, &TIM_InitTypeDef);
-  99   1      }
+  77   1          SendData(YAW);
+  78   1          Start();
+  79   1          SendData((IICAddr<<1)|1);
+  80   1          p0 = RecvData();                            //Read data 1|读取数据1
+  81   1          SendACK();
+  82   1          p1 = RecvData();                            //读取数据2|读取数据2
+  83   1          SendNAK();
+  84   1          Stop();                                     //Send stop command|发送停止命令
+  85   1              temp = (p1<<8)|p0;
+  86   1          jy901.Yaw = (double)temp/32768*180;
+  87   1              
+  88   1              Start();                                    //Send Start Command|发送起始命令
+  89   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+             -+读命令
+  90   1          SendData(GX);
+  91   1          Start();
+  92   1          SendData((IICAddr<<1)|1);
+  93   1          p0 = RecvData();                            //Read data 1|读取数据1
+  94   1          SendACK();
+  95   1          p1 = RecvData();                            //读取数据2|读取数据2
+  96   1          SendNAK();
+  97   1          Stop();                                     //Send stop command|发送停止命令
+  98   1          temp = (p1<<8)|p0;
+  99   1          jy901.Gx = (double)temp/32768*2000;
+ 100   1              
+ 101   1              Start();                                    //Send Start Command|发送起始命令
+ 102   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+             -+读命令
+ 103   1          SendData(GY);
+ 104   1          Start();
+ 105   1          SendData((IICAddr<<1)|1);
+ 106   1          p0 = RecvData();                            //Read data 1|读取数据1
+ 107   1          SendACK();
+ 108   1          p1 = RecvData();                            //读取数据2|读取数据2
+ 109   1          SendNAK();
+ 110   1          Stop();                                     //Send stop command|发送停止命令
+ 111   1          temp = (p1<<8)|p0;
+C51 COMPILER V9.59.0.0   JY901                                                             04/15/2021 11:12:08 PAGE 3   
+
+ 112   1          jy901.Gy = (double)temp/32768*2000;
+ 113   1              
+ 114   1              Start();                                    //Send Start Command|发送起始命令
+ 115   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
+             -+读命令
+ 116   1          SendData(GZ);
+ 117   1          Start();
+ 118   1          SendData((IICAddr<<1)|1);
+ 119   1          p0 = RecvData();                            //Read data 1|读取数据1
+ 120   1          SendACK();
+ 121   1          p1 = RecvData();                            //读取数据2|读取数据2
+ 122   1          SendNAK();
+ 123   1          Stop();                                     //Send stop command|发送停止命令
+ 124   1          temp = (p1<<8)|p0;
+ 125   1          jy901.Gz = (double)temp/32768*2000;
+ 126   1          P_SW2 = 0x00;
+ 127   1      }
+ 128          
+ 129          void jy901_timer_init()
+ 130          {
+ 131   1              TIM_InitTypeDef TIM_InitTypeDef;
+ 132   1              TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
+ 133   1              TIM_InitTypeDef.TIM_Polity = PolityHigh;
+ 134   1              TIM_InitTypeDef.TIM_Interrupt = ENABLE;
+ 135   1              TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
+ 136   1              TIM_InitTypeDef.TIM_ClkOut = ENABLE;
+ 137   1              TIM_InitTypeDef.TIM_Value = 41536;
+ 138   1              TIM_InitTypeDef.TIM_Run = ENABLE;
+ 139   1              IIC_host_Slave_machine(host_machine);
+ 140   1              Timer_Inilize(Timer1, &TIM_InitTypeDef);
+ 141   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    313    ----
+   CODE SIZE        =    594    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     12      10
+   XDATA SIZE       =     24      10
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

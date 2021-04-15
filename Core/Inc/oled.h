@@ -25,9 +25,9 @@
 #include "delay.h"
 #include "gpio.h"
 
-#define LCD_SCL	P32
-#define LCD_SDA	P33
-#define LCD_RST	P34
+#define LCD_SCL	P23
+#define LCD_SDA	P26
+#define LCD_RST	P27
 
 #define HIGH 1
 #define LOW  0

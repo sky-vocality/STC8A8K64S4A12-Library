@@ -29,12 +29,18 @@
 #define ROLL      0x3d
 #define PITCH     0x3e
 #define YAW       0x3f
+#define GX        0x37
+#define GY        0x38
+#define GZ        0x39
 
 typedef struct
 { 
 	double Roll;
     double Pitch;
     double Yaw;
+	double Gx;
+	double Gy;
+	double Gz;
 } JY901_InitDefine; 
 
 extern JY901_InitDefine jy901;

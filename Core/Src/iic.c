@@ -25,8 +25,8 @@
 #include "iic.h"
 #include "intrins.h"
 /********************* IIC port|IIC端口量************************/
-sbit    SDA         =   P1^4;
-sbit    SCL         =   P1^5;
+sbit    SDA         =   P2^4;
+sbit    SCL         =   P2^5;
 /********************* IIC slave mode related variables|IIC从机模式相关变量************************/
 bit isda;                                       //Equipment Address Mark|设备地址标志
 bit isma;                                       //Storage address flag|存储地址标志
@@ -53,7 +53,7 @@ void IIC_host_Slave_machine(unsigned char host_Slave_machine)
 {
 	if(host_Slave_machine==host_machine)
 	{
-		P_SW2 = 0x80;
+		P_SW2 = 0x90;
 		I2CCFG = 0xe0;                              //Enabling I2C host mode|使能I2C主机模式
     I2CMSST = 0x00;
 	}
@@ -65,6 +65,7 @@ void IIC_host_Slave_machine(unsigned char host_Slave_machine)
     I2CSLST = 0x00;
     I2CSLCR = 0x00;                             //Prohibit slave mode interruption|禁止从机模式中断
 	}
+	P_SW2 = 0x00;
 }
 //========================================================================
 // Function:void handle_Slave_machine()|函数: void handle_Slave_machine()

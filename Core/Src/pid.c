@@ -24,7 +24,7 @@
 #define Inter_Max   5
 
 PID wheel_pid = {2.5, 0.8, 0, 0, 0, 0, 980, 0, 0};
-PID server_pid = {1, 0.05, 0.01, 0, 0, 0, -112.5, 112.5, 0};
+PID server_pid = {1.5, 0.0, 0.0, 0, 0, 0, 112.5, -112.5, 0};
 
 void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type)
 {
@@ -39,7 +39,7 @@ void PID_Control(unsigned char pid_type, float current_position,float expected_p
 			motor_type->error_inter = Inter_Max;
 		if(motor_type->error_inter<-Inter_Max)
 			motor_type->error_inter = -Inter_Max;
-    	motor_type->pid_out = motor_type->Kp * motor_type->error_now + motor_type->Ki * motor_type->error_inter +	motor_type->Kd * (motor_type->error_now-motor_type->error_last);
+    	motor_type->pid_out = motor_type->Kp * motor_type->error_now + motor_type->Ki * motor_type->error_inter + motor_type->Kd * (motor_type->error_now-motor_type->error_last);
     	// limit out of pid
         if(motor_type->pid_out > motor_type->out_limit_max)
             motor_type->pid_out = motor_type->out_limit_max;
@@ -53,6 +53,24 @@ void PID_Control(unsigned char pid_type, float current_position,float expected_p
 		motor_type->pid_out += motor_type->Kp * (motor_type->error_now - motor_type->error_last) + motor_type->Ki * motor_type->error_now;
 		// limit out of pid
 		if(motor_type->pid_out > motor_type->out_limit_max)
+            motor_type->pid_out = motor_type->out_limit_max;
+        else if (motor_type->pid_out < motor_type->out_limit_low)
+            motor_type->pid_out = motor_type->out_limit_low;
+	}
+	else if(pid_type == angle)
+	{
+		//  float error_position;
+		motor_type->error_last=motor_type->error_now;
+		motor_type->error_now = expected_position + current_position;
+		motor_type->error_inter += current_position;
+		// limit intergration of pid
+		if(motor_type->error_inter>Inter_Max)
+			motor_type->error_inter = Inter_Max;
+		if(motor_type->error_inter<-Inter_Max)
+			motor_type->error_inter = -Inter_Max;
+    	motor_type->pid_out = motor_type->Kp * motor_type->error_now + motor_type->Ki * motor_type->error_inter + motor_type->Kd * -jy901.Gx;
+    	// limit out of pid
+        if(motor_type->pid_out > motor_type->out_limit_max)
             motor_type->pid_out = motor_type->out_limit_max;
         else if (motor_type->pid_out < motor_type->out_limit_low)
             motor_type->pid_out = motor_type->out_limit_low;

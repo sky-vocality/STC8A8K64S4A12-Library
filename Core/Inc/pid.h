@@ -27,6 +27,7 @@
 
 #define position    0
 #define increment   1
+#define angle   2
 
 typedef struct PID_PARAMETER
 {

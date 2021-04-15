@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 1   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE UART
 OBJECT MODULE PLACED IN .\Objects\uart.obj
-COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE Core\Src\uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG OB
-                    -JECTEXTEND PRINT(.\Listings\uart.lst) TABS(2) OBJECT(.\Objects\uart.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Core\Src\uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG 
+                    -OBJECTEXTEND PRINT(.\Listings\uart.lst) OBJECT(.\Objects\uart.obj)
 
 line level    source
 
@@ -33,11 +33,11 @@ line level    source
   23          #include "delay.h"
   24          #include "gpio.h"
   25          
-  26          COMx_Define COM1,COM2;
-  27          unsigned char xdata TX1_Buffer[COM_TX1_Lenth];  //Send buffer
-  28          unsigned char   xdata RX1_Buffer[COM_RX1_Lenth];  //Receive buffer
-  29          unsigned char xdata TX2_Buffer[COM_TX2_Lenth];  //Send buffer
-  30          unsigned char   xdata RX2_Buffer[COM_RX2_Lenth];  //Receive buffer
+  26          COMx_Define     COM1,COM2;
+  27          unsigned char   xdata TX1_Buffer[COM_TX1_Lenth];        //Send buffer
+  28          unsigned char   xdata RX1_Buffer[COM_RX1_Lenth];        //Receive buffer
+  29          unsigned char   xdata TX2_Buffer[COM_TX2_Lenth];        //Send buffer
+  30          unsigned char   xdata RX2_Buffer[COM_RX2_Lenth];        //Receive buffer
   31          
   32          //========================================================================
   33          // Function:void CLR_RTI2()
@@ -49,20 +49,20 @@ line level    source
   39          // Version:VER1.0.0
   40          // Date:2018-12-20
   41          // Author: Pinecone Pi
-  42          //  
-  43          //  
-  44          //  
-  45          //  
-  46          //  
+  42          //      
+  43          //      
+  44          //      
+  45          //      
+  46          //      
   47          //========================================================================
   48          void CLR_RTI2()
   49          {
-  50   1        if (S2CON & 0x02)
+  50   1              if (S2CON & 0x02)
   51   1          {
   52   2              S2CON &= ~0x02;                         //Clear interruption sign
   53   2          }
   54   1          if (S2CON & 0x01)
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 2   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 2   
 
   55   1          {
   56   2              S2CON &= ~0x01;                         //Clear interruption sign
@@ -73,60 +73,60 @@ line level    source
   61          /********************* Interrupt function in UART1|UART1ÖÐ¶Ï************************/
   62          void UART1_int (void) interrupt 4
   63          {
-  64   1        if(RI)
-  65   1        {
-  66   2          RI = 0;
-  67   2          if(COM1.B_RX_OK == 0)
-  68   2          {
-  69   3            if(COM1.RX_Cnt >= COM_RX1_Lenth)    COM1.RX_Cnt = 0;
-  70   3            RX1_Buffer[COM1.RX_Cnt++] = SBUF;
-  71   3            COM1.RX_TimeOut = TimeOutSet1;
-  72   3          }
-  73   2        }
+  64   1              if(RI)
+  65   1              {
+  66   2                      RI = 0;
+  67   2                      if(COM1.B_RX_OK == 0)
+  68   2                      {
+  69   3                              if(COM1.RX_Cnt >= COM_RX1_Lenth)    COM1.RX_Cnt = 0;
+  70   3                              RX1_Buffer[COM1.RX_Cnt++] = SBUF;
+  71   3                              COM1.RX_TimeOut = TimeOutSet1;
+  72   3                      }
+  73   2              }
   74   1      
-  75   1        if(TI)
-  76   1        {
-  77   2          TI = 0;
-  78   2          if(COM1.TX_read != COM1.TX_write)
-  79   2          {
-  80   3            SBUF = TX1_Buffer[COM1.TX_read];
-  81   3            if(++COM1.TX_read >= COM_TX1_Lenth)   COM1.TX_read = 0;
-  82   3          }
-  83   2          else  COM1.B_TX_busy = 0;
-  84   2        }
+  75   1              if(TI)
+  76   1              {
+  77   2                      TI = 0;
+  78   2                      if(COM1.TX_read != COM1.TX_write)
+  79   2                      {
+  80   3                              SBUF = TX1_Buffer[COM1.TX_read];
+  81   3                              if(++COM1.TX_read >= COM_TX1_Lenth)             COM1.TX_read = 0;
+  82   3                      }
+  83   2                      else    COM1.B_TX_busy = 0;
+  84   2              }
   85   1      }
   86          
   87          /********************* Interrupt function in UART2|UART2ÖÐ¶Ï************************/
   88          void UART2_int (void) interrupt 8
   89          {
-  90   1        if(S2RI)
-  91   1        {
-  92   2          CLR_RTI2();
-  93   2          if(COM2.B_RX_OK == 0)
-  94   2          {
-  95   3            if(COM2.RX_Cnt >= COM_RX2_Lenth)  COM2.RX_Cnt = 0;
-  96   3            RX2_Buffer[COM2.RX_Cnt++] = S2BUF;
-  97   3            COM2.RX_TimeOut = TimeOutSet2;
-  98   3          }
-  99   2        }
+  90   1              if(S2RI)
+  91   1              {
+  92   2                      CLR_RTI2();
+  93   2                      if(COM2.B_RX_OK == 0)
+  94   2                      {
+  95   3                              if(COM2.RX_Cnt >= COM_RX2_Lenth)        COM2.RX_Cnt = 0;
+  96   3                              RX2_Buffer[COM2.RX_Cnt++] = S2BUF;
+  97   3                              COM2.RX_TimeOut = TimeOutSet2;
+  98   3                      }
+  99   2              }
  100   1      
- 101   1        if(S2TI)
- 102   1        {
- 103   2          CLR_RTI2();
- 104   2          if(COM2.TX_read != COM2.TX_write)
- 105   2          {
- 106   3            S2BUF = TX2_Buffer[COM2.TX_read];
- 107   3            if(++COM2.TX_read >= COM_TX2_Lenth)   COM2.TX_read = 0;
- 108   3          }
- 109   2          else  COM2.B_TX_busy = 0;
- 110   2        }
+ 101   1              if(S2TI)
+ 102   1              {
+ 103   2                      CLR_RTI2();
+ 104   2                      if(COM2.TX_read != COM2.TX_write)
+ 105   2                      {
+ 106   3                              S2BUF = TX2_Buffer[COM2.TX_read];
+ 107   3                              if(++COM2.TX_read >= COM_TX2_Lenth)             COM2.TX_read = 0;
+ 108   3                      }
+ 109   2                      else    COM2.B_TX_busy = 0;
+ 110   2              }
  111   1      
  112   1      }
  113          
  114          //========================================================================
  115          // Function:unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)|º¯Êý: unsigned c
              -har USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 3   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 3   
 
  116          // Description:Serial port initialization program.|ÃèÊö: ´®¿Ú³õÊ¼»¯³ÌÐò.
  117          // Parameter:Refer to the structure definition in uart. C.|²ÎÊý:  Çë²Î¿¼uart.cÀïÃæµÄ½á¹¹Ìå¶¨Òå
@@ -137,165 +137,165 @@ line level    source
  122          // Date:2021-01-29|ÈÕÆÚ: 2021-01-29
  123          // Author: sky-vocality|×÷Õß: sky-vocality
  124          // Note:|±¸×¢:
- 125          //  
- 126          //  
- 127          //  
- 128          //  
- 129          //  
+ 125          //      
+ 126          //      
+ 127          //      
+ 128          //      
+ 129          //      
  130          //========================================================================
  131          unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
  132          {
- 133   1        unsigned char i;
- 134   1        unsigned long j;
+ 133   1              unsigned char   i;
+ 134   1              unsigned long   j;
  135   1      
- 136   1        EA = 1;
+ 136   1              EA = 1;
  137   1      
- 138   1        if(UARTx == USART1)
- 139   1        {
- 140   2          COM1.id = 1;
- 141   2          COM1.TX_read    = 0;
- 142   2          COM1.TX_write   = 0;
- 143   2          COM1.B_TX_busy  = 0;
- 144   2          COM1.RX_Cnt     = 0;
- 145   2          COM1.RX_TimeOut = 0;
- 146   2          COM1.B_RX_OK    = 0;
- 147   2          for(i=0; i<COM_TX1_Lenth; i++)  TX1_Buffer[i] = 0;
- 148   2          for(i=0; i<COM_RX1_Lenth; i++)  RX1_Buffer[i] = 0;
+ 138   1              if(UARTx == USART1)
+ 139   1              {
+ 140   2                      COM1.id = 1;
+ 141   2                      COM1.TX_read    = 0;
+ 142   2                      COM1.TX_write   = 0;
+ 143   2                      COM1.B_TX_busy  = 0;
+ 144   2                      COM1.RX_Cnt     = 0;
+ 145   2                      COM1.RX_TimeOut = 0;
+ 146   2                      COM1.B_RX_OK    = 0;
+ 147   2                      for(i=0; i<COM_TX1_Lenth; i++)  TX1_Buffer[i] = 0;
+ 148   2                      for(i=0; i<COM_RX1_Lenth; i++)  RX1_Buffer[i] = 0;
  149   2      
- 150   2          if(COMx->UART_Mode > UART_9bit_BRTx)  return 2; //Mode error|Ä£Ê½´íÎó
- 151   2          if(COMx->UART_Polity == PolityHigh)   PS = 1; //High priority interrupt|¸ßÓÅÏÈ¼¶ÖÐ¶Ï
- 152   2          else                  PS = 0; //Low priority interrupt|µÍÓÅÏÈ¼¶ÖÐ¶Ï
- 153   2          SCON = (SCON & 0x3f) | COMx->UART_Mode;
- 154   2          if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx)) //Variable baud rate|¿É±ä²
+ 150   2                      if(COMx->UART_Mode > UART_9bit_BRTx)    return 2;       //Mode error|Ä£Ê½´íÎó
+ 151   2                      if(COMx->UART_Polity == PolityHigh)             PS = 1; //High priority interrupt|¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+ 152   2                      else                                                                    PS = 0; //Low priority interrupt|µÍÓÅÏÈ¼¶ÖÐ¶Ï
+ 153   2                      SCON = (SCON & 0x3f) | COMx->UART_Mode;
+ 154   2                      if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx))   //Variable baud rate|¿É±ä²
              -¨ÌØÂÊ
- 155   2          {
- 156   3            j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;  //Calculate by 1T|°´1T¼ÆËã
- 157   3            if(j >= 65536UL)  return 2; //Error|´íÎó
- 158   3            j = 65536UL - j;
- 159   3            if(COMx->UART_BRT_Use == BRT_Timer1)
- 160   3            {
- 161   4              TR1 = 0;
- 162   4              AUXR &= ~0x01;    //S1 BRT Use Timer1;
- 163   4              TMOD &= ~(1<<6);  //Timer1 set As Timer
- 164   4              TMOD &= ~0x30;    //Timer1_16bitAutoReload;
- 165   4              AUXR |=  (1<<6);  //Timer1 set as 1T mode
- 166   4              TH1 = (unsigned char)(j>>8);
- 167   4              TL1 = (unsigned char)j;
- 168   4              ET1 = 0;  //No interruption|½ûÖ¹ÖÐ¶Ï
- 169   4              TMOD &= ~0x40;  //timing|¶¨Ê±
- 170   4              INTCLKO &= ~0x02; //No Clock Output|²»Êä³öÊ±ÖÓ
- 171   4              TR1  = 1;
- 172   4            }
- 173   3            else if(COMx->UART_BRT_Use == BRT_Timer2)
- 174   3            {
- 175   4              AUXR &= ~(1<<4);  //Timer stop
- 176   4              AUXR |= 0x01;   //S1 BRT Use Timer2;
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 4   
+ 155   2                      {
+ 156   3                              j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;      //Calculate by 1T|°´1T¼ÆËã
+ 157   3                              if(j >= 65536UL)        return 2;       //Error|´íÎó
+ 158   3                              j = 65536UL - j;
+ 159   3                              if(COMx->UART_BRT_Use == BRT_Timer1)
+ 160   3                              {
+ 161   4                                      TR1 = 0;
+ 162   4                                      AUXR &= ~0x01;          //S1 BRT Use Timer1;
+ 163   4                                      TMOD &= ~(1<<6);        //Timer1 set As Timer
+ 164   4                                      TMOD &= ~0x30;          //Timer1_16bitAutoReload;
+ 165   4                                      AUXR |=  (1<<6);        //Timer1 set as 1T mode
+ 166   4                                      TH1 = (unsigned char)(j>>8);
+ 167   4                                      TL1 = (unsigned char)j;
+ 168   4                                      ET1 = 0;        //No interruption|½ûÖ¹ÖÐ¶Ï
+ 169   4                                      TMOD &= ~0x40;  //timing|¶¨Ê±
+ 170   4                                      INTCLKO &= ~0x02;       //No Clock Output|²»Êä³öÊ±ÖÓ
+ 171   4                                      TR1  = 1;
+ 172   4                              }
+ 173   3                              else if(COMx->UART_BRT_Use == BRT_Timer2)
+ 174   3                              {
+ 175   4                                      AUXR &= ~(1<<4);        //Timer stop
+ 176   4                                      AUXR |= 0x01;           //S1 BRT Use Timer2;
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 4   
 
- 177   4              AUXR &= ~(1<<3);  //Timer2 set As Timer
- 178   4              AUXR |=  (1<<2);  //Timer2 set as 1T mode
- 179   4              TH2 = (unsigned char)(j>>8);
- 180   4              TL2 = (unsigned char)j;
- 181   4              IE2  &= ~(1<<2);  //No interruption|½ûÖ¹ÖÐ¶Ï
- 182   4              AUXR &= ~(1<<3);  //timing|¶¨Ê±
- 183   4              AUXR |=  (1<<4);  //Timer run enable
- 184   4            }
- 185   3            else return 2;  //Error|´íÎó
- 186   3          }
- 187   2          else if(COMx->UART_Mode == UART_ShiftRight)
- 188   2          {
- 189   3            if(COMx->BaudRateDouble == ENABLE)  AUXR |=  (1<<5);  //Fixed baud rate SysClk/2|¹Ì¶¨²¨ÌØÂÊSysClk/2
- 190   3            else                AUXR &= ~(1<<5);  //Fixed baud rate SysClk/12|¹Ì¶¨²¨ÌØÂÊSysClk/12
- 191   3          }
- 192   2          else if(COMx->UART_Mode == UART_9bit) //Fixed baud rate SysClk*2^SMOD/64 |¹Ì¶¨²¨ÌØÂÊSysClk*2^SMOD/64
- 193   2          {
- 194   3            if(COMx->BaudRateDouble == ENABLE)  PCON |=  (1<<7);  //Fixed baud rate SysClk/32|¹Ì¶¨²¨ÌØÂÊSysClk/32
- 195   3            else                PCON &= ~(1<<7);  //Fixed baud rate SysClk/64|¹Ì¶¨²¨ÌØÂÊSysClk/64
- 196   3          }
- 197   2          if(COMx->UART_Interrupt == ENABLE)  ES = 1; //Allowed interruption|ÔÊÐíÖÐ¶Ï
- 198   2          else                ES = 0; //No interruption|½ûÖ¹ÖÐ¶Ï
- 199   2          if(COMx->UART_RxEnable == ENABLE) REN = 1;  //Allow reception|ÔÊÐí½ÓÊÕ
- 200   2          else                REN = 0;  //No acceptance|½ûÖ¹½ÓÊÕ
- 201   2          
- 202   2          if(COMx->UART_P_SW == UART1_SW_P30_P31)
- 203   2          {
- 204   3            GPIO_InitTypeDef GPIO_InitTypeDef;
- 205   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
- 206   3            GPIO_InitTypeDef.Pin = GPIO_Pin_1;//ÅäÖÃIOÒý½Å Px.1
- 207   3            GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);//IOÒý½Å P3.1
- 208   3          }
- 209   2          else if(COMx->UART_P_SW == UART1_SW_P16_P17)
- 210   2          {
- 211   3            GPIO_InitTypeDef GPIO_InitTypeDef;
- 212   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
- 213   3            GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
- 214   3            GPIO_Inilize(GPIO_P1 ,&GPIO_InitTypeDef);//IOÒý½Å P1.7
- 215   3          }
- 216   2          else
- 217   2          {
- 218   3            GPIO_InitTypeDef GPIO_InitTypeDef;
- 219   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
- 220   3            GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
- 221   3            GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);//IOÒý½Å P3.7
- 222   3          }
- 223   2          P_SW1 = (P_SW1 & 0x3f) | (COMx->UART_P_SW & 0xc0);  //Switch IO|ÇÐ»»IO
- 224   2          return  0;
- 225   2        }
+ 177   4                                      AUXR &= ~(1<<3);        //Timer2 set As Timer
+ 178   4                                      AUXR |=  (1<<2);        //Timer2 set as 1T mode
+ 179   4                                      TH2 = (unsigned char)(j>>8);
+ 180   4                                      TL2 = (unsigned char)j;
+ 181   4                                      IE2  &= ~(1<<2);        //No interruption|½ûÖ¹ÖÐ¶Ï
+ 182   4                                      AUXR &= ~(1<<3);        //timing|¶¨Ê±
+ 183   4                                      AUXR |=  (1<<4);        //Timer run enable
+ 184   4                              }
+ 185   3                              else return 2;  //Error|´íÎó
+ 186   3                      }
+ 187   2                      else if(COMx->UART_Mode == UART_ShiftRight)
+ 188   2                      {
+ 189   3                              if(COMx->BaudRateDouble == ENABLE)      AUXR |=  (1<<5);        //Fixed baud rate SysClk/2|¹Ì¶¨²¨ÌØÂÊSysClk/2
+ 190   3                              else                                                            AUXR &= ~(1<<5);        //Fixed baud rate SysClk/12|¹Ì¶¨²¨ÌØÂÊSysClk/12
+ 191   3                      }
+ 192   2                      else if(COMx->UART_Mode == UART_9bit)   //Fixed baud rate SysClk*2^SMOD/64 |¹Ì¶¨²¨ÌØÂÊSysClk*2^SMOD/64
+ 193   2                      {
+ 194   3                              if(COMx->BaudRateDouble == ENABLE)      PCON |=  (1<<7);        //Fixed baud rate SysClk/32|¹Ì¶¨²¨ÌØÂÊSysClk/32
+ 195   3                              else                                                            PCON &= ~(1<<7);        //Fixed baud rate SysClk/64|¹Ì¶¨²¨ÌØÂÊSysClk/64
+ 196   3                      }
+ 197   2                      if(COMx->UART_Interrupt == ENABLE)      ES = 1; //Allowed interruption|ÔÊÐíÖÐ¶Ï
+ 198   2                      else                                                            ES = 0; //No interruption|½ûÖ¹ÖÐ¶Ï
+ 199   2                      if(COMx->UART_RxEnable == ENABLE)       REN = 1;        //Allow reception|ÔÊÐí½ÓÊÕ
+ 200   2                      else                                                            REN = 0;        //No acceptance|½ûÖ¹½ÓÊÕ
+ 201   2                      
+ 202   2                      if(COMx->UART_P_SW == UART1_SW_P30_P31)
+ 203   2                      {
+ 204   3                              GPIO_InitTypeDef GPIO_InitTypeDef;
+ 205   3                              GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
+ 206   3                              GPIO_InitTypeDef.Pin = GPIO_Pin_1;//ÅäÖÃIOÒý½Å Px.1
+ 207   3                              GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);//IOÒý½Å P3.1
+ 208   3                      }
+ 209   2                      else if(COMx->UART_P_SW == UART1_SW_P16_P17)
+ 210   2                      {
+ 211   3                              GPIO_InitTypeDef GPIO_InitTypeDef;
+ 212   3                              GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
+ 213   3                              GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
+ 214   3                              GPIO_Inilize(GPIO_P1 ,&GPIO_InitTypeDef);//IOÒý½Å P1.7
+ 215   3                      }
+ 216   2                      else
+ 217   2                      {
+ 218   3                              GPIO_InitTypeDef GPIO_InitTypeDef;
+ 219   3                              GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
+ 220   3                              GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
+ 221   3                              GPIO_Inilize(GPIO_P3 ,&GPIO_InitTypeDef);//IOÒý½Å P3.7
+ 222   3                      }
+ 223   2                      P_SW1 = (P_SW1 & 0x3f) | (COMx->UART_P_SW & 0xc0);      //Switch IO|ÇÐ»»IO
+ 224   2                      return  0;
+ 225   2              }
  226   1      
- 227   1        if(UARTx == USART2)
- 228   1        {
- 229   2          COM2.id = 2;
- 230   2          COM2.TX_read    = 0;
- 231   2          COM2.TX_write   = 0;
- 232   2          COM2.B_TX_busy  = 0;
- 233   2          COM2.RX_Cnt     = 0;
- 234   2          COM2.RX_TimeOut = 0;
- 235   2          COM2.B_RX_OK    = 0;
- 236   2          for(i=0; i<COM_TX2_Lenth; i++)  TX2_Buffer[i] = 0;
- 237   2          for(i=0; i<COM_RX2_Lenth; i++)  RX2_Buffer[i] = 0;
+ 227   1              if(UARTx == USART2)
+ 228   1              {
+ 229   2                      COM2.id = 2;
+ 230   2                      COM2.TX_read    = 0;
+ 231   2                      COM2.TX_write   = 0;
+ 232   2                      COM2.B_TX_busy  = 0;
+ 233   2                      COM2.RX_Cnt     = 0;
+ 234   2                      COM2.RX_TimeOut = 0;
+ 235   2                      COM2.B_RX_OK    = 0;
+ 236   2                      for(i=0; i<COM_TX2_Lenth; i++)  TX2_Buffer[i] = 0;
+ 237   2                      for(i=0; i<COM_RX2_Lenth; i++)  RX2_Buffer[i] = 0;
  238   2      
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 5   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 5   
 
- 239   2          if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx)) //Variable baud rate|¿É±ä²
+ 239   2                      if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx))   //Variable baud rate|¿É±ä²
              -¨ÌØÂÊ
- 240   2          {
- 241   3            if(COMx->UART_Polity == PolityHigh)   IP2 |=  1;  //High priority interrupt|¸ßÓÅÏÈ¼¶ÖÐ¶Ï
- 242   3            else                  IP2 &= ~1;  //Low priority interrupt|µÍÓÅÏÈ¼¶ÖÐ¶Ï
- 243   3            if(COMx->UART_Mode == UART_9bit_BRTx) S2CON |=  (1<<7); //9bit
- 244   3            else                  S2CON &= ~(1<<7); //8bit
- 245   3            j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;  //Calculate by 1T|°´1T¼ÆËã
- 246   3            if(j >= 65536UL)  return 2; //error|´íÎó
- 247   3            j = 65536UL - j;
- 248   3            AUXR &= ~(1<<4);  //Timer stop
- 249   3            AUXR &= ~(1<<3);  //Timer2 set As Timer
- 250   3            AUXR |=  (1<<2);  //Timer2 set as 1T mode
- 251   3            TH2 = (unsigned char)(j>>8);
- 252   3            TL2 = (unsigned char)j;
- 253   3            IE2  &= ~(1<<2);  //No interruption|½ûÖ¹ÖÐ¶Ï
- 254   3            AUXR |=  (1<<4);  //Timer run enable
- 255   3          }
- 256   2          else  return 2; //Mode error|Ä£Ê½´íÎó
- 257   2          if(COMx->UART_Interrupt == ENABLE)  IE2   |=  1;    //Allowed interruption|ÔÊÐíÖÐ¶Ï
- 258   2          else                IE2   &= ~1;    //No interruption|½ûÖ¹ÖÐ¶Ï
- 259   2          if(COMx->UART_RxEnable == ENABLE) S2CON |=  (1<<4); //Allow reception|ÔÊÐí½ÓÊÕ
- 260   2          else                S2CON &= ~(1<<4); //No acceptance|½ûÖ¹½ÓÊÕ
- 261   2          if(COMx->UART_P_SW == UART2_SW_P10_P11)
- 262   2          {
- 263   3            GPIO_InitTypeDef GPIO_InitTypeDef;
- 264   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
- 265   3            GPIO_InitTypeDef.Pin = GPIO_Pin_1;//ÅäÖÃIOÒý½Å Px.1
- 266   3            GPIO_Inilize(GPIO_P1 ,&GPIO_InitTypeDef);//IOÒý½Å P1.1
- 267   3          }
- 268   2          else
- 269   2          {
- 270   3            GPIO_InitTypeDef GPIO_InitTypeDef;
- 271   3            GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
- 272   3            GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
- 273   3            GPIO_Inilize(GPIO_P4 ,&GPIO_InitTypeDef);//IOÒý½Å P4.7
- 274   3          }
- 275   2          P_SW2 = (P_SW2 & ~1) | (COMx->UART_P_SW & 0x01);  //Switch IO|ÇÐ»»IO
- 276   2        }
- 277   1        return  0;
+ 240   2                      {
+ 241   3                              if(COMx->UART_Polity == PolityHigh)             IP2 |=  1;      //High priority interrupt|¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+ 242   3                              else                                                                    IP2 &= ~1;      //Low priority interrupt|µÍÓÅÏÈ¼¶ÖÐ¶Ï
+ 243   3                              if(COMx->UART_Mode == UART_9bit_BRTx)   S2CON |=  (1<<7);       //9bit
+ 244   3                              else                                                                    S2CON &= ~(1<<7);       //8bit
+ 245   3                              j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;      //Calculate by 1T|°´1T¼ÆËã
+ 246   3                              if(j >= 65536UL)        return 2;       //error|´íÎó
+ 247   3                              j = 65536UL - j;
+ 248   3                              AUXR &= ~(1<<4);        //Timer stop
+ 249   3                              AUXR &= ~(1<<3);        //Timer2 set As Timer
+ 250   3                              AUXR |=  (1<<2);        //Timer2 set as 1T mode
+ 251   3                              TH2 = (unsigned char)(j>>8);
+ 252   3                              TL2 = (unsigned char)j;
+ 253   3                              IE2  &= ~(1<<2);        //No interruption|½ûÖ¹ÖÐ¶Ï
+ 254   3                              AUXR |=  (1<<4);        //Timer run enable
+ 255   3                      }
+ 256   2                      else    return 2;       //Mode error|Ä£Ê½´íÎó
+ 257   2                      if(COMx->UART_Interrupt == ENABLE)      IE2   |=  1;            //Allowed interruption|ÔÊÐíÖÐ¶Ï
+ 258   2                      else                                                            IE2   &= ~1;            //No interruption|½ûÖ¹ÖÐ¶Ï
+ 259   2                      if(COMx->UART_RxEnable == ENABLE)       S2CON |=  (1<<4);       //Allow reception|ÔÊÐí½ÓÊÕ
+ 260   2                      else                                                            S2CON &= ~(1<<4);       //No acceptance|½ûÖ¹½ÓÊÕ
+ 261   2                      if(COMx->UART_P_SW == UART2_SW_P10_P11)
+ 262   2                      {
+ 263   3                              GPIO_InitTypeDef GPIO_InitTypeDef;
+ 264   3                              GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
+ 265   3                              GPIO_InitTypeDef.Pin = GPIO_Pin_1;//ÅäÖÃIOÒý½Å Px.1
+ 266   3                              GPIO_Inilize(GPIO_P1 ,&GPIO_InitTypeDef);//IOÒý½Å P1.1
+ 267   3                      }
+ 268   2                      else
+ 269   2                      {
+ 270   3                              GPIO_InitTypeDef GPIO_InitTypeDef;
+ 271   3                              GPIO_InitTypeDef.Mode = GPIO_OUT_PP;
+ 272   3                              GPIO_InitTypeDef.Pin = GPIO_Pin_7;//ÅäÖÃIOÒý½Å Px.7
+ 273   3                              GPIO_Inilize(GPIO_P4 ,&GPIO_InitTypeDef);//IOÒý½Å P4.7
+ 274   3                      }
+ 275   2                      P_SW2 = (P_SW2 & ~1) | (COMx->UART_P_SW & 0x01);        //Switch IO|ÇÐ»»IO
+ 276   2              }
+ 277   1              return  0;
  278   1      }
  279          
  280          
@@ -310,34 +310,34 @@ line level    source
  289          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
  290          // Author: Pinecone Pi|×÷Õß: PineconePi
  291          // Note:|±¸×¢: 
- 292          //  
- 293          //  
- 294          //  
- 295          //  
- 296          //  
+ 292          //      
+ 293          //      
+ 294          //      
+ 295          //      
+ 296          //      
  297          //========================================================================
  298          
  299          void TX1_write2buff(unsigned char dat)  //Ð´Èë·¢ËÍ»º³å£¬Ö¸Õë+1
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 6   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 6   
 
  300          {
- 301   1        while(1)
- 302   1        {
- 303   2          if(COM1.B_TX_busy == 0)   //¿ÕÏÐ
- 304   2          {  
- 305   3            COM1.B_TX_busy = 1;   //±êÖ¾Ã¦
- 306   3            SBUF = dat;
- 307   3            while(!TI);           //µÈ´ý·¢ËÍÍê³É
- 308   3            TI=0;               //ÇåÁã·¢ËÍ±êÖ¾Î»
- 309   3            COM1.B_TX_busy = 0;
- 310   3            break;
- 311   3          }
- 312   2          else
- 313   2          {
- 314   3            Delay_Us(5);
- 315   3          }
- 316   2        }
- 317   1        
+ 301   1              while(1)
+ 302   1              {
+ 303   2                      if(COM1.B_TX_busy == 0)         //¿ÕÏÐ
+ 304   2                      {  
+ 305   3                              COM1.B_TX_busy = 1;             //±êÖ¾Ã¦
+ 306   3                              SBUF = dat;
+ 307   3                              while(!TI);                                     //µÈ´ý·¢ËÍÍê³É
+ 308   3                              TI=0;                                                   //ÇåÁã·¢ËÍ±êÖ¾Î»
+ 309   3                              COM1.B_TX_busy = 0;
+ 310   3                              break;
+ 311   3                      }
+ 312   2                      else
+ 313   2                      {
+ 314   3                              Delay_Us(5);
+ 315   3                      }
+ 316   2              }
+ 317   1              
  318   1      }
  319          //========================================================================
  320          // Function:void TX1_write2buff(unsigned char dat)|º¯Êý: void TX1_write2buff(unsigned char dat)
@@ -350,23 +350,23 @@ line level    source
  327          // Date:2018-12-20|ÈÕÆÚ: 2018-12-20
  328          // Author: Pinecone Pi|×÷Õß: PineconePi
  329          // Note:|±¸×¢: 
- 330          //  
- 331          //  
- 332          //  
- 333          //  
- 334          //  
+ 330          //      
+ 331          //      
+ 332          //      
+ 333          //      
+ 334          //      
  335          //========================================================================
  336          
  337          void TX2_write2buff(unsigned char dat)  //Write send buffer, pointer + 1
  338          {
- 339   1        TX2_Buffer[COM2.TX_write] = dat;  //Loading and Sending Buffer
- 340   1        if(++COM2.TX_write >= COM_TX2_Lenth)  COM2.TX_write = 0;
+ 339   1              TX2_Buffer[COM2.TX_write] = dat;        //Loading and Sending Buffer
+ 340   1              if(++COM2.TX_write >= COM_TX2_Lenth)    COM2.TX_write = 0;
  341   1      
- 342   1        if(COM2.B_TX_busy == 0)   //free
- 343   1        {  
- 344   2          COM2.B_TX_busy = 1;   //Sign busy
- 345   2          CLR_RTI2();       //Trigger Send Interrupt
- 346   2        }
+ 342   1              if(COM2.B_TX_busy == 0)         //free
+ 343   1              {  
+ 344   2                      COM2.B_TX_busy = 1;             //Sign busy
+ 345   2                      CLR_RTI2();                             //Trigger Send Interrupt
+ 346   2              }
  347   1      }
  348          
  349          //========================================================================
@@ -380,17 +380,17 @@ line level    source
  357          // Date:2021-01-23|ÈÕÆÚ: 2021-01-23
  358          // Author: sky_vocality|×÷Õß: sky_vocality
  359          // Note:|±¸×¢: 
- 360          //  
- 361          //  
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 7   
+ 360          //      
+ 361          //      
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 7   
 
- 362          //  
- 363          //  
- 364          //  
+ 362          //      
+ 363          //      
+ 364          //      
  365          //========================================================================
  366          void PrintString1(unsigned char *puts)
  367          {
- 368   1          for (; *puts != 0;  puts++)  TX1_write2buff(*puts);   //End with stop 0|Óöµ½Í£Ö¹·û0½áÊø
+ 368   1          for (; *puts != 0;  puts++)  TX1_write2buff(*puts);         //End with stop 0|Óöµ½Í£Ö¹·û0½áÊø
  369   1      }
  370          
  371          //========================================================================
@@ -404,15 +404,15 @@ line level    source
  379          // Date:2021-01-23|ÈÕÆÚ: 2021-01-23
  380          // Author: sky_vocality|×÷Õß: sky_vocality
  381          // Note:|±¸×¢: 
- 382          //  
- 383          //  
- 384          //  
- 385          //  
- 386          //  
+ 382          //      
+ 383          //      
+ 384          //      
+ 385          //      
+ 386          //      
  387          //========================================================================
  388          void PrintString2(unsigned char *puts)
  389          {
- 390   1          for (; *puts != 0;  puts++)  TX2_write2buff(*puts);   //End with stop 0|Óöµ½Í£Ö¹·û0½áÊø
+ 390   1          for (; *puts != 0;  puts++)  TX2_write2buff(*puts);         //End with stop 0|Óöµ½Í£Ö¹·û0½áÊø
  391   1      }
  392          
  393          //========================================================================
@@ -426,11 +426,11 @@ line level    source
  401          // Date:2021-01-28|ÈÕÆÚ: 2021-01-28
  402          // Author:  sky_vocality|×÷Õß: sky_vocality
  403          // Note:|±¸×¢: 
- 404          //  
- 405          //  
- 406          //  
- 407          //  
- 408          //  
+ 404          //      
+ 405          //      
+ 406          //      
+ 407          //      
+ 408          //      
  409          //========================================================================
  410          unsigned char ReceiveByte1(void)
  411          {
@@ -446,7 +446,7 @@ line level    source
  421          // Description:Read uart2 receive byte|¶ÁÈ¡´®¿Ú¶þ½ÓÊÕµ½µÄÊý¾Ý
  422          // Parameter:
  423          //       
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 8   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 8   
 
  424          //       
  425          // Return:|·µ»Ø: rbyte: receive byte|½ÓÊÕµ½µÄÊý¾Ý
@@ -454,17 +454,17 @@ line level    source
  427          // Date:2021-01-31|ÈÕÆÚ: 2021-01-31
  428          // Author:  sky_vocality|×÷Õß: sky_vocality
  429          // Note:|±¸×¢: 
- 430          //  
- 431          //  
- 432          //  
- 433          //  
- 434          //  
+ 430          //      
+ 431          //      
+ 432          //      
+ 433          //      
+ 434          //      
  435          //========================================================================
  436          unsigned char ReceiveByte2(void)
  437          {
- 438   1        unsigned char rbyte;
+ 438   1              unsigned char rbyte;
  439   1          while(!S2RI);
- 440   1        CLR_RTI2();
+ 440   1              CLR_RTI2();
  441   1          rbyte=S2BUF;
  442   1          return rbyte;
  443   1      }
@@ -481,11 +481,11 @@ line level    source
  454          // Date:2021-01-23|ÈÕÆÚ: 2021-01-23
  455          // Author:  sky_vocality|×÷Õß: sky_vocality
  456          // Note:|±¸×¢: 
- 457          //  
- 458          //  
- 459          //  
- 460          //  
- 461          //  
+ 457          //      
+ 458          //      
+ 459          //      
+ 460          //      
+ 461          //      
  462          //========================================================================
  463          void intToString(int N,char arr[])
  464          {
@@ -510,7 +510,7 @@ line level    source
  483   3                  arr[i-j+1]=stack[j];
  484   3              }
  485   2              arr[i+2]='\0';
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 9   
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 9   
 
  486   2          }else{
  487   2              for (j=i;j>-1;j--){
@@ -526,7 +526,7 @@ line level    source
  496          // Description:float To String|floatÀàÐÍ×ªstring
  497          // Parameter: N: The float need change|²ÎÊý: N: ÐèÒª×ª»»µÄfloatÀàÐÍ
  498          //            arr: The string's save arr|arr: ×Ö·û´®´æ´¢µÄµØÖ·
- 499          //        n: The length of the string|n:×Ö·û´®µÄ³¤¶È
+ 499          //                        n: The length of the string|n:×Ö·û´®µÄ³¤¶È
  500          //       
  501          //       
  502          // Return:|·µ»Ø:
@@ -534,11 +534,11 @@ line level    source
  504          // Date:2021-01-23|ÈÕÆÚ: 2021-01-23
  505          // Author:  sky_vocality|×÷Õß: sky_vocality
  506          // Note:|±¸×¢: 
- 507          //  
- 508          //  
- 509          //  
- 510          //  
- 511          //  
+ 507          //      
+ 508          //      
+ 509          //      
+ 510          //      
+ 511          //      
  512          //========================================================================
  513          void floatToString(float N,char arr[], int n)
  514          {
@@ -574,7 +574,7 @@ line level    source
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =   2611    ----
    CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.60.0.0   UART                                                              04/13/2021 20:52:23 PAGE 10  
+C51 COMPILER V9.59.0.0   UART                                                              04/15/2021 11:12:08 PAGE 10  
 
    XDATA SIZE       =     58      51
    PDATA SIZE       =   ----    ----

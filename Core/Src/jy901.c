@@ -21,7 +21,7 @@
 
 #include "jy901.h"
 
-JY901_InitDefine jy901;
+JY901_InitDefine jy901 = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
 //========================================================================
 // Function:void jy901_update()|函数:  void jy901_update()
@@ -45,6 +45,7 @@ void jy901_update()
     unsigned char p0 = 0;
     int temp = 0;
     unsigned char p1 = 0;
+	P_SW2 = 0x90;
     Start();                                    //Send Start Command|发送起始命令
     SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址+读命令
     SendData(ROLL);
@@ -81,8 +82,48 @@ void jy901_update()
     p1 = RecvData();                            //读取数据2|读取数据2
     SendNAK();
     Stop();                                     //Send stop command|发送停止命令
-    temp = (p1<<8)|p0;
+	temp = (p1<<8)|p0;
     jy901.Yaw = (double)temp/32768*180;
+	
+	Start();                                    //Send Start Command|发送起始命令
+    SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址+读命令
+    SendData(GX);
+    Start();
+    SendData((IICAddr<<1)|1);
+    p0 = RecvData();                            //Read data 1|读取数据1
+    SendACK();
+    p1 = RecvData();                            //读取数据2|读取数据2
+    SendNAK();
+    Stop();                                     //Send stop command|发送停止命令
+    temp = (p1<<8)|p0;
+    jy901.Gx = (double)temp/32768*2000;
+	
+	Start();                                    //Send Start Command|发送起始命令
+    SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址+读命令
+    SendData(GY);
+    Start();
+    SendData((IICAddr<<1)|1);
+    p0 = RecvData();                            //Read data 1|读取数据1
+    SendACK();
+    p1 = RecvData();                            //读取数据2|读取数据2
+    SendNAK();
+    Stop();                                     //Send stop command|发送停止命令
+    temp = (p1<<8)|p0;
+    jy901.Gy = (double)temp/32768*2000;
+	
+	Start();                                    //Send Start Command|发送起始命令
+    SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址+读命令
+    SendData(GZ);
+    Start();
+    SendData((IICAddr<<1)|1);
+    p0 = RecvData();                            //Read data 1|读取数据1
+    SendACK();
+    p1 = RecvData();                            //读取数据2|读取数据2
+    SendNAK();
+    Stop();                                     //Send stop command|发送停止命令
+    temp = (p1<<8)|p0;
+    jy901.Gz = (double)temp/32768*2000;
+    P_SW2 = 0x00;
 }
 
 void jy901_timer_init()
@@ -95,5 +136,6 @@ void jy901_timer_init()
 	TIM_InitTypeDef.TIM_ClkOut = ENABLE;
 	TIM_InitTypeDef.TIM_Value = 41536;
 	TIM_InitTypeDef.TIM_Run = ENABLE;
+	IIC_host_Slave_machine(host_machine);
 	Timer_Inilize(Timer1, &TIM_InitTypeDef);
 }

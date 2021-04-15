@@ -31,8 +31,8 @@ void timer0_int (void) interrupt 1
 	timer0_num++;
 	if(timer0_num == 10)
 	{
-		PID_Control(increment, encoder_num, 210, &wheel_pid);
-		wheel_pwm.PWM_Value = wheel_pid.pid_out;
+		PID_Control(increment, encoder_num, 0, &wheel_pid);
+		wheel_pwm.PWM_Value = 0;//wheel_pid.pid_out;
 		PWM_Output(PWM_0,&wheel_pwm);
 		timer0_num = 0;
 		encoder_num = 0;
@@ -43,10 +43,10 @@ void timer0_int (void) interrupt 1
 void timer1_int (void) interrupt 3
 {
 	timer1_num++;
-	if(timer1_num == 50)
+	if(timer1_num == 10)
 	{
 		jy901_update();
-		PID_Control(position, jy901.Pitch, 0, &server_pid);
+		PID_Control(angle, -jy901.Roll, 0, &server_pid);
 		server_pwm.PWM_Value = server_pid.pid_out + 147.5;
 		PWM_Output(PWM_1,&server_pwm);
 		timer1_num = 0;
