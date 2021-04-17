@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   JY901                                                             04/16/2021 01:57:51 PAGE 1   
+C51 COMPILER V9.59.0.0   JY901                                                             04/17/2021 21:56:59 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE JY901
@@ -62,7 +62,7 @@ line level    source
   51   1          SendData(ROLL);
   52   1          Start();
   53   1          SendData((IICAddr<<1)|1);
-C51 COMPILER V9.59.0.0   JY901                                                             04/16/2021 01:57:51 PAGE 2   
+C51 COMPILER V9.59.0.0   JY901                                                             04/17/2021 21:56:59 PAGE 2   
 
   54   1          p0 = RecvData();                            //Read data 1|读取数据1
   55   1          SendACK();
@@ -126,7 +126,7 @@ line level    source
  109   1          SendNAK();
  110   1          Stop();                                     //Send stop command|发送停止命令
  111   1          temp = (p1<<8)|p0;
-C51 COMPILER V9.59.0.0   JY901                                                             04/16/2021 01:57:51 PAGE 3   
+C51 COMPILER V9.59.0.0   JY901                                                             04/17/2021 21:56:59 PAGE 3   
 
  112   1          jy901.Gy = (double)temp/32768*2000;
  113   1              

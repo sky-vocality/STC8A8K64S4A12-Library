@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   ENCODER                                                           04/16/2021 01:57:51 PAGE 1   
+C51 COMPILER V9.59.0.0   ENCODER                                                           04/17/2021 21:56:59 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE ENCODER
@@ -46,7 +46,7 @@ line level    source
   36   1              ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;
   37   1              ENC_InitTypeDef.ENC_Polity = PolityHigh;
   38   1              ENC_InitTypeDef.ENC_Interrupt = ENABLE;
-  39   1              ENC_Inilize(EXT_INT0,&ENC_InitTypeDef);
+  39   1              ENC_Inilize(PCA_INT1,&ENC_InitTypeDef);
   40   1      }
 
 

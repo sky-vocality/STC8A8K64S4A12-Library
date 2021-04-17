@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   LMV358                                                            04/16/2021 01:57:52 PAGE 1   
+C51 COMPILER V9.59.0.0   LMV358                                                            04/17/2021 21:56:59 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE LMV358
@@ -62,7 +62,7 @@ line level    source
   52          
   53          //========================================================================
   54          // Function:LMV358_GetAvergeData()
-C51 COMPILER V9.59.0.0   LMV358                                                            04/16/2021 01:57:52 PAGE 2   
+C51 COMPILER V9.59.0.0   LMV358                                                            04/17/2021 21:56:59 PAGE 2   
 
   55          // Description:Do data processing of ADC acquisition|描述:中值平均滤波，取值次数为times(12)次
   56          // Parameter:unsigned char k  |参数: P1.x的通道号k
@@ -126,7 +126,7 @@ line level    source
  114          
  115          void LMV358_InductorNormal()
  116          {
-C51 COMPILER V9.59.0.0   LMV358                                                            04/16/2021 01:57:52 PAGE 3   
+C51 COMPILER V9.59.0.0   LMV358                                                            04/17/2021 21:56:59 PAGE 3   
 
  117   1              unsigned char num[6]={0};
  118   1              

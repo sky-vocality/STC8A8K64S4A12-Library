@@ -36,5 +36,5 @@ void ENC_EXT_init()
 	ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;
 	ENC_InitTypeDef.ENC_Polity = PolityHigh;
 	ENC_InitTypeDef.ENC_Interrupt = ENABLE;
-	ENC_Inilize(EXT_INT0,&ENC_InitTypeDef);
+	ENC_Inilize(PCA_INT1,&ENC_InitTypeDef);
 }
