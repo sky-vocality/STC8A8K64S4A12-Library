@@ -16,8 +16,8 @@
 	
 #include "LMV358.h"
 
-unsigned int ad_data_max[6] = {500,500,500,500,500,500};
-unsigned int ad_data_min[6] = { 200,200,200,200,200,200};   	
+unsigned int ad_data_max[6] = {240,240,240,240,240,240};
+unsigned int ad_data_min[6] = { 75,75,75,75,75,75};   	
 int left = 0, right = 0;
 int left1 = 0, right1 = 0;
 int left2 = 0, right2 = 0;
@@ -114,7 +114,7 @@ unsigned int LMV358_GetAvergeData(unsigned char k)
 
 void LMV358_InductorNormal()
 {
-	unsigned char num[6]={0};
+	unsigned int num[6]={0};
 	
 	num[0]=LMV358_GetAvergeData(0);
 	num[1]=LMV358_GetAvergeData(1);

@@ -1,116 +1,23 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              04/17/2021 21:56:58 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              05/04/2021 11:13:45 PAGE 1   
 
 
-C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\Objects\main.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG OBJECTEXT
-                    -END PRINT(.\Listings\main.lst) OBJECT(.\Objects\main.obj)
+COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG OBJECTEXTEN
+                    -D PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
 
 line level    source
 
-   1          #include "uart.h"
-   2          #include "pwm.h"
-   3          #include "delay.h"
-   4          #include "pid.h"
-   5          #include "encoder.h"
-   6          #include "adc.h"
-   7          #include "oled.h"
-   8          
-   9          //double Roll = 0;
-  10          //int temp = 0;
-  11          char kkk[5] = 0;
-  12          
-  13          int main()
-  14          {
-  15   1              //double Roll = 0;
-  16   1              //int ahh = 0;
-  17   1              /*
-  18   1              COMx_InitDefine COMx_InitDefine1;
-  19   1              ENC_EXT_init();
-  20   1              COMx_InitDefine1.UART_Mode = UART_8bit_BRTx;                    //Pattern|??,         UART_ShiftRight,UART_8bit_BRTx,UART_
-             -9bit,UART_9bit_BRTx
-  21   1              COMx_InitDefine1.UART_BRT_Use = BRT_Timer1;             //Using baud rate|?????,   BRT_Timer1,BRT_Timer2
-  22   1              COMx_InitDefine1.UART_BaudRate = 19200;         //baud rate|???,       ENABLE,DISABLE
-  23   1              COMx_InitDefine1.Morecommunicate = ENABLE;      //Multiprocessor Communication Allowance|??????, ENABLE,DISABL
-             -E
-  24   1              COMx_InitDefine1.UART_RxEnable = ENABLE;                //Allow reception|????,   ENABLE,DISABLE
-  25   1              COMx_InitDefine1.BaudRateDouble = DISABLE;              //Baud rate doubled|?????, ENABLE,DISABLE
-  26   1              COMx_InitDefine1.UART_Interrupt = ENABLE;               //Interrupt control|????,   ENABLE,DISABLE
-  27   1              COMx_InitDefine1.UART_Polity = PolityHigh;              //priority|???,     PolityLow,PolityHigh
-  28   1              COMx_InitDefine1.UART_P_SW = UART1_SW_P30_P31;                  //Switch port|????,   UART1_SW_P30_P31,UART1_SW_P36_P37,
-             -UART1_SW_P16_P17(????????)
-  29   1              USART_Configuration(USART1, &COMx_InitDefine1);
-  30   1              */
-  31   1              LCD_Init();
-  32   1              //LCD init|LCD???
-  33   1              //IIC_host_Slave_machine(host_machine);
-  34   1              LCD_P6x8Str(13, 3,(unsigned char*)"Init!");
-  35   1              Delay_Ms(500);
-  36   1              LCD_CLS();
-  37   1              //LCD_PrintU16(13,3,13100);
-  38   1              //LCD_PrintFloat(13,3,5.21);
-  39   1              ENC_EXT_init();
-  40   1              jy901_timer_init();
-  41   1              wheel_pid_timer_init();
-  42   1              //jy901_update();
-  43   1              while(1)
-  44   1              {
-  45   2                      //jy901_update();
-  46   2                      //LCD_PrintFloat(13,3,server_pid.pid_out);
-  47   2                      LCD_Print16(13,3,encoder_num);
-  48   2                      //LCD_PrintFloat(13,3,1.1);
-  49   2                      //wheel_pwm.PWM_Value = 250;//wheel_pid.pid_out;
-  50   2                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
-  51   2                      //wheel_pwm.PWM_Value = 210;//wheel_pid.pid_out;
-C51 COMPILER V9.59.0.0   MAIN                                                              04/17/2021 21:56:58 PAGE 2   
-
-  52   2                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
-  53   2                      Delay_Ms(50);
-  54   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  55   2                      //PWM_Output(PWM_1,&server_pwm);
-  56   2                      //LCD_PrintFloat(3,0,jy901.Pitch);
-  57   2                      //LCD_PrintFloat(4,0,jy901.Yaw);
-  58   2                      //Delay_Ms(100);
-  59   2                      LCD_CLS();
-  60   2                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
-  61   2                      //LCD_Fill(0x00);
-  62   2                      //Delay_Ms(500);
-  63   2                      //LCD_CLS();
-  64   2                      /*
-  65   2                      //jy901_update();
-  66   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
-  67   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
-  68   2                      PWM_Output(PWM_0,&wheel_pwm);
-  69   2                      intToString(encoder_num,kkk);
-  70   2                      encoder_num = 0;
-  71   2                      PrintString1(kkk);
-  72   2                      PrintString1(",\r\n");
-  73   2                      //kkkkk = ReceiveByte1();
-  74   2                      //PrintString1(RX2_Buffer);
-  75   2                      //PrintString1(&kkkkk);
-  76   2                      int a;
-  77   2                      for(a = 0;a<1000;a++)
-  78   2                      {
-  79   2                              server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  80   2                              PWM_Output(PWM_1,&server_pwm);
-  81   2                              LCD_PrintU16(13,3,a);
-  82   2                              LCD_CLS();
-  83   2                              Delay_Ms(50);
-  84   2                      }*/
-  85   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  86   2                      //PWM_Output(PWM_1,&server_pwm);
-  87   2                      //jy901_update();
-  88   2                      //Delay_Ms(500);
-  89   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  90   2                      //PWM_Output(PWM_1,&server_pwm);
-  91   2              }
-  92   1      }
+   1          int main()
+   2          {
+   3   1      }
+*** WARNING C290 IN LINE 3 OF main.c: missing return value
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     62    ----
-   CONSTANT SIZE    =      6    ----
-   XDATA SIZE       =      5    ----
+   CODE SIZE        =      1    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
@@ -118,4 +25,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

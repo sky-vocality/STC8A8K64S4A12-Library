@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   ENCODER                                                           04/17/2021 21:56:59 PAGE 1   
+C51 COMPILER V9.60.0.0   ENCODER                                                           05/04/2021 11:13:46 PAGE 1   
 
 
-C51 COMPILER V9.59.0.0, COMPILATION OF MODULE ENCODER
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ENCODER
 OBJECT MODULE PLACED IN .\Objects\encoder.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Core\Src\encoder.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEB
-                    -UG OBJECTEXTEND PRINT(.\Listings\encoder.lst) OBJECT(.\Objects\encoder.obj)
+COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE Core\Src\encoder.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG
+                    - OBJECTEXTEND PRINT(.\Listings\encoder.lst) TABS(2) OBJECT(.\Objects\encoder.obj)
 
 line level    source
 
@@ -31,22 +31,22 @@ line level    source
   21          
   22          #include "encoder.h"
   23          
-  24          unsigned char   ENC_Inilize(unsigned char EXT, ENC_InitTypeDef *INTx)
+  24          unsigned char ENC_Inilize(unsigned char EXT, ENC_InitTypeDef *INTx)
   25          {
-  26   1              EXTI_InitTypeDef EXTI_InitTypeDef;
-  27   1              EXTI_InitTypeDef.EXTI_Mode = INTx->ENC_Mode;//上升沿中断
-  28   1              EXTI_InitTypeDef.EXTI_Polity = INTx->ENC_Polity;//高优先级
-  29   1              EXTI_InitTypeDef.EXTI_Interrupt = INTx->ENC_Interrupt;//使能
-  30   1              return Ext_Inilize(EXT,&EXTI_InitTypeDef);//完成配置
+  26   1        EXTI_InitTypeDef EXTI_InitTypeDef;
+  27   1        EXTI_InitTypeDef.EXTI_Mode = INTx->ENC_Mode;//上升沿中断
+  28   1        EXTI_InitTypeDef.EXTI_Polity = INTx->ENC_Polity;//高优先级
+  29   1        EXTI_InitTypeDef.EXTI_Interrupt = INTx->ENC_Interrupt;//使能
+  30   1        return Ext_Inilize(EXT,&EXTI_InitTypeDef);//完成配置
   31   1      }
   32          
   33          void ENC_EXT_init()
   34          {
-  35   1              ENC_InitTypeDef ENC_InitTypeDef;
-  36   1              ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;
-  37   1              ENC_InitTypeDef.ENC_Polity = PolityHigh;
-  38   1              ENC_InitTypeDef.ENC_Interrupt = ENABLE;
-  39   1              ENC_Inilize(PCA_INT1,&ENC_InitTypeDef);
+  35   1        ENC_InitTypeDef ENC_InitTypeDef;
+  36   1        ENC_InitTypeDef.ENC_Mode = ENC_MODE_RiseFall;
+  37   1        ENC_InitTypeDef.ENC_Polity = PolityHigh;
+  38   1        ENC_InitTypeDef.ENC_Interrupt = ENABLE;
+  39   1        ENC_Inilize(PCA_INT1,&ENC_InitTypeDef);
   40   1      }
 
 

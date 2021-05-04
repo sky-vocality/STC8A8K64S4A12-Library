@@ -1,10 +1,10 @@
-C51 COMPILER V9.59.0.0   DELAY                                                             04/17/2021 21:56:58 PAGE 1   
+C51 COMPILER V9.60.0.0   DELAY                                                             05/04/2021 11:13:45 PAGE 1   
 
 
-C51 COMPILER V9.59.0.0, COMPILATION OF MODULE DELAY
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DELAY
 OBJECT MODULE PLACED IN .\Objects\delay.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Core\Src\delay.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG
-                    - OBJECTEXTEND PRINT(.\Listings\delay.lst) OBJECT(.\Objects\delay.obj)
+COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE Core\Src\delay.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG O
+                    -BJECTEXTEND PRINT(.\Listings\delay.lst) TABS(2) OBJECT(.\Objects\delay.obj)
 
 line level    source
 
@@ -43,17 +43,17 @@ line level    source
   32          //========================================================================
   33          void Delay_Ms(unsigned int Ms){
   34   1        unsigned int k;
-  35   1              unsigned char i, j;
-  36   1              for(k=0;k<Ms;k++)
-  37   1              {
-  38   2              _nop_();
-  39   2              i = 32;
-  40   2              j = 40;
-  41   2                      do
-  42   2                      {
-  43   3                        while (--j);
-  44   3                      } while (--i);
-  45   2              }}
+  35   1        unsigned char i, j;
+  36   1        for(k=0;k<Ms;k++)
+  37   1        {
+  38   2        _nop_();
+  39   2        i = 32;
+  40   2        j = 40;
+  41   2          do
+  42   2          {
+  43   3            while (--j);
+  44   3          } while (--i);
+  45   2        }}
   46          //========================================================================
   47          // Function:Delay_Us(unsigned int Us)|函数: Delay_Us(unsigned int Us)
   48          // Description:Delay Function|描述: 延时函数。
@@ -62,18 +62,18 @@ line level    source
   50          // Return:none|返回: none.
   51          // Version:VER1.0.0|版本: VER1.0.0
   52          // Date:2018-12-20|日期: 2018-12-20
-C51 COMPILER V9.59.0.0   DELAY                                                             04/17/2021 21:56:58 PAGE 2   
+C51 COMPILER V9.60.0.0   DELAY                                                             05/04/2021 11:13:45 PAGE 2   
 
   53          // Note:delay_us(1000);//delay 1ms|备注: delay_us(1000);//延迟1ms
   54          //========================================================================
   55          void Delay_Us(unsigned int Us){
   56   1        unsigned int k;
-  57   1              unsigned char i;
-  58   1              for(k=0;k<Us;k++)
-  59   1              {
-  60   2              i = 6;
-  61   2              while (--i);
-  62   2              }
+  57   1        unsigned char i;
+  58   1        for(k=0;k<Us;k++)
+  59   1        {
+  60   2        i = 6;
+  61   2        while (--i);
+  62   2        }
   63   1      }
 
 
