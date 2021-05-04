@@ -31,9 +31,9 @@
 #define	EXT_INT3			11	//External interrupt 3|外部中断3
 #define	EXT_INT4			16	//External interrupt 4|外部中断4
 #define	PCA_INT0			7	//PAC interrupt 7|PAC中断7
-#define	PCA_INT1			7	//PAC interrupt 7|PAC中断7
-#define	PCA_INT2			7	//PAC interrupt 7|PAC中断7
-#define	PCA_INT3			7	//PAC interrupt 7|PAC中断7
+#define	PCA_INT1			8	//PAC interrupt 7|PAC中断7
+#define	PCA_INT2			9	//PAC interrupt 7|PAC中断7
+#define	PCA_INT3			12	//PAC interrupt 7|PAC中断7
 #endif
 
 #define	EXT_MODE_RiseFall	0		//Rising edge interruption|上升沿中断

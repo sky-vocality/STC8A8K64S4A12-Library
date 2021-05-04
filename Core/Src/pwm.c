@@ -21,7 +21,7 @@
 #include "pwm.h"
 
 PWM_InitTypeDef wheel_pwm = {PWM_Channel1, 0, 12500};
-PWM_InitTypeDef server_pwm = {PWM_Channel1, 147.5, 100};
+PWM_InitTypeDef server_pwm = {PWM_Channel1, 78, 50};
 
 //========================================================================
 // Function:void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|º¯Êý: void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
@@ -97,9 +97,9 @@ void PWM_PCA_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 	PWM_Pre = (PWM_Value/1000);
 	PWM_out = (int)(255 * PWM_Pre);
 	CCON = 0x00;
-	CMOD = 0x0d;
-	CL = 0;
-	CH = 0;
+	CMOD = 0x0c;
+	CL = 0x00;
+	CH = 0x00;
 	switch(PWMx->PWM_Channelx)
 	{
 		case 0x00 : P_SW1 = 0x00;break;

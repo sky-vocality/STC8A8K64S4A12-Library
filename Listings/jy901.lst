@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   JY901                                                             05/04/2021 11:13:47 PAGE 1   
+C51 COMPILER V9.59.0.0   JY901                                                             05/04/2021 20:14:56 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE JY901
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE JY901
 OBJECT MODULE PLACED IN .\Objects\jy901.obj
-COMPILER INVOKED BY: E:\KEIL5\C51\BIN\C51.EXE Core\Src\jy901.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG O
-                    -BJECTEXTEND PRINT(.\Listings\jy901.lst) TABS(2) OBJECT(.\Objects\jy901.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Core\Src\jy901.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Core\Inc) DEBUG
+                    - OBJECTEXTEND PRINT(.\Listings\jy901.lst) OBJECT(.\Objects\jy901.obj)
 
 line level    source
 
@@ -44,25 +44,25 @@ line level    source
   34          // Date:2021-02-01|日期: 2021-02-01
   35          // Author: sky-vocality|作者: sky-vocality
   36          // Note:|备注:
-  37          //  
-  38          //  
-  39          //  
-  40          //  
-  41          //  
+  37          //      
+  38          //      
+  39          //      
+  40          //      
+  41          //      
   42          //========================================================================
   43          void jy901_update()
   44          {
   45   1          unsigned char p0 = 0;
   46   1          int temp = 0;
   47   1          unsigned char p1 = 0;
-  48   1        P_SW2 = 0x90;
+  48   1              P_SW2 = 0x90;
   49   1          Start();                                    //Send Start Command|发送起始命令
   50   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
   51   1          SendData(ROLL);
   52   1          Start();
   53   1          SendData((IICAddr<<1)|1);
-C51 COMPILER V9.60.0.0   JY901                                                             05/04/2021 11:13:47 PAGE 2   
+C51 COMPILER V9.59.0.0   JY901                                                             05/04/2021 20:14:56 PAGE 2   
 
   54   1          p0 = RecvData();                            //Read data 1|读取数据1
   55   1          SendACK();
@@ -97,10 +97,10 @@ line level    source
   82   1          p1 = RecvData();                            //读取数据2|读取数据2
   83   1          SendNAK();
   84   1          Stop();                                     //Send stop command|发送停止命令
-  85   1        temp = (p1<<8)|p0;
+  85   1              temp = (p1<<8)|p0;
   86   1          jy901.Yaw = (double)temp/32768*180;
-  87   1        
-  88   1        Start();                                    //Send Start Command|发送起始命令
+  87   1              
+  88   1              Start();                                    //Send Start Command|发送起始命令
   89   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
   90   1          SendData(GX);
@@ -113,8 +113,8 @@ line level    source
   97   1          Stop();                                     //Send stop command|发送停止命令
   98   1          temp = (p1<<8)|p0;
   99   1          jy901.Gx = (double)temp/32768*2000;
- 100   1        
- 101   1        Start();                                    //Send Start Command|发送起始命令
+ 100   1              
+ 101   1              Start();                                    //Send Start Command|发送起始命令
  102   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
  103   1          SendData(GY);
@@ -126,11 +126,11 @@ line level    source
  109   1          SendNAK();
  110   1          Stop();                                     //Send stop command|发送停止命令
  111   1          temp = (p1<<8)|p0;
-C51 COMPILER V9.60.0.0   JY901                                                             05/04/2021 11:13:47 PAGE 3   
+C51 COMPILER V9.59.0.0   JY901                                                             05/04/2021 20:14:56 PAGE 3   
 
  112   1          jy901.Gy = (double)temp/32768*2000;
- 113   1        
- 114   1        Start();                                    //Send Start Command|发送起始命令
+ 113   1              
+ 114   1              Start();                                    //Send Start Command|发送起始命令
  115   1          SendData(IICAddr<<1);                          //Send device address + read command|发送设备地址
              -+读命令
  116   1          SendData(GZ);
@@ -148,16 +148,16 @@ line level    source
  128          
  129          void jy901_timer_init()
  130          {
- 131   1        TIM_InitTypeDef TIM_InitTypeDef;
- 132   1        TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
- 133   1        TIM_InitTypeDef.TIM_Polity = PolityHigh;
- 134   1        TIM_InitTypeDef.TIM_Interrupt = ENABLE;
- 135   1        TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
- 136   1        TIM_InitTypeDef.TIM_ClkOut = ENABLE;
- 137   1        TIM_InitTypeDef.TIM_Value = 41536;
- 138   1        TIM_InitTypeDef.TIM_Run = ENABLE;
- 139   1        IIC_host_Slave_machine(host_machine);
- 140   1        Timer_Inilize(Timer1, &TIM_InitTypeDef);
+ 131   1              TIM_InitTypeDef TIM_InitTypeDef;
+ 132   1              TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
+ 133   1              TIM_InitTypeDef.TIM_Polity = PolityHigh;
+ 134   1              TIM_InitTypeDef.TIM_Interrupt = ENABLE;
+ 135   1              TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
+ 136   1              TIM_InitTypeDef.TIM_ClkOut = ENABLE;
+ 137   1              TIM_InitTypeDef.TIM_Value = 41536;
+ 138   1              TIM_InitTypeDef.TIM_Run = ENABLE;
+ 139   1              IIC_host_Slave_machine(host_machine);
+ 140   1              Timer_Inilize(Timer1, &TIM_InitTypeDef);
  141   1      }
 
 

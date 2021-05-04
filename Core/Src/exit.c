@@ -171,7 +171,7 @@ unsigned char Ext_Inilize(unsigned char EXT, EXTI_InitTypeDef *INTx)
 		return	0;		//Success|成功
 	}
 
-	if(EXT == PCA_INT1)		//External interrupt 4, fixed to lower priority interrupt|外中断4, 固定为下降沿低优先级中断
+	if(EXT == PCA_INT1)
 	{
 		CCON = 0x00;
 		CMOD = 0x0d;
@@ -185,7 +185,7 @@ unsigned char Ext_Inilize(unsigned char EXT, EXTI_InitTypeDef *INTx)
 		return	0;		//Success|成功
 	}
 
-	if(EXT == PCA_INT2)		//External interrupt 4, fixed to lower priority interrupt|外中断4, 固定为下降沿低优先级中断
+	if(EXT == PCA_INT2)
 	{
 		CCON = 0x00;
 		CMOD = 0x0d;
@@ -199,7 +199,7 @@ unsigned char Ext_Inilize(unsigned char EXT, EXTI_InitTypeDef *INTx)
 		return	0;		//Success|成功
 	}
 
-	if(EXT == PCA_INT3)		//External interrupt 4, fixed to lower priority interrupt|外中断4, 固定为下降沿低优先级中断
+	if(EXT == PCA_INT3)
 	{
 		CCON = 0x00;
 		CMOD = 0x0d;
