@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   LMV358                                                            05/04/2021 20:14:56 PAGE 1   
+C51 COMPILER V9.59.0.0   LMV358                                                            05/16/2021 22:49:32 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE LMV358
@@ -26,146 +26,172 @@ line level    source
   16                  
   17          #include "LMV358.h"
   18          
-  19          unsigned int ad_data_max[6] = {240,240,240,240,240,240};
-  20          unsigned int ad_data_min[6] = { 75,75,75,75,75,75};     
-  21          int left = 0, right = 0;
-  22          int left1 = 0, right1 = 0;
-  23          int left2 = 0, right2 = 0;
-  24          
-  25          //========================================================================
-  26          // Function:LMV358_Init
-  27          // Description:start the LMV358|描述: 初始化LMV358模块，并开启P1.x的adc采集
-  28          // Parameter:NONE
-  29          //       
-  30          //       
-  31          // Return:|返回: 
-  32          // Version:VER1.0.0|版本: VER1.0.0
-  33          // Date:2021-04-12|日期: 2021-04-12
-  34          // Author: NULL|作者: NULL
-  35          // Note:|备注:
-  36          //      
-  37          //      
-  38          //      
-  39          //========================================================================
-  40          
-  41          void LMV358_Init()
-  42          {
-  43   1              ADC_InitTypeDef ADC_Init;
-  44   1              ADC_Init.ADC_Px=ADC_P10;                          //更改此处替换adc采集的IO口
-  45   1              ADC_Init.ADC_Speed=ADC_180T;
-  46   1              ADC_Init.ADC_Power=ENABLE;
-  47   1              ADC_Init.ADC_AdjResult=ADC_RES_H2L8;
-  48   1              ADC_Init.ADC_Polity=PolityHigh;
-  49   1              ADC_Init.ADC_Interrupt=ENABLE;
-  50   1              ADC_Inilize(&ADC_Init);
-  51   1      }
-  52          
-  53          //========================================================================
-  54          // Function:LMV358_GetAvergeData()
-C51 COMPILER V9.59.0.0   LMV358                                                            05/04/2021 20:14:56 PAGE 2   
+  19          /*unsigned int ad_data_max[6] = {240,240,240,240,240,240};
+  20          unsigned int ad_data_min[6] = { 75,75,75,75,75,75};*/  //六路采集
+  21          unsigned int ad_data_max[2] = {240,240};  //两路采集
+  22          unsigned int ad_data_min[2] = { 75,75}; 
+  23          unsigned int left = 0, right = 0;
+  24          /*
+  25          int left1 = 0, right1 = 0;
+  26          int left2 = 0, right2 = 0;
+  27          */
+  28          
+  29          //========================================================================
+  30          // Function:LMV358_Init
+  31          // Description:start the LMV358|描述: 初始化LMV358模块，并开启P1.x的adc采集
+  32          // Parameter:NONE
+  33          //       
+  34          //       
+  35          // Return:|返回: 
+  36          // Version:VER1.0.0|版本: VER1.0.0
+  37          // Date:2021-04-12|日期: 2021-04-12
+  38          // Author: NULL|作者: NULL
+  39          // Note:|备注:
+  40          //      
+  41          //      
+  42          //      
+  43          //========================================================================
+  44          
+  45          void LMV358_Init()
+  46          {
+  47   1              ADC_InitTypeDef ADC_Init;
+  48   1              ADC_Init.ADC_Px=ADC_P10;                          //更改此处替换adc采集的IO口
+  49   1              ADC_Init.ADC_Speed=ADC_180T;
+  50   1              ADC_Init.ADC_Power=ENABLE;
+  51   1              ADC_Init.ADC_AdjResult=ADC_RES_H2L8;
+  52   1              ADC_Init.ADC_Polity=PolityHigh;
+  53   1              ADC_Init.ADC_Interrupt=ENABLE;
+  54   1              ADC_Inilize(&ADC_Init);
+C51 COMPILER V9.59.0.0   LMV358                                                            05/16/2021 22:49:32 PAGE 2   
 
-  55          // Description:Do data processing of ADC acquisition|描述:中值平均滤波，取值次数为times(12)次
-  56          // Parameter:unsigned char k  |参数: P1.x的通道号k
-  57          //       
-  58          //       
-  59          // Return:unsigned int|返回: 返回处理后的电感信号(单通道)
-  60          // Version:VER1.0.0|版本: VER1.0.0
-  61          // Date:2021-04-12|日期: 2021-04-12
-  62          // Author: NULL|作者: NULL
-  63          // Note:|备注:
-  64          //      
-  65          //      
-  66          //========================================================================
-  67          
-  68          unsigned int LMV358_GetAvergeData(unsigned char k)
-  69          {
-  70   1              unsigned char cnt=0;
-  71   1              unsigned int sum=0;
-  72   1              unsigned char i,j;
-  73   1              unsigned int temp=0;
-  74   1              unsigned int data_temp[times]={0};
-  75   1              
-  76   1              unsigned char tem[5]={0};
-  77   1              
-  78   1              for (cnt=0;cnt<times;cnt++)
-  79   1        {
-  80   2          data_temp[cnt] = Get_ADC10bitResult(k);
-  81   2                      Delay_Us(100);
-  82   2              }
-  83   1              
-  84   1        for (j=0;j<times-1;j++)
-  85   1        {
-  86   2                      for (i=0;i<times-j-1;i++)
-  87   2          {
-  88   3             if (data_temp[i]>data_temp[i+1] )
-  89   3             {
-  90   4                temp = data_temp[i];
-  91   4                data_temp[i] = data_temp[i+1];
-  92   4                data_temp[i+1] = temp;
-  93   4             }
-  94   3           }
-  95   2         }
-  96   1              
-  97   1               for(cnt=1;cnt<times-1;cnt++)
-  98   1           sum += data_temp[cnt];
-  99   1      
- 100   1       return (sum/(times-2));
- 101   1      }
- 102          
- 103          //========================================================================
- 104          // Function:LMV358_InductorNormal()
- 105          // Description:Do InductorNormal work|描述: 对六路采集回的电感做归一化处理（1000以内）
- 106          // Parameter:NONE     
- 107          // Return:None|返回: 无返回值
- 108          // Version:VER1.0.0|版本: VER1.0.0
- 109          // Date:2021-04-12|日期: 2021-04-12
- 110          // Author: NULL|作者: NULL
- 111          // Note:|备注:
- 112          //      
- 113          //========================================================================
- 114          
- 115          void LMV358_InductorNormal()
- 116          {
-C51 COMPILER V9.59.0.0   LMV358                                                            05/04/2021 20:14:56 PAGE 3   
+  55   1      }
+  56          
+  57          //========================================================================
+  58          // Function:LMV358_GetAvergeData()
+  59          // Description:Do data processing of ADC acquisition|描述:中值平均滤波，取值次数为times(12)次
+  60          // Parameter:unsigned char k  |参数: P1.x的通道号k
+  61          //       
+  62          //       
+  63          // Return:unsigned int|返回: 返回处理后的电感信号(单通道)
+  64          // Version:VER1.0.0|版本: VER1.0.0
+  65          // Date:2021-04-12|日期: 2021-04-12
+  66          // Author: NULL|作者: NULL
+  67          // Note:|备注:
+  68          //      
+  69          //      
+  70          //========================================================================
+  71          
+  72          unsigned int LMV358_GetAvergeData(unsigned char k)
+  73          {
+  74   1              unsigned char cnt=0;
+  75   1              unsigned int sum=0;
+  76   1              unsigned char i,j;
+  77   1              unsigned int temp=0;
+  78   1              unsigned int data_temp[times]={0};
+  79   1              
+  80   1              unsigned char tem[5]={0};
+  81   1              
+  82   1              for (cnt=0;cnt<times;cnt++)
+  83   1        {
+  84   2          data_temp[cnt] = Get_ADC10bitResult(k);
+  85   2                      Delay_Us(100);
+  86   2              }
+  87   1              
+  88   1        for (j=0;j<times-1;j++)
+  89   1        {
+  90   2                      for (i=0;i<times-j-1;i++)
+  91   2          {
+  92   3             if (data_temp[i]>data_temp[i+1] )
+  93   3             {
+  94   4                temp = data_temp[i];
+  95   4                data_temp[i] = data_temp[i+1];
+  96   4                data_temp[i+1] = temp;
+  97   4             }
+  98   3           }
+  99   2         }
+ 100   1              
+ 101   1               for(cnt=1;cnt<times-1;cnt++)
+ 102   1           sum += data_temp[cnt];
+ 103   1      
+ 104   1       return (sum/(times-2));
+ 105   1      }
+ 106          
+ 107          //========================================================================
+ 108          // Function:LMV358_InductorNormal()
+ 109          // Description:Do InductorNormal work|描述: 对六路采集回的电感做归一化处理（1000以内）
+ 110          // Parameter:NONE     
+ 111          // Return:None|返回: 无返回值
+ 112          // Version:VER1.0.0|版本: VER1.0.0
+ 113          // Date:2021-04-12|日期: 2021-04-12
+ 114          // Author: NULL|作者: NULL
+ 115          // Note:|备注:
+ 116          //      
+C51 COMPILER V9.59.0.0   LMV358                                                            05/16/2021 22:49:32 PAGE 3   
 
- 117   1              unsigned int num[6]={0};
- 118   1              
- 119   1              num[0]=LMV358_GetAvergeData(0);
- 120   1              num[1]=LMV358_GetAvergeData(1);
- 121   1              num[2]=LMV358_GetAvergeData(2);
- 122   1              num[3]=LMV358_GetAvergeData(3);
- 123   1              num[4]=LMV358_GetAvergeData(4);
- 124   1              num[5]=LMV358_GetAvergeData(5);
- 125   1              
- 126   1              if (num[0] < ad_data_min[0])            ad_data_min[0] = num[0];     
- 127   1              else if (num[0] > ad_data_max[0])       ad_data_max[0] = num[0];     
- 128   1              if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
- 129   1              else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1]; 
- 130   1              if (num[2] < ad_data_min[2])            ad_data_min[2] = num[2];
- 131   1              else if (num[2] > ad_data_max[2])       ad_data_max[2] = num[2];
- 132   1              if (num[3] < ad_data_min[3])            ad_data_min[3] = num[3];
- 133   1              else if (num[3] > ad_data_max[3])       ad_data_max[3] = num[3];        
- 134   1              if (num[4] < ad_data_min[4])            ad_data_min[4] = num[4];
- 135   1              else if (num[4] > ad_data_max[4])       ad_data_max[4] = num[4];
- 136   1              if (num[5] < ad_data_min[5])            ad_data_min[5] = num[5];
- 137   1              else if (num[5] > ad_data_max[5])       ad_data_max[5] = num[5];
- 138   1              
- 139   1              left = (num[0] - ad_data_min[0]) * 100 / (ad_data_max[0] - ad_data_min[0]);     
- 140   1              right = (num[5] - ad_data_min[5]) * 100 / (ad_data_max[5] - ad_data_min[5]);
- 141   1              left1 = (num[1] - ad_data_min[1]) * 100 / (ad_data_max[1] - ad_data_min[1]);     
- 142   1              right1 = (num[4] - ad_data_min[4]) * 100 / (ad_data_max[4] - ad_data_min[4]);
- 143   1              left2 = (num[2] - ad_data_min[2]) * 100 / (ad_data_max[2] - ad_data_min[2]);     
- 144   1              right2 = (num[3] - ad_data_min[3]) * 100 / (ad_data_max[3] - ad_data_min[3]);
- 145   1              
- 146   1      }
- 147          
+ 117          //========================================================================
+ 118          
+ 119          void LMV358_InductorNormal()
+ 120          {
+ 121   1              //unsigned int num[6]={0};
+ 122   1              unsigned int num[2]={0};
+ 123   1              
+ 124   1              /*num[0]=LMV358_GetAvergeData(0);
+ 125   1              num[1]=LMV358_GetAvergeData(1);*/
+ 126   1              num[0]=LMV358_GetAvergeData(2);
+ 127   1              num[1]=LMV358_GetAvergeData(3);
+ 128   1              /*num[4]=LMV358_GetAvergeData(4);
+ 129   1              num[5]=LMV358_GetAvergeData(5);*/
+ 130   1              
+ 131   1              /*if (num[0] < ad_data_min[0])            ad_data_min[0] = num[0];     
+ 132   1              else if (num[0] > ad_data_max[0])       ad_data_max[0] = num[0];     
+ 133   1              if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
+ 134   1              else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1]; */
+ 135   1              if (num[0] < ad_data_min[0])            ad_data_min[0] = num[0];
+ 136   1              else if (num[0] > ad_data_max[0])       ad_data_max[1] = num[1];
+ 137   1              if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
+ 138   1              else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1];        
+ 139   1              /*if (num[4] < ad_data_min[4])            ad_data_min[4] = num[4];
+ 140   1              else if (num[4] > ad_data_max[4])       ad_data_max[4] = num[4];
+ 141   1              if (num[5] < ad_data_min[5])            ad_data_min[5] = num[5];
+ 142   1              else if (num[5] > ad_data_max[5])       ad_data_max[5] = num[5];*/
+ 143   1              
+ 144   1              /*left = (num[0] - ad_data_min[0]) * 100 / (ad_data_max[0] - ad_data_min[0]);     
+ 145   1              right = (num[5] - ad_data_min[5]) * 100 / (ad_data_max[5] - ad_data_min[5]);
+ 146   1              left1 = (num[1] - ad_data_min[1]) * 100 / (ad_data_max[1] - ad_data_min[1]);     
+ 147   1              right1 = (num[4] - ad_data_min[4]) * 100 / (ad_data_max[4] - ad_data_min[4]);*/
+ 148   1              left = (num[0] - ad_data_min[0]) * 100 / (ad_data_max[0] - ad_data_min[0]);     
+ 149   1              right = (num[1] - ad_data_min[1]) * 100 / (ad_data_max[1] - ad_data_min[1]);
+ 150   1              
+ 151   1      }
+ 152          
+ 153          //========================================================================
+ 154          // Function:LMV358_Output()
+ 155          // Description:Output the final process|描述: 差比和算法输出误差
+ 156          // Parameter:NONE     
+ 157          // Return:error|返回: 
+ 158          // Version:VER1.0.0|版本: VER1.0.0
+ 159          // Date:2021-05-13|日期: 2021-05-13
+ 160          // Author: NULL|作者: NULL
+ 161          // Note:|备注:
+ 162          //      
+ 163          //========================================================================
+ 164          
+ 165          unsigned int LMV358_Output()
+ 166          {
+ 167   1              unsigned int error;
+ 168   1              error = ((right-left)<<7)/(right+left);
+ 169   1              return error;
+ 170   1      }
+ 171          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1185    ----
-   CONSTANT SIZE    =     41    ----
-   XDATA SIZE       =     36      53
+   CODE SIZE        =    693    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =     12      45
    PDATA SIZE       =   ----    ----
+C51 COMPILER V9.59.0.0   LMV358                                                            05/16/2021 22:49:32 PAGE 4   
+
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----

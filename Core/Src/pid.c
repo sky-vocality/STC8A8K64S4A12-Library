@@ -23,8 +23,8 @@
 
 #define Inter_Max   5
 
-PID wheel_pid = {0.18, 0.6, 0.35, 0, 0, 0, 980, 0, 0};
-PID server_pid = {0.49, 0.15, 0.037, 0, 0, 0, 52.0, -52.0, 0};
+PID wheel_pid = {0.15, 0.45, 0.28, 0, 0, 0, 980, 0, 0};
+PID server_pid = {0.38886, 0.15, 0.04459, 0, 0, 0, 52.0, -52.0, 0};
 
 void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type)
 {

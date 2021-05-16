@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   PID                                                               05/04/2021 20:14:55 PAGE 1   
+C51 COMPILER V9.59.0.0   PID                                                               05/16/2021 22:49:31 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PID
@@ -33,8 +33,8 @@ line level    source
   23          
   24          #define Inter_Max   5
   25          
-  26          PID wheel_pid = {0.18, 0.6, 0.35, 0, 0, 0, 980, 0, 0};
-  27          PID server_pid = {0.49, 0.15, 0.037, 0, 0, 0, 52.0, -52.0, 0};
+  26          PID wheel_pid = {0.15, 0.45, 0.28, 0, 0, 0, 980, 0, 0};
+  27          PID server_pid = {0.38886, 0.15, 0.04459, 0, 0, 0, 52.0, -52.0, 0};
   28          
   29          void PID_Control(unsigned char pid_type, float current_position,float expected_position,PID* motor_type)
   30          {
@@ -62,7 +62,7 @@ line level    source
   51   2                      motor_type->error_last=motor_type->error_now;
   52   2                      motor_type->error_now = expected_position - current_position;
   53   2                      motor_type->pid_out += motor_type->Kp * (motor_type->error_now - motor_type->error_last) + motor_type->K
-C51 COMPILER V9.59.0.0   PID                                                               05/04/2021 20:14:55 PAGE 2   
+C51 COMPILER V9.59.0.0   PID                                                               05/16/2021 22:49:31 PAGE 2   
 
              -i * motor_type->error_now;
   54   2                      // limit out of pid

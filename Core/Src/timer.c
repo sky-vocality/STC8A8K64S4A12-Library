@@ -51,7 +51,7 @@ void timer1_int (void) interrupt 3
 	if(timer1_num == 10)
 	{
 		jy901_update();
-		PID_Control(angle, -jy901.Roll, -1.6, &server_pid);
+		PID_Control(angle, -jy901.Roll, -4, &server_pid);
 		server_pwm.PWM_Value = server_pid.pid_out + 78;
 		PWM_CLK_Output(PWM_1,&server_pwm);
 		timer1_num = 0;

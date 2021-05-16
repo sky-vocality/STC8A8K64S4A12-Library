@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   IIC                                                               05/04/2021 20:14:55 PAGE 1   
+C51 COMPILER V9.59.0.0   IIC                                                               05/16/2021 22:49:30 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE IIC
@@ -62,7 +62,7 @@ line level    source
   50          //      
   51          //========================================================================
   52          void IIC_host_Slave_machine(unsigned char host_Slave_machine)
-C51 COMPILER V9.59.0.0   IIC                                                               05/04/2021 20:14:55 PAGE 2   
+C51 COMPILER V9.59.0.0   IIC                                                               05/16/2021 22:49:30 PAGE 2   
 
   53          {
   54   1              if(host_Slave_machine==host_machine)
@@ -126,7 +126,7 @@ line level    source
  110   2              else
  111   2              {
  112   3                  buffer[addr++] = I2CRXD;        //Handling RECV events (RECV DATA)|处理RECV事件（RECV DATA）
-C51 COMPILER V9.59.0.0   IIC                                                               05/04/2021 20:14:55 PAGE 3   
+C51 COMPILER V9.59.0.0   IIC                                                               05/16/2021 22:49:30 PAGE 3   
 
  113   3              }
  114   2          }
@@ -190,7 +190,7 @@ line level    source
  172          void RecvACK()
  173          {
  174   1          I2CMSCR = 0x03;                             //发送读ACK命令
-C51 COMPILER V9.59.0.0   IIC                                                               05/04/2021 20:14:55 PAGE 4   
+C51 COMPILER V9.59.0.0   IIC                                                               05/16/2021 22:49:30 PAGE 4   
 
  175   1          Wait();
  176   1      }
@@ -254,7 +254,7 @@ line level    source
  232          //    RecvACK();
  233          //    SendData(0x00);                             //Send Storage Address Low Byte|发送存储地址低字节
  234          //    RecvACK();
-C51 COMPILER V9.59.0.0   IIC                                                               05/04/2021 20:14:55 PAGE 5   
+C51 COMPILER V9.59.0.0   IIC                                                               05/16/2021 22:49:30 PAGE 5   
 
  235          //    SendData(0x12);                             //Write test data 1|写测试数据1
  236          //    RecvACK();
