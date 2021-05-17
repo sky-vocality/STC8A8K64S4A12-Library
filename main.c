@@ -21,6 +21,7 @@ int main()
 	ENC_EXT_init();
 	jy901_timer_init();
 	wheel_pid_timer_init();
+	LMV358_timer_init();
 	LCD_CLS();
 	while(1)
 	{

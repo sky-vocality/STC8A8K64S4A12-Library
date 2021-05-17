@@ -80,28 +80,28 @@ unsigned int LMV358_GetAvergeData(unsigned char k)
 	unsigned char tem[5]={0};
 	
 	for (cnt=0;cnt<times;cnt++)
-  {
+    {
     data_temp[cnt] = Get_ADC10bitResult(k);
 		Delay_Us(100);
 	}
 	
-  for (j=0;j<times-1;j++)
-  {
-		for (i=0;i<times-j-1;i++)
+    for (j=0;j<times-1;j++)
     {
-       if (data_temp[i]>data_temp[i+1] )
-       {
-          temp = data_temp[i];
-          data_temp[i] = data_temp[i+1];
-          data_temp[i+1] = temp;
-       }
-     }
-   }
+		for (i=0;i<times-j-1;i++)
+        {
+            if (data_temp[i]>data_temp[i+1] )
+            {
+                temp = data_temp[i];
+                data_temp[i] = data_temp[i+1];
+                data_temp[i+1] = temp;
+            }
+        }
+    }
 	
-	 for(cnt=1;cnt<times-1;cnt++)
-     sum += data_temp[cnt];
+	for(cnt=1;cnt<times-1;cnt++)
+    sum += data_temp[cnt];
 
- return (sum/(times-2));
+return (sum/(times-2));
 }
 
 //========================================================================
@@ -169,3 +169,15 @@ unsigned int LMV358_Output()
 	return error;
 }
 
+void LMV358_timer_init()
+{
+	TIM_InitTypeDef TIM_InitTypeDef;
+	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
+	TIM_InitTypeDef.TIM_Polity = PolityLow;
+	TIM_InitTypeDef.TIM_Interrupt = ENABLE;
+	TIM_InitTypeDef.TIM_ClkSource = TIM_CLOCK_1T;
+	TIM_InitTypeDef.TIM_ClkOut = ENABLE;
+	TIM_InitTypeDef.TIM_Value = 41536;
+	TIM_InitTypeDef.TIM_Run = ENABLE;
+	Timer_Inilize(Timer2, &TIM_InitTypeDef);
+}

@@ -22,17 +22,16 @@
 #ifndef	__TIMER_H
 #define	__TIMER_H
 
-#include	"system.h"
-#include 	"encoder.h"
-#include 	"pid.h"
-#include    "pwm.h"
-#include 	"jy901.h"
+#include"system.h"
+#include "encoder.h"
+#include "pid.h"
+#include "pwm.h"
+#include "jy901.h"
+#include "LMV358.h" 
 
 #define	Timer0						0
 #define	Timer1						1
 #define	Timer2						2
-#define	Timer3						3
-#define	Timer4						4
 
 #define	TIM_16BitAutoReload			0
 #define	TIM_16Bit					1

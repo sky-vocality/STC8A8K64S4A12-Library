@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   PWM                                                               05/16/2021 22:49:31 PAGE 1   
+C51 COMPILER V9.59.0.0   PWM                                                               05/17/2021 08:55:42 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE PWM
@@ -62,7 +62,7 @@ line level    source
   51   1              PWM_Pre = (PWM_Value/1000);
   52   1              P_SW2 = 0x80;                                                                                                                           //Allow access to extended RAM (STC added)|允许访问扩展RAM（STC新增）
   53   1              PWMCKS = 0x0f;                                                                                                                     //System Clock 16 Dividing Frequency|系统时钟16分频
-C51 COMPILER V9.59.0.0   PWM                                                               05/16/2021 22:49:31 PAGE 2   
+C51 COMPILER V9.59.0.0   PWM                                                               05/17/2021 08:55:42 PAGE 2   
 
   54   1              PWMC = PWM_Buf; 
   55   1              switch(PWM_Number)
@@ -126,7 +126,7 @@ line level    source
  112   2                      case 0 : CCAPM0 = 0x42;PCA_PWM0 = 0x00;CCAP0L = (unsigned char)PWM_out;CCAP0H = (unsigned char)PWM_out;b
              -reak;
  113   2                      case 1 : CCAPM1 = 0x42;PCA_PWM1 = 0x00;CCAP1L = (unsigned char)PWM_out;CCAP1H = (unsigned char)PWM_out;b
-C51 COMPILER V9.59.0.0   PWM                                                               05/16/2021 22:49:31 PAGE 3   
+C51 COMPILER V9.59.0.0   PWM                                                               05/17/2021 08:55:42 PAGE 3   
 
              -reak;
  114   2                      case 2 : CCAPM2 = 0x42;PCA_PWM2 = 0x00;CCAP2L = (unsigned char)PWM_out;CCAP2H = (unsigned char)PWM_out;b
