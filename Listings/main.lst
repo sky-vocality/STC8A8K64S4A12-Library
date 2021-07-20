@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   MAIN                                                              05/17/2021 08:55:40 PAGE 1   
+C51 COMPILER V9.59.0.0   MAIN                                                              07/20/2021 16:32:09 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
@@ -16,143 +16,211 @@ line level    source
    6          #include "encoder.h"
    7          #include "oled.h"
    8          #include "LMV358.h"
-   9          
-  10          //double Roll = 0;
-  11          //int temp = 0;
-  12          //char kkk[5] = 0;
-  13          
-  14          int main()
-  15          {
-  16   1              //GPIO_InitTypeDef GPIO_InitTypeDef012;
-  17   1              int a = 0;
-  18   1              LCD_Init();
-  19   1              LCD_P6x8Str(13, 3,(unsigned char*)"Init!");
-  20   1              Delay_Ms(1000);
-  21   1              ENC_EXT_init();
-  22   1              jy901_timer_init();
-  23   1              wheel_pid_timer_init();
-  24   1              LMV358_timer_init();
-  25   1              LCD_CLS();
-  26   1              while(1)
-  27   1              {
-  28   2                      //jy901_update();
-  29   2                      
-  30   2                      LCD_P6x8Str(0, 1,(unsigned char*)"wkp:");
-  31   2                      LCD_PrintFloat(25,1,wheel_pid.Kp);
-  32   2                      LCD_P6x8Str(0, 2,(unsigned char*)"wki:");
-  33   2                      LCD_PrintFloat(25,2,wheel_pid.Ki);
-  34   2                      LCD_P6x8Str(0, 3,(unsigned char*)"wkd:");
-  35   2                      LCD_PrintFloat(25,3,wheel_pid.Kd);
-  36   2                      LCD_P6x8Str(0, 7,(unsigned char*)"val:");
-  37   2                      LCD_Print16(25,7,wheel_pwm.PWM_Value);
-  38   2                      /*
-  39   2                      GPIO_InitTypeDef012.Mode = GPIO_PullUp;//����׼˫���
-  40   2                      GPIO_InitTypeDef012.Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2;//ͬʱ����IO���� Px.0��Px
-             -.1
-  41   2                      GPIO_Inilize(GPIO_P5 ,&GPIO_InitTypeDef012);//IO���� P0.0
-  42   2                      if( P50 == 0)
-  43   2                      {
-  44   2                              wheel_pid.Kp = wheel_pid.Kp + 0.01;
-  45   2                      }
-  46   2                      if( P51 == 0)
-  47   2                      {
-  48   2                              wheel_pid.Ki = wheel_pid.Ki + 0.01;
-  49   2                      }
-  50   2                      if( P52 == 0)
-  51   2                      {
-  52   2                              wheel_pid.Kd = wheel_pid.Kd + 0.01;
-  53   2                      }*/
-C51 COMPILER V9.59.0.0   MAIN                                                              05/17/2021 08:55:40 PAGE 2   
-
-  54   2                      //LCD_Print16(13,3,encoder_num);
-  55   2                      //LCD_PrintFloat(13,3,1.1);
-  56   2                      //wheel_pwm.PWM_Value = 250;//wheel_pid.pid_out;
-  57   2                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
-  58   2                      //wheel_pwm.PWM_Value = 210;//wheel_pid.pid_out;
-  59   2                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
-  60   2                      //Delay_Ms(100);
-  61   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  62   2                      //PWM_Output(PWM_1,&server_pwm);
-  63   2                      //LCD_PrintFloat(3,0,jy901.Pitch);
-  64   2                      //LCD_PrintFloat(4,0,jy901.Yaw);
-  65   2                      //Delay_Ms(100);
-  66   2                      LCD_CLS();
-  67   2                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
-  68   2                      //LCD_Fill(0x00);
-  69   2                      //Delay_Ms(500);
-  70   2                      //LCD_CLS();
-  71   2                      /*
-  72   2                      //jy901_update();
-  73   2                      PID_Control(increment, encoder_num, 210, &wheel_pid);
-  74   2                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
-  75   2                      PWM_Output(PWM_0,&wheel_pwm);
-  76   2                      intToString(encoder_num,kkk);
-  77   2                      encoder_num = 0;
-  78   2                      PrintString1(kkk);
-  79   2                      PrintString1(",\r\n");
-  80   2                      //kkkkk = ReceiveByte1();
-  81   2                      //PrintString1(RX2_Buffer);
-  82   2                      //PrintString1(&kkkkk);
-  83   2                      //int a;
-  84   2                      for(a = 0;a<1000;a++)
-  85   2                      {
-  86   2                              server_pwm.PWM_Value = 78;//server_pid.pid_out + 147.5;
-  87   2                              PWM_CLK_Output(PWM_1,&server_pwm);
-  88   2                              LCD_PrintU16(13,3,a);
-  89   2                              LCD_CLS();
-  90   2                              Delay_Ms(20);
-  91   2                      }*/
-  92   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  93   2                      //PWM_Output(PWM_1,&server_pwm);
-  94   2                      //jy901_update();
-  95   2                      //Delay_Ms(500);
-  96   2                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
-  97   2                      //PWM_Output(PWM_1,&server_pwm);}*/
-  98   2              /*
-  99   2              unsigned int error;
- 100   2              unsigned char m[10]={0};
- 101   2              unsigned int n=0;
- 102   2      
- 103   2              COMx_InitDefine COM_1;
- 104   2              COM_1.UART_Mode=UART_8bit_BRTx;                 //Pattern|模式,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART
+   9          #include "mpu6050.h"
+  10          
+  11          //double Roll = 0;
+  12          //int temp = 0;
+  13          char kkk[10] = 0;
+  14          //int err;
+  15          
+  16          int main()
+  17          {
+  18   1              COMx_InitDefine COM_1;
+  19   1              double aaaa = 0.0;
+  20   1      
+  21   1              MPU_Init();
+  22   1              
+  23   1              COM_1.UART_Mode=UART_8bit_BRTx;                 //Pattern|模式,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART
              -_9bit_BRTx
- 105   2              COM_1.UART_BRT_Use=BRT_Timer1;          //Using baud rate|使用波特率,   BRT_Timer1,BRT_Timer2
- 106   2              COM_1.UART_BaudRate=19200;              //baud rate|波特率,       ENABLE,DISABLE
- 107   2              COM_1.Morecommunicate=ENABLE;   //Multiprocessor Communication Allowance|多机通讯允许, ENABLE,DISABLE
- 108   2              COM_1.UART_RxEnable=ENABLE;             //Allow reception|允许接收,   ENABLE,DISABLE
- 109   2              COM_1.BaudRateDouble=ENABLE;            //Baud rate doubled|波特率加倍, ENABLE,DISABLE
- 110   2              COM_1.UART_Interrupt=ENABLE;            //Interrupt control|中断控制,   ENABLE,DISABLE
- 111   2              COM_1.UART_Polity=PolityHigh;           //priority|优先级,     PolityLow,PolityHigh
- 112   2              COM_1.UART_P_SW=UART1_SW_P30_P31;                       //Switch port|切换端口,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1
+  24   1              COM_1.UART_BRT_Use=BRT_Timer1;          //Using baud rate|使用波特率,   BRT_Timer1,BRT_Timer2
+  25   1              COM_1.UART_BaudRate=19200;              //baud rate|波特率,       ENABLE,DISABLE
+  26   1              COM_1.Morecommunicate=ENABLE;   //Multiprocessor Communication Allowance|多机通讯允许, ENABLE,DISABLE
+  27   1              COM_1.UART_RxEnable=ENABLE;             //Allow reception|允许接收,   ENABLE,DISABLE
+  28   1              COM_1.BaudRateDouble=ENABLE;            //Baud rate doubled|波特率加倍, ENABLE,DISABLE
+  29   1              COM_1.UART_Interrupt=ENABLE;            //Interrupt control|中断控制,   ENABLE,DISABLE
+  30   1              COM_1.UART_Polity=PolityHigh;           //priority|优先级,     PolityLow,PolityHigh
+  31   1              COM_1.UART_P_SW=UART1_SW_P30_P31;                       //Switch port|切换端口,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1
              -_SW_P16_P17(必须使用内部时钟)
- 113   2              USART_Configuration(USART1,&COM_1);
-C51 COMPILER V9.59.0.0   MAIN                                                              05/17/2021 08:55:40 PAGE 3   
+  32   1      
+  33   1              USART_Configuration(USART1,&COM_1);
+  34   1              while(1)
+  35   1              {
+  36   2                      MPU_Update();
+  37   2                      aaaa = mpu6050.Pitch;
+  38   2                      floatToString(aaaa,kkk,10);
+  39   2                      PrintString1(kkk);
+  40   2                      PrintString1("\r\n");
+  41   2                      Delay_Ms(50);
+  42   2              }
+  43   1              
+  44   1              /*
+  45   1              //GPIO_InitTypeDef GPIO_InitTypeDef012;
+  46   1              //int a = 0;
+  47   1              
+  48   1              //COMx_InitDefine COM_1;
+  49   1              
+  50   1              //LCD_Init();
+  51   1              //LCD_P6x8Str(13, 3,(unsigned char*)"Init!");
+  52   1              Delay_Ms(1000);
+C51 COMPILER V9.59.0.0   MAIN                                                              07/20/2021 16:32:09 PAGE 2   
 
- 114   2      
- 115   2              LMV358_Init();
- 116   2              while(1)
- 117   2              {
- 118   2              LMV358_InductorNormal();
- 119   2              /*
- 120   2              n=LMV358_GetAvergeData(2);
- 121   2              intToString(n,m);
- 122   2              PrintString1(m);PrintString1("\r\n");
- 123   2              n=LMV358_GetAvergeData(3);
- 124   2              intToString(n,m);
- 125   2              *//*
- 126   2              error = LMV358_Output();
- 127   2              intToString(error,m);
- 128   2              PrintString1(m);PrintString1("\r\n");   
- 129   2              Delay_Ms(500);
- 130   2              }*/
- 131   2              }
- 132   1      }
+  53   1              ENC_EXT_init();
+  54   1              jy901_timer_init();
+  55   1              wheel_pid_timer_init();
+  56   1              LMV358_timer_init();
+  57   1              
+  58   1              //COM_1.UART_Mode=UART_8bit_BRTx;                       //Pattern|模式,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UA
+             -RT_9bit_BRTx
+  59   1              //COM_1.UART_BRT_Use=BRT_Timer1;                //Using baud rate|使用波特率,   BRT_Timer1,BRT_Timer2
+  60   1              //COM_1.UART_BaudRate=19200;            //baud rate|波特率,       ENABLE,DISABLE
+  61   1              //COM_1.Morecommunicate=ENABLE; //Multiprocessor Communication Allowance|多机通讯允许, ENABLE,DISAB
+             -LE
+  62   1              //COM_1.UART_RxEnable=ENABLE;           //Allow reception|允许接收,   ENABLE,DISABLE
+  63   1              //COM_1.BaudRateDouble=ENABLE;          //Baud rate doubled|波特率加倍, ENABLE,DISABLE
+  64   1              //COM_1.UART_Interrupt=ENABLE;          //Interrupt control|中断控制,   ENABLE,DISABLE
+  65   1              //COM_1.UART_Polity=PolityHigh;         //priority|优先级,     PolityLow,PolityHigh
+  66   1              //COM_1.UART_P_SW=UART1_SW_P30_P31;                     //Switch port|切换端口,   UART1_SW_P30_P31,UART1_SW_P36_P37,UAR
+             -T1_SW_P16_P17(必须使用内部时钟)
+  67   1              //USART_Configuration(USART1,&COM_1);
+  68   1              
+  69   1              //LCD_CLS();
+  70   1              
+  71   1              while(1)
+  72   1              {
+  73   1                      //intToString(LMV358_GetAvergeData(1),kkk);
+  74   1                      //PrintString1(kkk);
+  75   1                      //PrintString1("\r\n");
+  76   1                      
+  77   1                      //intToString(LMV358_GetAvergeData(4),kkk);
+  78   1                      //PrintString1(kkk);
+  79   1                      //PrintString1("\r\n");
+  80   1                      //jy901_update();
+  81   1                      //err = LMV358_Output();
+  82   1                      
+  83   1                      //LCD_P6x8Str(0, 1,(unsigned char*)"err:");
+  84   1                      //LCD_PrintFloat(25,1,err);
+  85   1                      //LCD_PrintU16(25,1,err);
+  86   1                      //LCD_PrintFloat(25,1,err);
+  87   1                      //LCD_PrintFloat(25,2,follow_pid.pid_out);
+  88   1                      //LCD_PrintU16(25,3,right);
+  89   1                      //LCD_PrintU16(25,4,LMV358_GetAvergeData(1));
+  90   1                      //LCD_PrintU16(25,5,LMV358_GetAvergeData(4));
+  91   1                      //LCD_P6x8Str(0, 1,(unsigned char*)"wkp:");
+  92   1                      //LCD_PrintFloat(25,1,wheel_pid.Kp);
+  93   1                      //LCD_P6x8Str(0, 2,(unsigned char*)"wki:");
+  94   1                      //LCD_PrintFloat(25,2,wheel_pid.Ki);
+  95   1                      //LCD_P6x8Str(0, 3,(unsigned char*)"wkd:");
+  96   1                      //LCD_PrintFloat(25,3,wheel_pid.Kd);
+  97   1                      //LCD_P6x8Str(0, 7,(unsigned char*)"val:");
+  98   1                      //LCD_Print16(25,7,wheel_pwm.PWM_Value);
+  99   1                      /*
+ 100   1                      GPIO_InitTypeDef012.Mode = GPIO_PullUp;//����׼˫���
+ 101   1                      GPIO_InitTypeDef012.Pin = GPIO_Pin_0|GPIO_Pin_1|GPIO_Pin_2;//ͬʱ����IO���� Px.0��Px
+             -.1
+ 102   1                      GPIO_Inilize(GPIO_P5 ,&GPIO_InitTypeDef012);//IO���� P0.0
+ 103   1                      if( P50 == 0)
+ 104   1                      {
+ 105   1                              wheel_pid.Kp = wheel_pid.Kp + 0.01;
+ 106   1                      }
+ 107   1                      if( P51 == 0)
+ 108   1                      {
+ 109   1                              wheel_pid.Ki = wheel_pid.Ki + 0.01;
+ 110   1                      }
+C51 COMPILER V9.59.0.0   MAIN                                                              07/20/2021 16:32:09 PAGE 3   
+
+ 111   1                      if( P52 == 0)
+ 112   1                      {
+ 113   1                              wheel_pid.Kd = wheel_pid.Kd + 0.01;
+ 114   1                      }*/
+ 115   1                      //LCD_Print16(13,3,encoder_num);
+ 116   1                      //LCD_PrintFloat(13,3,1.1);
+ 117   1                      //wheel_pwm.PWM_Value = 250;//wheel_pid.pid_out;
+ 118   1                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
+ 119   1                      //wheel_pwm.PWM_Value = 210;//wheel_pid.pid_out;
+ 120   1                      //PWM_PCA_Output(PWM_0,&wheel_pwm);
+ 121   1                      //Delay_Ms(100);
+ 122   1                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+ 123   1                      //PWM_Output(PWM_1,&server_pwm);
+ 124   1                      //LCD_PrintFloat(3,0,jy901.Pitch);
+ 125   1                      //LCD_PrintFloat(4,0,jy901.Yaw);
+ 126   1                      //Delay_Ms(100);
+ 127   1                      //LCD_CLS();
+ 128   1                      //LCD_P6x8Str(13,3,(unsigned char*)"Hello world");
+ 129   1                      //LCD_Fill(0x00);
+ 130   1                      //Delay_Ms(500);
+ 131   1                      //LCD_CLS();
+ 132   1                      /*
+ 133   1                      //jy901_update();
+ 134   1                      PID_Control(increment, encoder_num, 210, &wheel_pid);
+ 135   1                      wheel_pwm.PWM_Value = wheel_pid.pid_out;
+ 136   1                      PWM_Output(PWM_0,&wheel_pwm);
+ 137   1                      intToString(encoder_num,kkk);
+ 138   1                      encoder_num = 0;
+ 139   1                      PrintString1(kkk);
+ 140   1                      PrintString1(",\r\n");
+ 141   1                      //kkkkk = ReceiveByte1();
+ 142   1                      //PrintString1(RX2_Buffer);
+ 143   1                      //PrintString1(&kkkkk);
+ 144   1                      //int a;
+ 145   1                      for(a = 0;a<1000;a++)
+ 146   1                      {
+ 147   1                              server_pwm.PWM_Value = 78;//server_pid.pid_out + 147.5;
+ 148   1                              PWM_CLK_Output(PWM_1,&server_pwm);
+ 149   1                              LCD_PrintU16(13,3,a);
+ 150   1                              LCD_CLS();
+ 151   1                              Delay_Ms(20);
+ 152   1                      }*/
+ 153   1                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+ 154   1                      //PWM_Output(PWM_1,&server_pwm);
+ 155   1                      //jy901_update();
+ 156   1                      //Delay_Ms(500);
+ 157   1                      //server_pwm.PWM_Value = 147.5;//server_pid.pid_out + 147.5;
+ 158   1                      //PWM_Output(PWM_1,&server_pwm);}*/
+ 159   1              /*
+ 160   1              unsigned int error;
+ 161   1              unsigned char m[10]={0};
+ 162   1              unsigned int n=0;
+ 163   1      
+ 164   1              COMx_InitDefine COM_1;
+ 165   1              COM_1.UART_Mode=UART_8bit_BRTx;                 //Pattern|模式,         UART_ShiftRight,UART_8bit_BRTx,UART_9bit,UART
+             -_9bit_BRTx
+ 166   1              COM_1.UART_BRT_Use=BRT_Timer1;          //Using baud rate|使用波特率,   BRT_Timer1,BRT_Timer2
+ 167   1              COM_1.UART_BaudRate=19200;              //baud rate|波特率,       ENABLE,DISABLE
+ 168   1              COM_1.Morecommunicate=ENABLE;   //Multiprocessor Communication Allowance|多机通讯允许, ENABLE,DISABLE
+ 169   1              COM_1.UART_RxEnable=ENABLE;             //Allow reception|允许接收,   ENABLE,DISABLE
+ 170   1              COM_1.BaudRateDouble=ENABLE;            //Baud rate doubled|波特率加倍, ENABLE,DISABLE
+ 171   1              COM_1.UART_Interrupt=ENABLE;            //Interrupt control|中断控制,   ENABLE,DISABLE
+C51 COMPILER V9.59.0.0   MAIN                                                              07/20/2021 16:32:09 PAGE 4   
+
+ 172   1              COM_1.UART_Polity=PolityHigh;           //priority|优先级,     PolityLow,PolityHigh
+ 173   1              COM_1.UART_P_SW=UART1_SW_P30_P31;                       //Switch port|切换端口,   UART1_SW_P30_P31,UART1_SW_P36_P37,UART1
+             -_SW_P16_P17(必须使用内部时钟)
+ 174   1              USART_Configuration(USART1,&COM_1);
+ 175   1      
+ 176   1              LMV358_Init();
+ 177   1              while(1)
+ 178   1              {
+ 179   1              LMV358_InductorNormal();
+ 180   1              /*
+ 181   1              n=LMV358_GetAvergeData(2);
+ 182   1              intToString(n,m);
+ 183   1              PrintString1(m);PrintString1("\r\n");
+ 184   1              n=LMV358_GetAvergeData(3);
+ 185   1              intToString(n,m);
+ 186   1              *//*
+ 187   1              error = LMV358_Output();
+ 188   1              intToString(error,m);
+ 189   1              PrintString1(m);PrintString1("\r\n");   
+ 190   1              Delay_Ms(500);
+ 191   1              }*/
+ 192   1              //}
+ 193   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    212    ----
-   CONSTANT SIZE    =     26    ----
-   XDATA SIZE       =   ----       2
+   CODE SIZE        =    141    ----
+   CONSTANT SIZE    =      3    ----
+   XDATA SIZE       =     10      16
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

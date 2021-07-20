@@ -46,7 +46,7 @@ void LMV358_Init()
 {
 	ADC_InitTypeDef ADC_Init;
 	ADC_Init.ADC_Px=ADC_P10;                          //更改此处替换adc采集的IO口
-	ADC_Init.ADC_Speed=ADC_180T;
+	ADC_Init.ADC_Speed=ADC_540T;
 	ADC_Init.ADC_Power=ENABLE;
 	ADC_Init.ADC_AdjResult=ADC_RES_H2L8;
 	ADC_Init.ADC_Polity=PolityHigh;
@@ -72,17 +72,24 @@ void LMV358_Init()
 unsigned int LMV358_GetAvergeData(unsigned char k)
 {
 	unsigned char cnt=0;
-	unsigned int sum=0;
 	unsigned char i,j;
 	unsigned int temp=0;
 	unsigned int data_temp[times]={0};
-	
-	unsigned char tem[5]={0};
-	
+	//unsigned int t=0;
 	for (cnt=0;cnt<times;cnt++)
     {
-    data_temp[cnt] = Get_ADC10bitResult(k);
-		Delay_Us(100);
+		
+		if((data_temp[cnt] = Get_ADC10bitResult(k))==1024)
+		{
+			if(cnt==0)
+			{
+				data_temp[cnt]=0;
+			}
+			else
+			{
+				data_temp[cnt]=data_temp[cnt-1];
+			}
+		}
 	}
 	
     for (j=0;j<times-1;j++)
@@ -98,10 +105,7 @@ unsigned int LMV358_GetAvergeData(unsigned char k)
         }
     }
 	
-	for(cnt=1;cnt<times-1;cnt++)
-    sum += data_temp[cnt];
-
-return (sum/(times-2));
+return data_temp[times/2];
 }
 
 //========================================================================
@@ -123,8 +127,8 @@ void LMV358_InductorNormal()
 	
 	/*num[0]=LMV358_GetAvergeData(0);
 	num[1]=LMV358_GetAvergeData(1);*/
-	num[0]=LMV358_GetAvergeData(2);
-	num[1]=LMV358_GetAvergeData(3);
+	num[0]=LMV358_GetAvergeData(1);
+	num[1]=LMV358_GetAvergeData(4);
 	/*num[4]=LMV358_GetAvergeData(4);
 	num[5]=LMV358_GetAvergeData(5);*/
 	
@@ -133,7 +137,7 @@ void LMV358_InductorNormal()
 	if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
 	else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1]; */
 	if (num[0] < ad_data_min[0])            ad_data_min[0] = num[0];
-	else if (num[0] > ad_data_max[0])       ad_data_max[1] = num[1];
+	else if (num[0] > ad_data_max[0])       ad_data_max[0] = num[0];
 	if (num[1] < ad_data_min[1])            ad_data_min[1] = num[1];
 	else if (num[1] > ad_data_max[1])       ad_data_max[1] = num[1];	
 	/*if (num[4] < ad_data_min[4])            ad_data_min[4] = num[4];
@@ -162,16 +166,19 @@ void LMV358_InductorNormal()
 //	
 //========================================================================
 
-unsigned int LMV358_Output()
+float LMV358_Output()
 {
-	unsigned int error;
-	error = ((right-left)<<7)/(right+left);
+	float error;
+	//LMV358_InductorNormal();
+	//error = ((right-left)<<7)/(right+left)*1.;
+	error = (int)LMV358_GetAvergeData(1) - (int)LMV358_GetAvergeData(4);
 	return error;
 }
 
 void LMV358_timer_init()
 {
 	TIM_InitTypeDef TIM_InitTypeDef;
+	LMV358_Init();
 	TIM_InitTypeDef.TIM_Mode = TIM_16BitAutoReload;
 	TIM_InitTypeDef.TIM_Polity = PolityLow;
 	TIM_InitTypeDef.TIM_Interrupt = ENABLE;

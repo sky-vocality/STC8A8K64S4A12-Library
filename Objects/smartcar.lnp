@@ -12,6 +12,7 @@
 ".\Objects\jy901.obj",
 ".\Objects\adc.obj",
 ".\Objects\oled.obj",
-".\Objects\LMV358.obj" 
+".\Objects\LMV358.obj",
+".\Objects\mpu6050.obj" 
 TO ".\Objects\smartcar" 
 PRINT(".\Listings\smartcar.m51") RAMSIZE(256) 

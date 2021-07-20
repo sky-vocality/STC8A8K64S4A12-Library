@@ -27,7 +27,7 @@
 unsigned int LMV358_GetAvergeData(unsigned char);
 void LMV358_Init();
 void LMV358_InductorNormal();
-unsigned int LMV358_Output();
+float LMV358_Output();
 void LMV358_timer_init();
 
 //extern unsigned int ad_data_max[6];  
