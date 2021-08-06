@@ -26,8 +26,8 @@
 #include "encoder.h"
 #include "pid.h"
 #include "pwm.h"
-#include "jy901.h"
 #include "LMV358.h" 
+#include "mpu6050.h"
 
 #define	Timer0						0
 #define	Timer1						1

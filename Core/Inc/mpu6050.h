@@ -95,7 +95,7 @@
 #define WHO_AM_I		        		0X75	//器件ID寄存器
 
 #define G  			9.7914		//重庆的重力加速度
-#define halfT 		0.01f		//计算周期的一半，单位s
+#define halfT 		0.0025f		//计算周期的一半，单位s
 
 typedef struct
 { 
@@ -111,6 +111,10 @@ typedef struct
 } MPU6050_InitDefine; 
 
 extern MPU6050_InitDefine mpu6050;
+extern float q0, q1, q2, q3;  //四元数
+extern float exInt, eyInt, ezInt; //叉积计算误差的累计积分
+extern unsigned int a_LSB;			   //a原始值系数
+extern float g_LSB;					   //g原始值系数
 
 void MPU_Init();
 void MPU_Update();
@@ -121,6 +125,6 @@ void MPU_Set_Gyro_Fsr(unsigned char fsr);
 void MPU_Set_Accel_Fsr(unsigned char fsr);
 void MPU_Set_LPF(unsigned int lpf);
 void MPU_Set_Rate(unsigned int rate);
-static float invSqrt(float x)
+static float invSqrt(float x);
 
 #endif

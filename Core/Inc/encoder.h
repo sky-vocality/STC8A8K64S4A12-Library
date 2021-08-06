@@ -8,9 +8,11 @@
  * @License:GNU General Public License v3.0         
  ******************************************************************************
  * @attention
- * 
- * 
- * 
+ * 本程序使用了位置差分法使用了一个外部中断与定时器中断，用户可在函数中自行进行修改
+ * This program uses the position difference method to use an external interrupt
+ * and timer interrupt, the user can be modified in the function.
+ * 因器件原因本编码器无ab项，使用者可自行修改
+ * This encoder has no ab item due to device reason, which can be modified by user
  * 
  * 
  * 

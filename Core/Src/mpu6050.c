@@ -51,9 +51,9 @@ void MPU_Init()
 	MPU_Write_Byte(MPU_PWR_MGMT1_REG, 0X80); //复位MPU6050
 	Delay_Ms(100);
 	MPU_Write_Byte(MPU_PWR_MGMT1_REG, 0X00); //唤醒MPU6050
-	MPU_Set_Gyro_Fsr(2);					 //陀螺仪传感器,±1000dps
+	MPU_Set_Gyro_Fsr(3);					 //陀螺仪传感器,±2000dps
 	MPU_Set_Accel_Fsr(0);					 //加速度传感器 ±2g
-	MPU_Set_Rate(50);						 //设置采样率50HZ
+	MPU_Set_Rate(200);						 //设置采样率100HZ
 	MPU_Write_Byte(MPU_INT_EN_REG, 0X00);	 //关闭所有中断
 	MPU_Write_Byte(MPU_USER_CTRL_REG, 0X00); //I2C主模式关闭
 	MPU_Write_Byte(MPU_FIFO_EN_REG, 0X00);	 //关闭FIFO
@@ -86,8 +86,11 @@ void MPU_Write_Byte(unsigned char reg, unsigned char dat)
 	P_SW2 = 0x90;
 	Start();
 	SendData(MPU6050_ADDR << 1);
+	RecvACK();
 	SendData(reg);
+	RecvACK();
 	SendData(dat);
+	RecvACK();
 	Stop();
 	P_SW2 = 0x00;
 }
@@ -118,9 +121,12 @@ int MPU_Read_Byte(unsigned char reg)
 	P_SW2 = 0x90;
 	Start();
 	SendData(MPU6050_ADDR << 1);
+	RecvACK();
 	SendData(reg);
+	RecvACK();
 	Start();
 	SendData(MPU6050_ADDR << 1 | 1);
+	RecvACK();
 	p0 = RecvData(); //Read data 1|读取数据1
 	SendACK();
 	p1 = RecvData(); //读取数据2|读取数据2
@@ -290,8 +296,8 @@ static float invSqrt(float x) //快速计算 1/Sqrt(x)
 //========================================================================
 void MPU_Update()
 {
-	float Kp = 1.50f;
-	float Ki = 0.005f;
+	float Kp = 1.2f;
+	float Ki = 0.01f;
 	float vx, vy, vz; //实际重力加速度
 	float ex, ey, ez; //叉积计算的误差
 	float norm;
@@ -307,13 +313,13 @@ void MPU_Update()
 	float q2q3 = q2 * q3;
 	float q3q3 = q3 * q3;
 
-	mpu6050.Gx = ((double)MPU_Read_Byte(MPU_GYRO_XOUTH_REG) / g_LSB) * G;
-	mpu6050.Gy = ((double)MPU_Read_Byte(MPU_GYRO_YOUTH_REG) / g_LSB) * G;
-	mpu6050.Gz = ((double)MPU_Read_Byte(MPU_GYRO_ZOUTH_REG) / g_LSB) * G;
+	mpu6050.Gx = ((double)MPU_Read_Byte(MPU_GYRO_XOUTH_REG) / g_LSB) / 57.2957795;
+	mpu6050.Gy = ((double)MPU_Read_Byte(MPU_GYRO_YOUTH_REG) / g_LSB) / 57.2957795;
+	mpu6050.Gz = ((double)MPU_Read_Byte(MPU_GYRO_ZOUTH_REG) / g_LSB) / 57.2957795;
 
-	mpu6050.Ax = ((double)MPU_Read_Byte(MPU_ACCEL_XOUTH_REG) / a_LSB) / 57.2957795;
-	mpu6050.Ay = ((double)MPU_Read_Byte(MPU_ACCEL_YOUTH_REG) / a_LSB) / 57.2957795;
-	mpu6050.Az = ((double)MPU_Read_Byte(MPU_ACCEL_ZOUTH_REG) / a_LSB) / 57.2957795;
+	mpu6050.Ax = ((double)MPU_Read_Byte(MPU_ACCEL_XOUTH_REG) / a_LSB)* G;
+	mpu6050.Ay = ((double)MPU_Read_Byte(MPU_ACCEL_YOUTH_REG) / a_LSB)* G;
+	mpu6050.Az = ((double)MPU_Read_Byte(MPU_ACCEL_ZOUTH_REG) / a_LSB)* G;
 
 	if (mpu6050.Ax * mpu6050.Ay * mpu6050.Az == 0)
 		return;

@@ -8,7 +8,8 @@
   * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  *
+  * 内含PAC中断
+  * Embedded PAC interrupt.
   *  
   * 
   * 
@@ -22,6 +23,7 @@
 #include "exit.h"
 
 int encoder_num = 0;
+int encoder_num_l = 0;
 
 /********************* INT0 interrupt function|INT0中断函数 *************************/
 void Ext_INT0 (void) interrupt EXT_INT0		//The sign has been cleared when entering or interrupting|进中断时已经清除标志
@@ -64,7 +66,6 @@ void	PCA_Ext (void) interrupt PCA_INT0
 	if(CCF1)	//PCA Module 1 Interruption|PCA??1??
 	{
 		CCF1 = 0;		//Clear the interrupt flag in PCA module 1|?PCA??1????
-		encoder_num++;
 	}
 
 	if(CCF2)	//PCA Module 2 Interruption|PCA??2??
@@ -76,12 +77,6 @@ void	PCA_Ext (void) interrupt PCA_INT0
 	{
 		CCF3 = 0;		//Clear the interrupt flag in PCA module 3|?PCA??3????
 	}
-
-/*	if(CF)	//PCA????
-	{
-		CF = 0;			//?PCA??????
-	}
-*/
 }
 
 //========================================================================

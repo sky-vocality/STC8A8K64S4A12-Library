@@ -8,7 +8,8 @@
  * @License:GNU General Public License v3.0         
  ******************************************************************************
  * @attention
- * 
+ * 本程序仅使用iic读其姿态数据
+ * This program only uses IIC to read its posture data
  * 
  * 
  * 
@@ -23,7 +24,6 @@
 
 #include "system.h"
 #include "iic.h"
-#include "timer.h"
 
 #define IICAddr   0x50
 #define ROLL      0x3d
@@ -46,6 +46,5 @@ typedef struct
 extern JY901_InitDefine jy901;
 
 void jy901_update();
-void jy901_timer_init();
 
 #endif

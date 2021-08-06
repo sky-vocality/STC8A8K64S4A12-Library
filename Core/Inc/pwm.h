@@ -8,8 +8,10 @@
   * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  *
-  *  
+  * 内含PAC输出的PWM
+  * 分频需要自己修改PWM_PCA_Output函数
+  * Contains THE PWM of the PAC output.
+  * The frequency division needs to be modified PWM_PCA_Output
   * 
   * 
   * 
@@ -77,6 +79,7 @@ extern PWM_InitTypeDef server_pwm;
 
 /*PWM output function|PWM输出函数*/
 void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx);
+void PWM_CLK_Update(unsigned char PWM_Number,PWM_InitTypeDef *PWMx);
 void PWM_PCA_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx);
 
 #endif

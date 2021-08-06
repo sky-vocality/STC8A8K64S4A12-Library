@@ -8,8 +8,8 @@
   * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  
-  *
+  * 内含PAC中断
+  * Embedded PAC interrupt.
   *  
   * 
   * 
@@ -44,8 +44,6 @@
 
 #define PolityHigh  1	  //High priority|高优先级
 #define PolityLow  	0		//Low priority (default)|低优先级（默认）
-
-extern int encoder_num;
 
 //========================================================================
 // Structure:EXTI_InitTypeDef|结构体: EXTI_InitTypeDef

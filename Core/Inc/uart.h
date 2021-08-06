@@ -10,8 +10,9 @@
   * @attention
   *
   *Serial Interrupt Processing Function in uart.c 
-  *  
-  * 
+  * 此移植与修改十分混乱，但能运行，希望有大佬能帮忙进行重新优化并将此句删除
+  * This migration and modification is very messy, but it works. I hope someone
+  * can help me to re-optimize and delete this sentence
   * 
   * 
   * 

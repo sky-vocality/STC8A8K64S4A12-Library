@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    adc.h
-  * @author  sky-vocality(基于PineconePi(基于宏晶科技STC15库函数进行修改))
+  * @author  PineconePi(基于宏晶科技STC15库函数进行修改)
   * @version V1.0.0
   * @date    13-March-2021
   * @brief  This file is used to configure ADC

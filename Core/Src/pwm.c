@@ -8,20 +8,20 @@
   * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  *
-  *  
+  * 内含PAC输出的PWM
+  * 分频需要自己修改PWM_PCA_Output函数
+  * Contains THE PWM of the PAC output.
+  * The frequency division needs to be modified PWM_PCA_Output
   * 
   * 
   * 
   * 
-  *
+  * 
   * 
   ******************************************************************************
 **/
 #include "pwm.h"
-
-PWM_InitTypeDef wheel_pwm = {PWM_Channel1, 0, 12500};
-PWM_InitTypeDef server_pwm = {PWM_Channel1, 78, 50};
+#include "intrins.h"
 
 //========================================================================
 // Function:void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
@@ -66,6 +66,49 @@ void PWM_CLK_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 	}
 	P_SW2 = 0x00;																//Disallow Access to Extended RAM (STC Added)|禁止访问扩展RAM（STC新增）
 	PWMCR = 0x80;                               //Start PWM module|启动PWM模块
+}
+
+//========================================================================
+// Function:void PWM_CLK_Update(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_CLK_Update(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+// Description:PWM module update function|描述: PWM模块输出更新函数
+// Parameters: PWM_Number (PWM module number parameter range: 0-7)
+//             * PWMx: See PWM.h for details
+// 参数: PWM_Number		(PWM模块编号 参数范围：0~7)
+//  	 *PWMx：详情见PWM.h
+//       
+//       
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2021-07-26|日期: 2021-07-26
+// Author: sky-vocality|作者: sky-vocality
+// Note:|备注:
+//	
+//	
+//	
+//	
+//	
+//========================================================================
+void PWM_CLK_Update(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+{ 
+	float PWM_Buf = 0,PWM_Pre = 0,PWM_Value;
+	PWM_Buf = ( 1500000 / PWMx->PWM_Frequency );
+	PWM_Value = 1000 - PWMx->PWM_Value;
+	PWM_Pre = (PWM_Value/1000);
+	_push_(P_SW2);//暂时储存P_SW2（入栈）
+    P_SW2 |= 0x80;//使能xdata功能寄存器读写
+	switch(PWM_Number)
+	{
+		case 0 : PWM0T2 = PWM_Buf*PWM_Pre;break;
+		case 1 : PWM1T2 = PWM_Buf*PWM_Pre;break;
+		case 2 : PWM2T2 = PWM_Buf*PWM_Pre;break;
+		case 3 : PWM3T2 = PWM_Buf*PWM_Pre;break;
+		case 4 : PWM4T2 = PWM_Buf*PWM_Pre;break;
+		case 5 : PWM5T2 = PWM_Buf*PWM_Pre;break;
+		case 6 : PWM6T2 = PWM_Buf*PWM_Pre;break;
+		case 7 : PWM7T2 = PWM_Buf*PWM_Pre;break;
+		default:break;
+	}
+	_pop_(P_SW2);//恢复P_SW2（出栈）
 }
 
 //========================================================================
